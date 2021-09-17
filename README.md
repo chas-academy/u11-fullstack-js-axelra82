@@ -6,12 +6,12 @@
 
 ## Stack
 
-- [ReactJS](https://reactjs.org)
-- [SCSS](https://sass-lang.com/documentation)
+-   [ReactJS](https://reactjs.org)
+-   [SCSS](https://sass-lang.com/documentation)
 
 ## Services
 
-- [Firebase](https://firebase.google.com)
+-   [Firebase](https://firebase.google.com)
 
 ## Getting Started
 
@@ -19,10 +19,10 @@
 
 ### Prerequisites
 
-- npm
-  ```
-  npm install npm@latest -g
-  ```
+-   npm
+    ```
+    npm install npm@latest -g
+    ```
 
 ...
 
@@ -30,10 +30,23 @@
 
 ...
 
+## Naming Conventions
+
+| Name        | Example               | Usage                   |
+| ----------- | --------------------- | ----------------------- |
+| kebab case  | is-not-a-dish         | filenames               |
+| pascal case | AllInOneCapitals      | components, classes etc |
+| camel case  | goesDownThenUp        | -                       |
+| snake case  | snakes_go_underground | -                       |
+
+## Code Formating
+
+As per requirements using [provide guide](https://vicvijayakumar.com/blog/eslint-airbnb-style-guide-prettier).
+
 ## Requirements specification u11
 
-- [ ]
-  ...
+-   [ ]
+    ...
 
 ## License
 
