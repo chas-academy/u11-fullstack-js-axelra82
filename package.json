@@ -1,54 +1,48 @@
 {
-	"name": "u11-twitter-clone-2021",
-	"version": "0.1-alpha.1",
-	"private": true,
-	"description": "Chas Academy Full Stack Web Developer Assignment u11 - 2021",
-	"author": "Axel Roussille Åberg <axel.roussilleaberg@chasacademy.se>",
-	"dependencies": {
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
-		"react-scripts": "4.0.3"
-	},
-	"devDependencies": {
-		"eslint": "^7.32.0",
-		"eslint-config-airbnb-base": "^14.2.1",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-import": "^2.24.2",
-		"eslint-plugin-jsx-a11y": "^6.4.1",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-react": "^7.25.2",
-		"eslint-plugin-react-hooks": "^4.2.0",
-		"prettier": "^2.4.1"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/chas-academy/u11-fullstack-js-axelra82/"
-	},
-	"bugs": {
-		"url": "https://github.com/chas-academy/u11-fullstack-js-axelra82/issues"
-	}
+    "name": "u11-twitter-clone-2021",
+    "version": "0.1-alpha.1",
+    "private": true,
+    "description": "Chas Academy Full Stack Web Developer Assignment u11 - 2021",
+    "author": "Axel Roussille Åberg <axel.roussilleaberg@chasacademy.se>",
+    "dependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3"
+    },
+    "devDependencies": {
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.24.2",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.25.2",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "prettier": "^2.4.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chas-academy/u11-fullstack-js-axelra82/"
+    },
+    "bugs": {
+        "url": "https://github.com/chas-academy/u11-fullstack-js-axelra82/issues"
+    }
 }
