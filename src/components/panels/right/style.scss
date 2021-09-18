@@ -12,6 +12,13 @@
 @include media-md {
     #right-panel {
         display: block;
-        width: 15%;
+        width: 18%;
+        max-width: 210px;
+    }
+}
+
+@include media-lg {
+    #right-panel {
+        max-width: 330px;
     }
 }

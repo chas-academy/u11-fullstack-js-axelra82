@@ -12,6 +12,7 @@ body {
     height: calc(100vh - $bottom-height);
     display: flex;
     flex-flow: row;
+    justify-content: center;
 }
 
 .full-viewport-width {

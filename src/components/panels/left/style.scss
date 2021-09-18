@@ -12,6 +12,13 @@
 @include media-md {
     #left-panel {
         display: block;
-        width: 15%;
+        width: 12%;
+        max-width: 150px;
+    }
+}
+
+@include media-lg {
+    #left-panel {
+        max-width: 240px;
     }
 }

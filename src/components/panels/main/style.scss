@@ -9,5 +9,18 @@
     #main-panel {
         padding: 1rem 1.735rem 1rem 1.735rem;
         width: 70%;
+        max-width: 408px !important;
+    }
+}
+
+@include media-lg {
+    #main-panel {
+        max-width: 452px !important;
+    }
+}
+
+@include media-xl {
+    #main-panel {
+        max-width: 660px !important;
     }
 }
