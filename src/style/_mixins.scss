@@ -1,0 +1,24 @@
+// transition with default
+@mixin transition($target: all, $time: 0.35, $unit: s) {
+    transition: $target #{$time}#{$unit} !important;
+}
+
+// border radius wiht default and granular option
+@mixin border-radius(
+    $standard: 0.15,
+    $unit: rem,
+    $granular: false,
+    $left-top: 0,
+    $right-top: 0,
+    $right-bottom: 0,
+    $left-bottom: 0
+) {
+    @if $granular {
+        border-radius: #{$left-top}#{$unit}
+            #{$right-top}#{$unit}
+            #{$right-bottom}#{$unit}
+            #{$left-bottom}#{$unit} !important;
+    } @else {
+        border-radius: #{$standard}#{$unit} !important;
+    }
+}

@@ -1,0 +1,25 @@
+// right panel specific styling
+@import '../../../style/media';
+@import '../../../style/colors';
+@import '../../../style/mixins';
+
+#right-panel {
+    display: none;
+    @include transition();
+    padding: 0.765rem 0;
+    border-left: 1px solid $extra-light-gray;
+}
+
+@include media-md {
+    #right-panel {
+        display: block;
+        width: 18%;
+        max-width: 210px;
+    }
+}
+
+@include media-lg {
+    #right-panel {
+        max-width: 330px;
+    }
+}

@@ -1,0 +1,30 @@
+// left panel specific styling
+@import '../../../style/media';
+@import '../../../style/colors';
+@import '../../../style/mixins';
+
+#left-panel {
+    display: none;
+    @include transition();
+    padding: 0.765rem 0;
+    border-right: 1px solid $extra-light-gray;
+
+    .logotype {
+        width: 29px;
+        display: block;
+    }
+}
+
+@include media-md {
+    #left-panel {
+        display: block;
+        width: 12%;
+        max-width: 150px;
+    }
+}
+
+@include media-lg {
+    #left-panel {
+        max-width: 240px;
+    }
+}
