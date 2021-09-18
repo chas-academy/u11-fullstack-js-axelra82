@@ -8,6 +8,11 @@
     @include transition();
     padding: 0.765rem 0;
     border-right: 1px solid $extra-light-gray;
+
+    .logotype {
+        width: 29px;
+        display: block;
+    }
 }
 
 @include media-md {
