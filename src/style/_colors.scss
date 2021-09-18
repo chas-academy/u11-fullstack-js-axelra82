@@ -58,6 +58,10 @@ $danger: hsl(354, 70%, 54%);
     color: $white !important;
 }
 
+.text-color-black {
+    color: $black !important;
+}
+
 .text-color-success {
     color: $success !important;
 }
@@ -99,6 +103,10 @@ $danger: hsl(354, 70%, 54%);
     background-color: $white !important;
 }
 
+.background-color-black {
+    background-color: $black !important;
+}
+
 .background-color-success {
     background-color: $success !important;
 }
@@ -138,6 +146,10 @@ $danger: hsl(354, 70%, 54%);
 
 .fill-color-white {
     fill: $white !important;
+}
+
+.fill-color-black {
+    fill: $black !important;
 }
 
 .fill-color-success {
