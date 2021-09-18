@@ -1,0 +1,21 @@
+// left panel specific styling
+@import '../../../style/media';
+@import '../../../style/colors';
+@import '../../../style/mixins';
+@import '../../../style/layout';
+
+#bottom-panel {
+    @extend .background-color-primary;
+    @include transition();
+    width: 100vw;
+    position: fixed;
+    height: $bottom-height;
+    bottom: 0;
+    left: 0;
+}
+
+@include media-md {
+    #bottom-panel {
+        display: none;
+    }
+}
