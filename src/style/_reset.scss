@@ -1,0 +1,13 @@
+// optionally add exclusions using :not(), e.g.
+// :not(p):not(img) etc
+
+* {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    &:focus {
+        outline: none;
+    }
+}

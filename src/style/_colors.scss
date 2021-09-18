@@ -1,0 +1,167 @@
+// main
+$primary: hsl(204, 88%, 53%);
+$secondary: hsl(210, 13%, 9%);
+$dark-gray: hsl(210, 14%, 46%);
+$light-gray: hsl(205, 16%, 71%);
+$extra-light-gray: hsl(205, 25%, 91%);
+$extra-extra-light-gray: hsl(204, 33%, 97%);
+
+// general
+$one: hsl(0, 0%, 7%);
+$two: hsl(0, 0%, 13%);
+$three: hsl(0, 0%, 20%);
+$four: hsl(0, 0%, 27%);
+$five: hsl(0, 0%, 33%);
+$six: hsl(0, 0%, 40%);
+$seven: hsl(0, 0%, 47%);
+$eight: hsl(0, 0%, 53%);
+$nine: hsl(0, 0%, 60%);
+$ca: hsl(0, 0%, 67%);
+$cb: hsl(0, 0%, 73%);
+$cc: hsl(0, 0%, 80%);
+$cd: hsl(0, 0%, 87%);
+$ce: hsl(0, 0%, 93%);
+$black: hsl(0, 0%, 0%);
+$white: hsl(0, 0%, 100%);
+
+// attention
+$success: hsl(134, 61%, 41%);
+$warning: hsl(45, 100%, 51%);
+$danger: hsl(354, 70%, 54%);
+
+// text
+.text-color-primary {
+    color: $primary !important;
+}
+
+.text-color-secondary {
+    color: $secondary !important;
+}
+
+.text-color-dark-gray {
+    color: $dark-gray !important;
+}
+
+.text-color-light-gray {
+    color: $light-gray !important;
+}
+
+.text-color-extra-light-gray {
+    color: $extra-light-gray !important;
+}
+
+.text-color-extra-extra-light-gray {
+    color: $extra-extra-light-gray !important;
+}
+
+.text-color-white {
+    color: $white !important;
+}
+
+.text-color-success {
+    color: $success !important;
+}
+
+.text-color-danger {
+    color: $danger !important;
+}
+
+.text-color-warning {
+    color: $warning !important;
+}
+
+// backgrounds
+.background-color-primary {
+    background-color: $primary !important;
+}
+
+.background-color-secondary {
+    background-color: $secondary !important;
+}
+
+.background-color-dark-gray {
+    background-color: $dark-gray !important;
+}
+
+.background-color-light-gray {
+    background-color: $light-gray !important;
+}
+
+.background-color-extra-light-gray {
+    background-color: $extra-light-gray !important;
+}
+
+.background-color-extra-extra-light-gray {
+    background-color: $extra-extra-light-gray !important;
+}
+
+.background-color-white {
+    background-color: $white !important;
+}
+
+.background-color-success {
+    background-color: $success !important;
+}
+
+.background-color-danger {
+    background-color: $danger !important;
+}
+
+.background-color-warning {
+    background-color: $warning !important;
+}
+
+// fills
+.fill-color-primary {
+    fill: $primary !important;
+}
+
+.fill-color-secondary {
+    fill: $secondary !important;
+}
+
+.fill-color-dark-gray {
+    fill: $dark-gray !important;
+}
+
+.fill-color-light-gray {
+    fill: $light-gray !important;
+}
+
+.fill-color-extra-light-gray {
+    fill: $extra-light-gray !important;
+}
+
+.fill-color-extra-extra-light-gray {
+    fill: $extra-extra-light-gray !important;
+}
+
+.fill-color-white {
+    fill: $white !important;
+}
+
+.fill-color-success {
+    fill: $success !important;
+}
+
+.fill-color-danger {
+    fill: $danger !important;
+}
+
+.fill-color-warning {
+    fill: $warning !important;
+}
+
+// misc
+.spectrum {
+    background: linear-gradient(
+        to right,
+        hsl(0, 100%, 50%) 0%,
+        hsl(60, 100%, 50%) 16.67%,
+        hsl(120, 100%, 50%) 33.33%,
+        hsl(180, 100%, 50%) 50%,
+        hsl(240, 100%, 50%) 66.67%,
+        hsl(320, 100%, 50%) 83.33%,
+        hsl(360, 100%, 50%) 100%
+    );
+}
