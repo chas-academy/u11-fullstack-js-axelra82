@@ -4,9 +4,10 @@
 @import '../../../style/mixins';
 
 #left-panel {
-    @extend .background-color-primary;
     display: none;
     @include transition();
+    padding: 0.765rem 0;
+    border-right: 1px solid $extra-light-gray;
 }
 
 @include media-md {
