@@ -1,3 +1,19 @@
+@import './media';
+$bottom-height: 78px;
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#app-container {
+    // account for bottom height in mobile size
+    height: calc(100vh - $bottom-height);
+    display: flex;
+    flex-flow: row;
+}
+
 .full-viewport-width {
     min-width: 100vw;
 }
@@ -20,4 +36,10 @@
 
 .float-right {
     float: right;
+}
+
+@include media-md {
+    #app-container {
+        height: 100vh !important;
+    }
 }
