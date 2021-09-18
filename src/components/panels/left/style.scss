@@ -1,0 +1,17 @@
+// left panel specific styling
+@import '../../../style/media';
+@import '../../../style/colors';
+@import '../../../style/mixins';
+
+#left-panel {
+    @extend .background-color-primary;
+    display: none;
+    @include transition();
+}
+
+@include media-md {
+    #left-panel {
+        display: block;
+        width: 15%;
+    }
+}

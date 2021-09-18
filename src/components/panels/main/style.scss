@@ -1,0 +1,13 @@
+// main panel specific styling
+@import '../../../style/media';
+
+#main-panel {
+    overflow-y: auto;
+    padding: 0.765rem 1rem 0.765rem 1rem;
+}
+@include media-md {
+    #main-panel {
+        padding: 1rem 1.735rem 1rem 1.735rem;
+        width: 70%;
+    }
+}
