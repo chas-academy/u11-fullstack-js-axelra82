@@ -4,44 +4,44 @@
     // margins
     // all sides
     .m-#{$i} {
-        margin: #{$i} !important;
+        margin: $i + rem !important;
     }
     // top
     .mt-#{$i} {
-        margin-top: #{$i}rem !important;
+        margin-top: $i + rem !important;
     }
     // bottom
     .mb-#{$i} {
-        margin-bottom: #{$i}rem !important;
+        margin-bottom: $i + rem !important;
     }
     // right
     .mr-#{$i} {
-        margin-right: #{$i}rem !important;
+        margin-right: $i + rem !important;
     }
     // left
     .ml-#{$i} {
-        margin-left: #{$i}rem !important;
+        margin-left: $i + rem !important;
     }
 
     // padding
     // all sides
     .p-#{$i} {
-        padding: #{$i}rem !important;
+        padding: $i + rem !important;
     }
     // top
     .pt-#{$i} {
-        padding-top: #{$i}rem !important;
+        padding-top: $i + rem !important;
     }
     // bottom
     .pb-#{$i} {
-        padding-bottom: #{$i}rem !important;
+        padding-bottom: $i + rem !important;
     }
     // right
     .pr-#{$i} {
-        padding-right: #{$i}rem !important;
+        padding-right: $i + rem !important;
     }
     // left
     .pl-#{$i} {
-        padding-left: #{$i}rem !important;
+        padding-left: $i + rem !important;
     }
 }
