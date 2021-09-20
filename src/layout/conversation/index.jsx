@@ -1,7 +1,8 @@
 import React from 'react'
+import './style.scss'
 
 const ConversationComponent = () => {
-    return <aside>CONVERSATION PANEL</aside>
+    return <aside id="conversation-panel">CONVERSATION PANEL</aside>
 }
 
 export default ConversationComponent
