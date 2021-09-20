@@ -8,7 +8,7 @@ import Context from '../context/StoreContext'
 const StoreContext = ({ children }) => {
     // states used in global store access
 
-    const [isAuthed, setAuth] = useState(false)
+    const [isAuthed, setAuth] = useState(true)
 
     // store is passed to context provider
     const store = {

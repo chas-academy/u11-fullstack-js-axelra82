@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { HomePage, MessagesPage, ProfilePage } from '../../pages'
+import { HomeView, MessagesView, ProfileView } from '../../views'
 import RightComponent from '../right'
 import ConversationComponent from '../conversation'
 import './style.scss'
@@ -15,13 +15,13 @@ const MiddleComponent = () => {
     const MiddlePanelContent = () => {
         switch (pathname) {
             case '/messages':
-                return <MessagesPage />
+                return <MessagesView />
 
             case '/profile':
-                return <ProfilePage />
+                return <ProfileView />
 
             default:
-                return <HomePage />
+                return <HomeView />
         }
     }
 
