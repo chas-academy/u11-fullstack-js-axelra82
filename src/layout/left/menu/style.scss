@@ -17,14 +17,14 @@
                 .left-panel-menu-button {
                     display: inline-flex;
                     align-items: center;
-                    padding: 0.563rem 1rem;
+                    padding: 0.535rem 1rem 0.535rem 0.535rem;
                     margin: 0.375rem 0;
 
                     svg {
                         fill: $black;
 
                         &.custom-icon {
-                            width: 28px;
+                            width: 26px;
                             margin-right: 1rem;
                         }
                     }
@@ -36,7 +36,7 @@
                     justify-content: center;
                     background: $primary;
                     color: $white;
-                    margin: 1rem;
+                    margin: 1rem 1rem 1rem 0;
                     padding: 0.675rem 1rem;
                     @include border-radius($standard: 10);
                 }
