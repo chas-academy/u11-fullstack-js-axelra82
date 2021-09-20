@@ -1,8 +1,8 @@
 import React from 'react'
 import './style.scss'
 
-const bottomPanel = () => {
+const BottomComponent = () => {
     return <aside id="bottom-panel">BOTTOM PANEL</aside>
 }
 
-export default bottomPanel
+export default BottomComponent

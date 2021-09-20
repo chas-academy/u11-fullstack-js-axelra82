@@ -1,10 +1,9 @@
 import React from 'react'
 
-// eslint-disable-next-line react/prop-types
-const HomeIconeComponent = ({ color }) => {
+const SearchIconComponent = () => {
     return (
         <svg
-            className={`custom-icon fill-color-${color}`}
+            className="custom-icon icon-search"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
         >
@@ -13,9 +12,4 @@ const HomeIconeComponent = ({ color }) => {
     )
 }
 
-// set default color value for logotype component
-HomeIconeComponent.defaultProps = {
-    color: `black`,
-}
-
-export default HomeIconeComponent
+export default SearchIconComponent
