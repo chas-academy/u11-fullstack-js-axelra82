@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SignUpPage = () => {
-    return <section id="sign-up-overlay-page">SIGNUP PAGE</section>
+    return <>SIGNUP PAGE</>
 }
 
 export default SignUpPage
