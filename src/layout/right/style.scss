@@ -5,11 +5,11 @@
 
 #right-panel {
     display: none;
-    padding: 0.765rem 0;
 }
 
 @include media-md {
     #right-panel {
+        padding: 0.765rem 1rem;
         overflow-y: auto;
         display: block;
         width: 20%;
@@ -18,6 +18,20 @@
         &.message-view {
             width: 60%;
             max-width: 278px;
+        }
+
+        .right-panel-legal {
+            font-size: 0.7rem;
+
+            li {
+                padding: 0.175rem 0;
+
+                &.text-break {
+                    margin-top: 0.675rem;
+                    padding-top: 0.675rem;
+                    border-top: 1px solid $extra-light-gray;
+                }
+            }
         }
     }
 }

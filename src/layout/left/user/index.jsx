@@ -17,7 +17,7 @@ const LeftUserComponent = () => {
         <section id="left-panel-user">
             {curreUserAvatarPlaceHolder}
             <strong className="user-name">{curreUserNamePlaceHolder}</strong>
-            <span className="user-handle text-muted-dark">@{curreUserHandlePlaceHolder}</span>
+            <span className="user-handle text-muted">@{curreUserHandlePlaceHolder}</span>
         </section>
     )
 }

@@ -150,12 +150,8 @@ h6,
     font-size: math.div(1.15rem, ($scale * ($scale * $scale))) !important;
 }
 
-.text-muted-light {
+.text-muted {
     color: darken($white, 50) !important;
-}
-
-.text-muted-dark {
-    color: lighten($black, 50) !important;
 }
 
 .text-uppercase {

@@ -3,7 +3,14 @@
 import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import StoreContext from './context/StoreContext'
-import { SignUpPage, SignInPage, NotFound } from './pages'
+import {
+    SignUpPage,
+    SignInPage,
+    NotFound,
+    UserAgreementPage,
+    IntegrityPloicyPage,
+    CookiePolicyPage,
+} from './pages'
 import AppComponent from './layout/app'
 
 const PageRoutes = () => {
@@ -41,6 +48,9 @@ const PageRoutes = () => {
             <Route exact path="/search" component={AppComponent} />
             <Route exact path="/signup" component={SignUpPage} />
             <Route exact path="/signin" component={SignInPage} />
+            <Route exact path="/user-agreement" component={UserAgreementPage} />
+            <Route exact path="/integrity-policy" component={IntegrityPloicyPage} />
+            <Route exact path="/cookie-policy" component={CookiePolicyPage} />
             <Route exact path="/" component={AppComponent} />
             <Route component={NotFound} />
         </Switch>
