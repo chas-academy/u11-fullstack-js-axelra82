@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import React from 'react'
 
-const MessagesPage = () => {
+const MessagesView = () => {
     return <>MESSAGES VIEW</>
 }
 
-export default MessagesPage
+export default MessagesView

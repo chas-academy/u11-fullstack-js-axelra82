@@ -5,13 +5,12 @@
 @import '../../style/layout';
 
 #bottom-panel {
-    @extend .background-color-primary;
-    @include transition();
     width: 100vw;
     position: fixed;
     height: $bottom-height;
     bottom: 0;
     left: 0;
+    border-top: 1px solid $extra-light-gray;
 }
 
 @include media-md {

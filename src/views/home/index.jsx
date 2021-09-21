@@ -1,7 +1,7 @@
 import React from 'react'
 
-const HomePage = () => {
-    return <>HOME PAGE VIEW</>
+const HomeView = () => {
+    return <>HOME VIEW</>
 }
 
-export default HomePage
+export default HomeView

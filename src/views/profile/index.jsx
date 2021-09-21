@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import React from 'react'
 
-const ProfilePage = () => {
+const ProfileView = () => {
     return <>PROFILE VIEW</>
 }
 
-export default ProfilePage
+export default ProfileView
