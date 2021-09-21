@@ -15,8 +15,8 @@
         min-width: 250px;
 
         &.message-view {
-            width: 65%;
-            max-width: 328px;
+            width: 60%;
+            max-width: 278px;
         }
     }
 }
@@ -26,7 +26,7 @@
         max-width: 325px;
 
         &.message-view {
-            min-width: 392px;
+            min-width: 342px;
         }
     }
 }
@@ -34,7 +34,7 @@
 @include media-xl {
     #right-panel {
         &.message-view {
-            max-width: 600px;
+            max-width: 550px;
         }
     }
 }

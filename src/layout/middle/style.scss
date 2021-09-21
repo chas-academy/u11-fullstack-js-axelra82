@@ -18,8 +18,8 @@
         border-left: 1px solid $extra-light-gray;
 
         &.message-view {
-            width: 20%;
-            min-width: 250px !important;
+            width: 25%;
+            min-width: 300px !important;
         }
     }
 }
@@ -29,7 +29,7 @@
         min-width: 392px;
 
         &.message-view {
-            max-width: 325px;
+            max-width: 375px;
         }
     }
 }
