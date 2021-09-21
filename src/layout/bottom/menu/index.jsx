@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import { HomeIcon, MessagesIcon, ProfileIcon, SearchIcon } from '../../../components/icons'
 import StoreContext from '../../../context/StoreContext'
+import { HomeIcon, MessagesIcon, ProfileIcon, SearchIcon } from '../../../components/icons'
 import './style.scss'
 
 const BottomMenuComponent = () => {

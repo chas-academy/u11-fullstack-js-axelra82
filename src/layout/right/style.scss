@@ -10,6 +10,7 @@
 
 @include media-md {
     #right-panel {
+        overflow-y: auto;
         display: block;
         width: 20%;
         min-width: 250px;

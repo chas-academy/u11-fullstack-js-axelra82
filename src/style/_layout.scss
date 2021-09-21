@@ -9,7 +9,7 @@ body {
 
 #app-container {
     // account for bottom height in mobile size
-    height: calc(100vh - $bottom-height);
+    min-height: calc(100vh - $bottom-height);
     display: flex;
     flex-flow: row;
     justify-content: center;

@@ -43,7 +43,7 @@ const LeftMenuComponent = () => {
                         </li>
                         <li>
                             <a href="#">
-                                <span className="post-button">Post</span>
+                                <span className="left-post-button">New post</span>
                             </a>
                         </li>
                     </>

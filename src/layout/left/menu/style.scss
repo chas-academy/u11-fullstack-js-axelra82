@@ -2,6 +2,7 @@
 @import '../../../style/mixins';
 
 #left-panel-menu {
+    overflow-y: auto;
     margin-top: 0.375rem;
 
     ul {
@@ -30,13 +31,13 @@
                     }
                 }
 
-                .post-button {
+                .left-post-button {
                     display: flex;
                     align-content: center;
                     justify-content: center;
                     background: $primary;
                     color: $white;
-                    margin: 1rem 1rem 1rem 0;
+                    margin: 1rem 1rem 1rem 0.5rem;
                     padding: 0.675rem 1rem;
                     @include border-radius($standard: 10);
                 }
