@@ -1,0 +1,41 @@
+// right panel specific styling
+@import '../../style/media';
+@import '../../style/colors';
+@import '../../style/mixins';
+
+#right-panel {
+    display: none;
+    padding: 0.765rem 0;
+}
+
+@include media-md {
+    #right-panel {
+        overflow-y: auto;
+        display: block;
+        width: 20%;
+        min-width: 250px;
+
+        &.message-view {
+            width: 60%;
+            max-width: 278px;
+        }
+    }
+}
+
+@include media-lg {
+    #right-panel {
+        max-width: 325px;
+
+        &.message-view {
+            min-width: 342px;
+        }
+    }
+}
+
+@include media-xl {
+    #right-panel {
+        &.message-view {
+            max-width: 550px;
+        }
+    }
+}

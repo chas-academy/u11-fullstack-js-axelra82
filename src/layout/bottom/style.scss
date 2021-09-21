@@ -1,0 +1,45 @@
+// left panel specific styling
+@import '../../style/media';
+@import '../../style/colors';
+@import '../../style/mixins';
+@import '../../style/layout';
+
+$middlePostButtonSize: 2.765rem;
+$middlePostButtonIconSize: 1.375rem;
+
+#bottom-panel {
+    width: 100vw;
+    position: fixed;
+    height: $bottom-height;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid $extra-light-gray;
+    background: $white;
+    z-index: 98;
+
+    .bottom-post-button {
+        position: absolute;
+        right: 0;
+        transform: translate(-35%, -135%);
+        display: flex;
+        justify-content: center;
+        width: $middlePostButtonSize;
+        height: $middlePostButtonSize;
+        background: $primary;
+        @include border-radius($standard: 100, $unit: '%');
+        z-index: 99;
+
+        .custom-icon {
+            align-self: center;
+            width: $middlePostButtonIconSize;
+            height: $middlePostButtonIconSize;
+            fill: $white;
+        }
+    }
+}
+
+@include media-md {
+    #bottom-panel {
+        display: none;
+    }
+}

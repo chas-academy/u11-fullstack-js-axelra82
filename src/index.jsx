@@ -1,10 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import { BrowserRouter } from 'react-router-dom'
+import PageRoutes from './routes'
+import ContextProvider from './provider/ContextProvider'
+import './style/style.scss'
 
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    <ContextProvider>
+        <BrowserRouter>
+            <PageRoutes />
+        </BrowserRouter>
+    </ContextProvider>,
     document.getElementById('root')
 )
