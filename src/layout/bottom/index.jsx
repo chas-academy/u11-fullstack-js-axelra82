@@ -7,7 +7,7 @@ import './style.scss'
 const BottomComponent = () => {
     return (
         <aside id="bottom-panel">
-            <a href="#" className="bottom-post-button">
+            <a href="#" className="post-button bottom-post-button">
                 <PostIcon />
             </a>
             <BottomMenuComponent />
