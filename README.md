@@ -32,12 +32,12 @@
 
 ## Naming Conventions
 
-| Name        | Example               | Usage                   |
-| ----------- | --------------------- | ----------------------- |
-| kebab case  | is-not-a-dish         | filenames               |
-| pascal case | AllInOneCapitals      | components, classes etc |
-| camel case  | goesDownThenUp        | -                       |
-| snake case  | snakes_go_underground | -                       |
+| Name        | Example               | Usage                             |
+| ----------- | --------------------- | --------------------------------- |
+| kebab case  | is-not-a-dish         | filenames, style classes, ids etc |
+| pascal case | AllInOneCapitals      | components, jsx classes etc       |
+| camel case  | goesDownThenUp        | jsx variables                     |
+| snake case  | snakes_go_underground | -                                 |
 
 ## Code Formating
 
