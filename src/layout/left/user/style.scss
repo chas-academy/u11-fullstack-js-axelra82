@@ -19,15 +19,6 @@
         background: $extra-light-gray;
     }
 
-    .user-avatar {
-        grid-area: user-avatar;
-        width: 38px;
-        height: 38px;
-        object-fit: fill;
-        object-position: center;
-        @include border-radius($standard: 100, $unit: '%');
-    }
-
     .user-name {
         grid-area: user-name;
         font-size: 0.7rem;
