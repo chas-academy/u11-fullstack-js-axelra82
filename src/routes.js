@@ -14,11 +14,7 @@ import {
 import AppComponent from './layout/app'
 
 const PageRoutes = () => {
-    const {
-        store: {
-            user: { isAuthed },
-        },
-    } = useContext(StoreContext)
+    const { currentUser } = useContext(StoreContext)
 
     // Protected routes for pages not accessible to guests
     const ProtectedRoute = ({ component: Page, path, ...rest }) => {
@@ -27,7 +23,7 @@ const PageRoutes = () => {
                 path={path}
                 {...rest}
                 render={(props) => {
-                    return isAuthed ? (
+                    return currentUser ? (
                         <Page {...props} page={path} />
                     ) : (
                         <Redirect

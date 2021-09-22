@@ -5,11 +5,7 @@ import { HomeIcon, MessagesIcon, ProfileIcon, SearchIcon } from '../../../compon
 import './style.scss'
 
 const BottomMenuComponent = () => {
-    const {
-        store: {
-            user: { isAuthed },
-        },
-    } = useContext(StoreContext)
+    const { currentUser } = useContext(StoreContext)
 
     return (
         <nav id="bottom-panel-menu">
@@ -21,7 +17,7 @@ const BottomMenuComponent = () => {
                         </span>
                     </NavLink>
                 </li>
-                {isAuthed ? (
+                {currentUser ? (
                     <>
                         <li>
                             <NavLink to="/messages" activeClassName="bottom-nav-selected">

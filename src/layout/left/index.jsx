@@ -7,16 +7,14 @@ import './style.scss'
 
 const LeftComponent = () => {
     const {
-        store: {
-            user: { isAuthed },
-        },
+        store: { currentUser },
     } = useContext(StoreContext)
 
     return (
         <aside id="left-panel">
             <Logotype />
-            <LeftMenuComponent isAuthed={isAuthed} />
-            {isAuthed && <LeftUserComponent />}
+            <LeftMenuComponent isAuthed={currentUser} />
+            {currentUser && <LeftUserComponent />}
         </aside>
     )
 }

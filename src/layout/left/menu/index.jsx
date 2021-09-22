@@ -6,11 +6,7 @@ import StoreContext from '../../../context/StoreContext'
 import './style.scss'
 
 const LeftMenuComponent = () => {
-    const {
-        store: {
-            user: { isAuthed },
-        },
-    } = useContext(StoreContext)
+    const { currentUser } = useContext(StoreContext)
 
     return (
         <nav id="left-panel-menu">
@@ -23,7 +19,7 @@ const LeftMenuComponent = () => {
                         </span>
                     </NavLink>
                 </li>
-                {isAuthed ? (
+                {currentUser ? (
                     <>
                         <li>
                             <NavLink to="/messages" activeClassName="left-nav-selected">

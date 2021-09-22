@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import StoreContext from '../../context/StoreContext'
 import CreatPostComponent from '../../components/create-post'
 
 const HomeView = () => {
+    const { currentUser } = useContext(StoreContext)
+
     return (
         <>
-            <CreatPostComponent />
+            {currentUser && <CreatPostComponent />}
+            PUBLIC POSTS LIST
         </>
     )
 }
