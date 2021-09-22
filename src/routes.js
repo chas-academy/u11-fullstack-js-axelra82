@@ -7,7 +7,7 @@ import {
     SignUpPage,
     SignInPage,
     NotFound,
-    UserAgreementPage,
+    TermsOfServicePage,
     IntegrityPloicyPage,
     CookiePolicyPage,
 } from './pages'
@@ -48,7 +48,7 @@ const PageRoutes = () => {
             <Route exact path="/search" component={AppComponent} />
             <Route exact path="/signup" component={SignUpPage} />
             <Route exact path="/signin" component={SignInPage} />
-            <Route exact path="/user-agreement" component={UserAgreementPage} />
+            <Route exact path="/terms" component={TermsOfServicePage} />
             <Route exact path="/integrity-policy" component={IntegrityPloicyPage} />
             <Route exact path="/cookie-policy" component={CookiePolicyPage} />
             <Route exact path="/" component={AppComponent} />
