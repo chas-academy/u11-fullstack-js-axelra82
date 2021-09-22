@@ -1,0 +1,26 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.previous-page {
+    padding: 0 0.365rem 0.675rem 0.365rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $extra-light-gray;
+
+    .previous-page-button {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        background: none;
+        padding: 0.375rem;
+        @include border-radius($standard: 10);
+        @include transition();
+
+        &:hover {
+            background: $extra-light-gray;
+        }
+
+        svg {
+            width: 1rem;
+        }
+    }
+}
