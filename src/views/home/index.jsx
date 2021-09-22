@@ -1,7 +1,12 @@
 import React from 'react'
+import CreatPostComponent from '../../components/create-post'
 
 const HomeView = () => {
-    return <>HOME VIEW</>
+    return (
+        <>
+            <CreatPostComponent />
+        </>
+    )
 }
 
 export default HomeView

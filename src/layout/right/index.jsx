@@ -7,7 +7,7 @@ const RightComponent = () => {
         <>
             <ul className="right-panel-legal text-muted">
                 <li>
-                    <Link to="/user-agreement">User agreement</Link>
+                    <Link to="/terms">Terms of service</Link>
                 </li>
                 <li>
                     <Link to="/integrity-policy">Integrity policy</Link>

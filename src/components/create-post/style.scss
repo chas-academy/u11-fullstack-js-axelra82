@@ -1,0 +1,33 @@
+@import '../../style/colors';
+@import '../../style/mixins';
+
+.create-post {
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    gap: 0.375rem;
+    grid-template-areas:
+        'user-avatar post-content'
+        'user-avatar post-button';
+    padding: 1rem;
+    border-bottom: 1px solid $extra-light-gray;
+
+    .user-avatar {
+        grid-area: user-avatar;
+    }
+
+    .post-content {
+        grid-area: post-content;
+        font-size: 1rem;
+        border: none;
+        border-bottom: 1px solid $extra-light-gray;
+        padding: 0 0.675rem 1.135rem 0.675rem;
+    }
+
+    .create-post-button {
+        grid-area: post-button;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin: 0.675rem 0 auto auto;
+    }
+}

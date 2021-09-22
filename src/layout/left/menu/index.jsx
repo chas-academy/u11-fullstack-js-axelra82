@@ -42,9 +42,9 @@ const LeftMenuComponent = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <a href="#">
-                                <span className="left-post-button">New post</span>
-                            </a>
+                            <button type="button" className="post-button left-post-button">
+                                Tweet
+                            </button>
                         </li>
                     </>
                 ) : (
