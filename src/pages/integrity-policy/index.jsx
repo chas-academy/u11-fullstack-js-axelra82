@@ -1,8 +1,10 @@
 import React from 'react'
+import PreviousPage from '../../components/previous-page'
 
 const IntegrityPolicyPage = () => {
     return (
         <section className="container">
+            <PreviousPage />
             <h1>Twitter Clone Privacy Policy</h1>
             <h2>
                 We believe you should always know what data we collect from you and how we use it,

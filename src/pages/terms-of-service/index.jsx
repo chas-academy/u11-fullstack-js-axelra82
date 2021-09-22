@@ -1,8 +1,10 @@
 import React from 'react'
+import PreviousPage from '../../components/previous-page'
 
 const TermsOfServicePage = () => {
     return (
         <section className="container">
+            <PreviousPage />
             <h1>Twitter Clone Terms of Service</h1>
             <h2>
                 If you live outside the European Union, EFTA States, or the United Kingdom,

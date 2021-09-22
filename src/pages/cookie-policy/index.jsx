@@ -1,8 +1,10 @@
 import React from 'react'
+import PreviousPage from '../../components/previous-page'
 
 const CookiePolicyPage = () => {
     return (
         <section className="container">
+            <PreviousPage />
             <h1>Twitter Clone Cookie Policy</h1>
             <h2>Our use of cookies and similar technologie</h2>
             <p>
