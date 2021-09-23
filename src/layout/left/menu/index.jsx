@@ -6,7 +6,9 @@ import StoreContext from '../../../context/StoreContext'
 import './style.scss'
 
 const LeftMenuComponent = () => {
-    const { currentUser } = useContext(StoreContext)
+    const {
+        store: { currentUser },
+    } = useContext(StoreContext)
 
     return (
         <nav id="left-panel-menu">
