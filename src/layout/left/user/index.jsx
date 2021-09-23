@@ -7,8 +7,8 @@ const LeftUserComponent = () => {
     const {
         store: { currentUser, signout },
     } = useContext(StoreContext)
-    const curreUserNamePlaceHolder = currentUser.displayName
-    const curreUserHandlePlaceHolder = 'axelra82'
+    const curreUserNamePlaceHolder = currentUser.name
+    const curreUserHandlePlaceHolder = currentUser.handle
     const [userActions, setUserActions] = useState(false)
 
     const showActions = () => {
@@ -39,7 +39,7 @@ const LeftUserComponent = () => {
                         role="button"
                         tabIndex={0}
                     >
-                        logout
+                        sign out
                     </div>
                 </div>
             )}
