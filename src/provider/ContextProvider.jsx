@@ -4,15 +4,22 @@
 // pass detached states
 
 import React, { useState, useEffect } from 'react'
-import firebase from 'firebase/compat/app'
+import { initializeApp } from 'firebase/app'
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    updateProfile,
+} from 'firebase/auth'
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 import Context from '../context/StoreContext'
-import 'firebase/compat/auth'
 
 const StoreContext = ({ children }) => {
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
 
-    const app = firebase.initializeApp({
+    const app = initializeApp({
         apiKey: process.env.REACT_APP_API_KEY,
         authDomain: process.env.REACT_APP_AUTH_DOMAIN,
         projectId: process.env.REACT_APP_PROJECT_ID,
@@ -21,14 +28,20 @@ const StoreContext = ({ children }) => {
         appId: process.env.REACT_APP_APP_ID,
     })
 
-    const auth = app.auth()
+    const auth = getAuth()
+    const db = getFirestore(app)
 
-    const signup = (email, password) => {
-        return auth.createUserWithEmailAndPassword(email, password)
+    const signup = async (email, password, nameFirst, nameLast) => {
+        await createUserWithEmailAndPassword(auth, email, password)
+        await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
+        await setDoc(doc(db, 'users', auth.currentUser.uid), {
+            name: { first: nameFirst, last: nameLast },
+            email: auth.currentUser.email,
+        })
     }
 
     const signin = (email, password) => {
-        return auth.signInWithEmailAndPassword(email, password)
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
     const signout = () => {
@@ -44,12 +57,10 @@ const StoreContext = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
+        onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
             setLoading(false)
         })
-
-        return unsubscribe
     }, [])
 
     // store is passed to context provider
