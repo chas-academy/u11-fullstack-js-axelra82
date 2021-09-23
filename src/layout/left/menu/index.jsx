@@ -48,8 +48,8 @@ const LeftMenuComponent = () => {
                 ) : (
                     <>
                         <li>
-                            <Link to="/signup">
-                                <span className="left-panel-menu-button">Signup</span>
+                            <Link to="/signin">
+                                <span className="left-panel-menu-button">Sign in</span>
                             </Link>
                         </li>
                     </>
