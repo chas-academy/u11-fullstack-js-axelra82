@@ -1,16 +1,21 @@
-/* eslint-disable no-console */
 import React, { useRef, useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
+import PreviousPage from '../previous-page'
 import StoreContext from '../../context/StoreContext'
 
 const SignUpComponent = () => {
-    const { signup } = useContext(StoreContext)
+    const {
+        store: { signup },
+    } = useContext(StoreContext)
 
+    const nameFirstRef = useRef()
+    const nameLastRef = useRef()
+    const handleRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const [error, setError] = useState('')
+    const [submitError, setsubmitError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
@@ -18,17 +23,23 @@ const SignUpComponent = () => {
         e.preventDefault()
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError('Passwords do not match')
+            return setsubmitError('Passwords do not match')
         }
 
         try {
-            setError('')
+            setsubmitError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await signup(
+                emailRef.current.value,
+                passwordRef.current.value,
+                nameFirstRef.current.value,
+                nameLastRef.current.value,
+                handleRef.current.value
+            )
             history.push('/')
         } catch (catchError) {
             console.log(catchError)
-            setError('Failed to create an account')
+            setsubmitError('Failed to create an account')
         }
 
         return setLoading(false)
@@ -37,30 +48,80 @@ const SignUpComponent = () => {
     return (
         <>
             <Card>
+                <PreviousPage classes="mt-1" />
                 <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
+                    {submitError && <Alert variant="danger">{submitError}</Alert>}
+                    <h1 className="text-center">Sign Up</h1>
+                    <p>
+                        Create an account and start sharing your thoughts with the world instantly
+                    </p>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" ref={emailRef} required />
+                        <Form.Group id="name" className="mt-1">
+                            <Form.Label className="text-muted">Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                ref={nameFirstRef}
+                                required
+                                placeholder="first name"
+                                aria-placeholder="first name"
+                            />
+                            <Form.Control
+                                type="text"
+                                ref={nameLastRef}
+                                required
+                                className="mt-1"
+                                placeholder="last name"
+                                aria-placeholder="last name"
+                            />
                         </Form.Group>
-                        <Form.Group id="password">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" ref={passwordRef} required />
+                        <Form.Group id="handle" className="mt-1">
+                            <Form.Label className="text-muted">Handle</Form.Label>
+                            <Form.Control
+                                type="text"
+                                ref={handleRef}
+                                required
+                                placeholder="choose your handle"
+                                aria-placeholder="choose your handle"
+                            />
                         </Form.Group>
-                        <Form.Group id="password-confirm">
-                            <Form.Label>Password Confirmation</Form.Label>
-                            <Form.Control type="password" ref={passwordConfirmRef} required />
+                        <Form.Group id="email" className="mt-1">
+                            <Form.Label className="text-muted">Email</Form.Label>
+                            <Form.Control
+                                type="email"
+                                ref={emailRef}
+                                required
+                                placeholder="you@domain.tld"
+                                aria-placeholder="you@domain.tld"
+                            />
                         </Form.Group>
-                        <Button disabled={loading} className="w-100" type="submit">
+                        <Form.Group id="password" className="mt-1">
+                            <Form.Label className="text-muted">Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                ref={passwordRef}
+                                required
+                                placeholder="minimum 6 character"
+                                aria-placeholder="minimum 6 character"
+                            />
+                        </Form.Group>
+                        <Form.Group id="password-confirm" className="mt-1">
+                            <Form.Label className="text-muted">Confirm Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                ref={passwordConfirmRef}
+                                required
+                                placeholder="verify password"
+                                aria-placeholder="verify password"
+                            />
+                        </Form.Group>
+                        <Button disabled={loading} className="w-100 mt-2" type="submit">
                             Sign Up
                         </Button>
                     </Form>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center mt-2">
-                Already have an account? <Link to="/login">Log In</Link>
+            <div className="w-100 text-center text-size-medium mt-1">
+                Already have an account? <Link to="/signin">Sign in</Link>
             </div>
         </>
     )
