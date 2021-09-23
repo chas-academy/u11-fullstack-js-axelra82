@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import React, { useRef, useState, useContext } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import PreviousPage from '../previous-page'
+import FormOptions from '../form-options'
 import StoreContext from '../../context/StoreContext'
 
 const SignUpComponent = () => {
@@ -120,9 +122,13 @@ const SignUpComponent = () => {
                     </Form>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center text-size-medium mt-1">
-                Already have an account? <Link to="/signin">Sign in</Link>
-            </div>
+            <FormOptions
+                options={{
+                    action: 'Sign In',
+                    route: 'signin',
+                    message: 'Already have an account?',
+                }}
+            />
         </>
     )
 }
