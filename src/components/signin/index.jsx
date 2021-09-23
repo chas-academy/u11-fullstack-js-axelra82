@@ -35,8 +35,8 @@ const SignInComponent = () => {
 
     return (
         <>
-            <Card>
-                <PreviousPage classes="mt-1" />
+            <Card className="mt-2">
+                <PreviousPage />
                 <Card.Body>
                     {submitError && <Alert variant="danger">{submitError}</Alert>}
                     <h1 className="text-center">Sign In</h1>
