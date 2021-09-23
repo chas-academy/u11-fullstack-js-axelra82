@@ -4,6 +4,7 @@
 // pass detached states
 
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { initializeApp } from 'firebase/app'
 import {
     getAuth,
@@ -12,10 +13,11 @@ import {
     onAuthStateChanged,
     updateProfile,
 } from 'firebase/auth'
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
+    const history = useHistory()
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
 
@@ -31,11 +33,12 @@ const StoreContext = ({ children }) => {
     const auth = getAuth()
     const db = getFirestore(app)
 
-    const signup = async (email, password, nameFirst, nameLast) => {
+    const signup = async (email, password, nameFirst, nameLast, handle) => {
         await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
         await setDoc(doc(db, 'users', auth.currentUser.uid), {
             name: { first: nameFirst, last: nameLast },
+            handle,
             email: auth.currentUser.email,
         })
     }
@@ -45,7 +48,8 @@ const StoreContext = ({ children }) => {
     }
 
     const signout = () => {
-        return auth.signOut()
+        auth.signOut()
+        history.push('/signin')
     }
 
     const resetPassword = (email) => {
@@ -57,8 +61,28 @@ const StoreContext = ({ children }) => {
     }
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user)
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDbDoc = doc(db, 'users', user.uid)
+                const userDoc = await getDoc(userDbDoc)
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data()
+                    const {
+                        name: { first, last },
+                        email,
+                        handle,
+                    } = userData
+                    setCurrentUser({ name: `${first} ${last}`, email, handle })
+                } else {
+                    // eslint-disable-next-line no-alert, no-undef
+                    alert(
+                        'Could not find user in database. Please reload page. If the problem persists please contact site administrator'
+                    )
+                }
+            } else {
+                setCurrentUser(user)
+            }
             setLoading(false)
         })
     }, [])
