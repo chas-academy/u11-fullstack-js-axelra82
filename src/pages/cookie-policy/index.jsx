@@ -1,9 +1,10 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 import PreviousPage from '../../components/previous-page'
 
 const CookiePolicyPage = () => {
     return (
-        <section className="container">
+        <Container>
             <PreviousPage />
             <h1>Twitter Clone Cookie Policy</h1>
             <h2>Our use of cookies and similar technologie</h2>
@@ -44,7 +45,7 @@ const CookiePolicyPage = () => {
                     help.twitter.com/en/rules-and-policies/twitter-cookies
                 </a>
             </p>
-        </section>
+        </Container>
     )
 }
 

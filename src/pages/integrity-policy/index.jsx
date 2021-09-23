@@ -1,9 +1,10 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 import PreviousPage from '../../components/previous-page'
 
 const IntegrityPolicyPage = () => {
     return (
-        <section className="container">
+        <Container>
             <PreviousPage />
             <h1>Twitter Clone Privacy Policy</h1>
             <h2>
@@ -46,7 +47,7 @@ const IntegrityPolicyPage = () => {
                 standing. The content of this page is an excerpt from{' '}
                 <a href="https://twitter.com/en/privacy">twitter.com/en/privacy</a>
             </p>
-        </section>
+        </Container>
     )
 }
 
