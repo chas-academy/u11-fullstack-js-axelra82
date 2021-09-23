@@ -6,10 +6,10 @@ import ContextProvider from './provider/ContextProvider'
 import './style/style.scss'
 
 ReactDOM.render(
-    <ContextProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+        <ContextProvider>
             <PageRoutes />
-        </BrowserRouter>
-    </ContextProvider>,
+        </ContextProvider>
+    </BrowserRouter>,
     document.getElementById('root')
 )
