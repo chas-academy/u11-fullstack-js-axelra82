@@ -1,22 +1,40 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 import { HomeIcon, MessagesIcon, ProfileIcon } from '../../../components/icons'
+import SignInComponent from '../../../components/signin'
 import StoreContext from '../../../context/StoreContext'
 import './style.scss'
 
 const LeftMenuComponent = () => {
     const {
-        store: { currentUser },
+        store: { currentUser, toggleModal, modalContent, setModalContent },
     } = useContext(StoreContext)
+
+    const showSignIn = () => {
+        setModalContent({
+            ...modalContent,
+            header: {
+                ...modalContent.header,
+                show: true,
+                title: 'Sign In',
+            },
+            body: <SignInComponent />,
+            footer: {
+                ...modalContent.footer,
+            },
+        })
+        toggleModal()
+    }
 
     return (
         <nav id="left-panel-menu">
-            <ul>
+            <ul className="p-0">
                 <li>
                     <NavLink exact to="/" activeClassName="left-nav-selected">
                         <span className="left-panel-menu-button">
-                            <HomeIcon />
+                            <HomeIcon size="extra-large" classes="me-3" />
                             Home
                         </span>
                     </NavLink>
@@ -26,7 +44,7 @@ const LeftMenuComponent = () => {
                         <li>
                             <NavLink to="/messages" activeClassName="left-nav-selected">
                                 <span className="left-panel-menu-button">
-                                    <MessagesIcon />
+                                    <MessagesIcon size="extra-large" classes="me-3" />
                                     Messages
                                 </span>
                             </NavLink>
@@ -34,23 +52,26 @@ const LeftMenuComponent = () => {
                         <li>
                             <NavLink to="/profile" activeClassName="left-nav-selected">
                                 <span className="left-panel-menu-button">
-                                    <ProfileIcon />
+                                    <ProfileIcon size="extra-large" classes="me-3" />
                                     Profile
                                 </span>
                             </NavLink>
                         </li>
-                        <li>
-                            <button type="button" className="post-button left-post-button">
+                        <li className="d-grid">
+                            <Button className="rounded-pill py-2 m-2" size="sm">
                                 Tweet
-                            </button>
+                            </Button>
                         </li>
                     </>
                 ) : (
                     <>
-                        <li>
-                            <Link to="/signin">
+                        <li className="d-grid">
+                            {/* <Link to="/signin">
                                 <span className="left-panel-menu-button">Sign in</span>
-                            </Link>
+                            </Link> */}
+                            <Button className="rounded-pill py-2 m-2" onClick={showSignIn}>
+                                Sign In
+                            </Button>
                         </li>
                     </>
                 )}
