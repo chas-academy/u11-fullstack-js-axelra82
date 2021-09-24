@@ -13,13 +13,31 @@ import {
     onAuthStateChanged,
     updateProfile,
 } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, Timestamp } from 'firebase/firestore'
 import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
     const history = useHistory()
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
+    const [isSignUp, setIsSignUp] = useState(false)
+    const [modalState, setModalState] = useState(false)
+    const defaultModalContent = {
+        header: { show: false, title: '', content: '' },
+        body: '',
+        footer: { show: false, buttons: [] },
+    }
+    const [modalContent, setModalContent] = useState(defaultModalContent)
+
+    const toggleModal = () => {
+        setModalState(!modalState)
+        // use timeout to make content transition more pleasing
+        setTimeout(() => {
+            // we need to reset the modal content for future use
+            // eslint-disable-next-line no-unused-expressions
+            modalState && setModalContent(defaultModalContent)
+        }, 350)
+    }
 
     const app = initializeApp({
         apiKey: process.env.REACT_APP_API_KEY,
@@ -33,13 +51,17 @@ const StoreContext = ({ children }) => {
     const auth = getAuth()
     const db = getFirestore(app)
 
-    const signup = async (email, password, nameFirst, nameLast, handle) => {
+    const signup = async (nameFirst, nameLast, dob, email, password) => {
         await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
         await setDoc(doc(db, 'users', auth.currentUser.uid), {
+            bio: '',
+            dob: Timestamp.fromDate(new Date(dob)),
+            email,
+            link: '',
             name: { first: nameFirst, last: nameLast },
-            handle,
-            email: auth.currentUser.email,
+            handle: email,
+            user_type: doc(db, 'user_types', 'registered'),
         })
     }
 
@@ -69,11 +91,22 @@ const StoreContext = ({ children }) => {
                 if (userDoc.exists()) {
                     const userData = userDoc.data()
                     const {
-                        name: { first, last },
+                        bio,
+                        dob,
                         email,
                         handle,
+                        link,
+                        name: { first, last },
                     } = userData
-                    setCurrentUser({ name: `${first} ${last}`, email, handle })
+
+                    setCurrentUser({
+                        bio,
+                        dob,
+                        email,
+                        handle,
+                        link,
+                        name: `${first} ${last}`,
+                    })
                 } else {
                     // eslint-disable-next-line no-alert, no-undef
                     alert(
@@ -89,6 +122,15 @@ const StoreContext = ({ children }) => {
 
     // store is passed to context provider
     const store = {
+        loading,
+        setLoading,
+        modalState,
+        setModalState,
+        modalContent,
+        setModalContent,
+        toggleModal,
+        isSignUp,
+        setIsSignUp,
         currentUser,
         signup,
         signin,
@@ -97,7 +139,7 @@ const StoreContext = ({ children }) => {
         updatePassword,
     }
 
-    return <Context.Provider value={{ store }}>{!loading && children}</Context.Provider>
+    return <Context.Provider value={{ store }}>{children}</Context.Provider>
 }
 
 export default StoreContext
