@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import UserAvatar from '../../../components/user-avatar'
+import UserAvatar from '../../../components/user/avatar'
 import StoreContext from '../../../context/StoreContext'
 import './style.scss'
 
@@ -15,9 +15,22 @@ const LeftUserComponent = () => {
         setUserActions(!userActions)
     }
 
+    const UserDisplayComponent = () => {
+        return (
+            <>
+                <UserAvatar fullWidth />
+                <small>
+                    <strong className="user-name">{curreUserNamePlaceHolder}</strong>
+                </small>
+                <small className="user-handle text-muted">@{curreUserHandlePlaceHolder}</small>
+            </>
+        )
+    }
+
     return (
         <section
             id="left-panel-user"
+            className="ps-2 py-2"
             onClick={showActions}
             onKeyPress={showActions}
             role="button"
@@ -26,11 +39,7 @@ const LeftUserComponent = () => {
             {userActions && (
                 <div id="user-actions">
                     <div id="user-actions-current-user">
-                        <UserAvatar />
-                        <strong className="user-name">{curreUserNamePlaceHolder}</strong>
-                        <span className="user-handle text-muted">
-                            @{curreUserHandlePlaceHolder}
-                        </span>
+                        <UserDisplayComponent />
                     </div>
                     <div
                         id="user-actions-signout-user"
@@ -43,10 +52,7 @@ const LeftUserComponent = () => {
                     </div>
                 </div>
             )}
-
-            <UserAvatar />
-            <strong className="user-name">{curreUserNamePlaceHolder}</strong>
-            <span className="user-handle text-muted">@{curreUserHandlePlaceHolder}</span>
+            <UserDisplayComponent />
         </section>
     )
 }
