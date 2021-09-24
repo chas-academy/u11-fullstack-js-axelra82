@@ -18,13 +18,33 @@ ol {
     margin: 0;
 }
 
-button {
-    cursor: pointer;
-    border: none;
-    overflow: visible;
-    font-size: 1rem;
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+svg {
+    // custom icon default size
+    &.custom-icon {
+        width: 1rem;
+        height: 1rem;
+
+        &.icon-large {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        &.icon-extra-large {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        // icon colors
+        &.fill-primary {
+            fill: $primary !important;
+        }
+
+        &.fill-white {
+            fill: $white !important;
+        }
+
+        &.fill-black {
+            fill: $black !important;
+        }
+    }
 }

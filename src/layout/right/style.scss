@@ -16,13 +16,12 @@
         min-width: 250px;
 
         &.message-view {
+            padding: 0;
             width: 60%;
             max-width: 278px;
         }
 
         .right-panel-legal {
-            font-size: 0.7rem;
-
             li {
                 padding: 0.175rem 0;
 

@@ -47,11 +47,6 @@ body {
     #app-container {
         height: 100vh !important;
     }
-
-    .container {
-        margin: 0 auto;
-        max-width: 768px;
-    }
 }
 
 @include media-lg {
