@@ -4,7 +4,7 @@ import './style.scss'
 
 const RightComponent = () => {
     return (
-        <>
+        <small>
             <ul className="right-panel-legal text-muted">
                 <li>
                     <Link to="/terms">Terms of service</Link>
@@ -20,7 +20,7 @@ const RightComponent = () => {
                 <li>Chas Academy</li>
                 <li>&copy; 2021 Axel Roussille Åberg</li>
             </ul>
-        </>
+        </small>
     )
 }
 
