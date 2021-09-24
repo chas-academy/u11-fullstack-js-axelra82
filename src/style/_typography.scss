@@ -34,19 +34,15 @@ body {
     font-family: 'SF Pro Display Regular', sans-serif;
 }
 
-a {
+a,
+.btn-link {
+    padding: 0;
     text-decoration: none !important;
     @include transition();
 
     &:hover {
         color: $secondary !important;
     }
-}
-
-// extend anchor and padding styling to bootstrap link buttons
-.btn-link {
-    @extend a;
-    @extend .p-0;
 }
 
 $font-size-root: 18px;
