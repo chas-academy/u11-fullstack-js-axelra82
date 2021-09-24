@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react'
 import LeftComponent from '../left'
 import MiddleComponent from '../middle'
