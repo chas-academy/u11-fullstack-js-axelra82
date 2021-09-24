@@ -4,7 +4,7 @@ import React from 'react'
 const LogotypeComponent = ({ color }) => {
     return (
         <svg
-            className={`logotype fill-color-${color}`}
+            className={`logotype custom-icon icon-extra-large fill-${color}`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
         >
