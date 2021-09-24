@@ -1,11 +1,15 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import PreviousPage from '../../components/previous-page'
+import AssignmentNote from '../../components/assignment-note'
 
 const TermsOfServicePage = () => {
     return (
         <Container>
             <PreviousPage />
+
+            <AssignmentNote page="terms" link="twitter.com/tos" url="https://twitter.com/tos" />
+
             <h1>Twitter Clone Terms of Service</h1>
             <h2>
                 If you live outside the European Union, EFTA States, or the United Kingdom,
@@ -34,12 +38,6 @@ const TermsOfServicePage = () => {
                 text, links, graphics, photos, audio, videos, or other materials or arrangements of
                 materials uploaded, downloaded or appearing on the Services (collectively referred
                 to as “Content”). By using the Services you agree to be bound by these Terms.
-            </p>
-            <h3>NOTE!</h3>
-            <p>
-                This is a “terms placeholder” page for a school assignment and has no legal
-                standing. The content of this page is an excerpt from{' '}
-                <a href="https://twitter.com/en/tos">twitter.com/en/tos</a>
             </p>
         </Container>
     )

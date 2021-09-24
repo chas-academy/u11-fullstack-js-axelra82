@@ -1,11 +1,19 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import PreviousPage from '../../components/previous-page'
+import AssignmentNote from '../../components/assignment-note'
 
 const CookiePolicyPage = () => {
     return (
         <Container>
             <PreviousPage />
+
+            <AssignmentNote
+                page="policy"
+                link="help.twitter.com"
+                url="https://help.twitter.com/rules-and-policies/twitter-cookies"
+            />
+
             <h1>Twitter Clone Cookie Policy</h1>
             <h2>Our use of cookies and similar technologie</h2>
             <p>
@@ -35,15 +43,6 @@ const CookiePolicyPage = () => {
             <p>
                 Our services use these technologies to deliver, measure, and improve our services in
                 various ways.
-            </p>
-
-            <h3>NOTE!</h3>
-            <p>
-                This is a “policy placeholder” page for a school assignment and has no legal
-                standing. The content of this page is an excerpt from{' '}
-                <a href="https://help.twitter.com/en/rules-and-policies/twitter-cookies">
-                    help.twitter.com/en/rules-and-policies/twitter-cookies
-                </a>
             </p>
         </Container>
     )
