@@ -30,11 +30,11 @@ const LeftMenuComponent = () => {
 
     return (
         <nav id="left-panel-menu">
-            <ul className="p-0">
+            <ul className="p-0 list-unstyled">
                 <li>
                     <NavLink exact to="/" activeClassName="left-nav-selected">
                         <span className="left-panel-menu-button">
-                            <HomeIcon size="extra-large" classes="me-3" />
+                            <HomeIcon size="large" classes="me-3" />
                             Home
                         </span>
                     </NavLink>
@@ -44,7 +44,7 @@ const LeftMenuComponent = () => {
                         <li>
                             <NavLink to="/messages" activeClassName="left-nav-selected">
                                 <span className="left-panel-menu-button">
-                                    <MessagesIcon size="extra-large" classes="me-3" />
+                                    <MessagesIcon size="large" classes="me-3" />
                                     Messages
                                 </span>
                             </NavLink>
@@ -52,15 +52,13 @@ const LeftMenuComponent = () => {
                         <li>
                             <NavLink to="/profile" activeClassName="left-nav-selected">
                                 <span className="left-panel-menu-button">
-                                    <ProfileIcon size="extra-large" classes="me-3" />
+                                    <ProfileIcon size="large" classes="me-3" />
                                     Profile
                                 </span>
                             </NavLink>
                         </li>
                         <li className="d-grid">
-                            <Button className="rounded-pill py-2 m-2" size="sm">
-                                Tweet
-                            </Button>
+                            <Button className="rounded-pill py-2 m-2">Tweet</Button>
                         </li>
                     </>
                 ) : (

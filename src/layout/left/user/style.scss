@@ -3,14 +3,12 @@
 
 #left-panel-user {
     cursor: pointer;
-    margin: auto 0.25rem 0 0.25rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
     column-gap: 0.567rem;
     grid-template-areas:
         'user-avatar user-name'
         'user-avatar user-handle';
-    @include border-radius($standard: 10);
     @include transition();
 
     &:hover {

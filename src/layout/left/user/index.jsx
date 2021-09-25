@@ -30,7 +30,7 @@ const LeftUserComponent = () => {
     return (
         <section
             id="left-panel-user"
-            className="ps-2 py-2"
+            className="ps-2 py-2 mt-auto mb-2 rounded-pill"
             onClick={showActions}
             onKeyPress={showActions}
             role="button"
