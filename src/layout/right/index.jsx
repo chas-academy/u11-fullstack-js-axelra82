@@ -5,7 +5,7 @@ import './style.scss'
 const RightComponent = () => {
     return (
         <small>
-            <ul className="right-panel-legal text-muted">
+            <ul className="right-panel-legal text-muted list-unstyled">
                 <li>
                     <Link to="/terms">Terms of service</Link>
                 </li>
