@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // hook based store
@@ -13,20 +14,32 @@ import {
     onAuthStateChanged,
     updateProfile,
 } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc, Timestamp } from 'firebase/firestore'
+import {
+    getFirestore,
+    query,
+    where,
+    collection,
+    doc,
+    getDocs,
+    getDoc,
+    setDoc,
+    Timestamp,
+} from 'firebase/firestore'
 import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
-    const history = useHistory()
-    const [currentUser, setCurrentUser] = useState()
-    const [loading, setLoading] = useState(true)
-    const [isSignUp, setIsSignUp] = useState(false)
-    const [modalState, setModalState] = useState(false)
     const defaultModalContent = {
         header: { show: false, title: '', content: '' },
         body: '',
         footer: { show: false, buttons: [] },
     }
+
+    const history = useHistory()
+    const [currentUser, setCurrentUser] = useState()
+    const [loading, setLoading] = useState(true)
+    const [toasts, setToasts] = useState([])
+    const [modalState, setModalState] = useState(false)
+    const [isSignUp, setIsSignUp] = useState(false)
     const [modalContent, setModalContent] = useState(defaultModalContent)
 
     const toggleModal = () => {
@@ -51,16 +64,51 @@ const StoreContext = ({ children }) => {
     const auth = getAuth()
     const db = getFirestore(app)
 
-    const signup = async (nameFirst, nameLast, dob, email, password) => {
+    const handleLookUp = (table, userHandle) => {
+        // look for users where handle matches
+        const getTable = collection(db, table)
+        const handleMatch = query(getTable, where('handle', '==', userHandle))
+        return getDocs(handleMatch)
+    }
+
+    // always make sure handle is unique
+    const handleCheck = async (string) => {
+        // make sure string only contains lower, uppercase letters and numbers
+        let safeHandle = string.replace(/([a-zA-Z0-9]+)[^a-zA-Z0-9@]*(@.*)?/gi, '$1').toLowerCase()
+
+        const querySnapshot = await handleLookUp('users', safeHandle)
+
+        if (querySnapshot.docs.length > 0) {
+            querySnapshot.forEach((docMatch) => {
+                const docMatchData = docMatch.data()
+                const docMatchHandle = docMatchData.handle
+
+                // look for trailing numbers in existing handle
+                const numberedHandle = docMatchHandle.match(/\d+$/gi)
+                if (numberedHandle) {
+                    // handle has trailing number increment by 1
+                    const handleNumber = parseInt(numberedHandle[0], 10) + 1
+                    safeHandle = safeHandle.replace(/([a-z])\d+$/gi, `$1${handleNumber}`)
+                } else {
+                    // handle does not have trailing number initialize trailing handle number with 1
+                    safeHandle = `${safeHandle}1`
+                }
+            })
+        }
+
+        return safeHandle
+    }
+
+    const signup = async (nameFirst, nameLast, dob, email, handle, password) => {
         await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
         await setDoc(doc(db, 'users', auth.currentUser.uid), {
             bio: '',
             dob: Timestamp.fromDate(new Date(dob)),
             email,
-            link: '',
+            website: '',
             name: { first: nameFirst, last: nameLast },
-            handle: email,
+            handle,
             user_type: doc(db, 'user_types', 'registered'),
         })
     }
@@ -82,7 +130,25 @@ const StoreContext = ({ children }) => {
         return currentUser.updatePassword(password)
     }
 
+    const getPublicProfile = async (publicProfileHandle) => {
+        setLoading(true)
+
+        let publicProfile = null
+        const querySnapshot = await handleLookUp('users', publicProfileHandle)
+
+        if (querySnapshot.docs.length > 0) {
+            querySnapshot.forEach((docMatch) => {
+                publicProfile = docMatch.data()
+            })
+        }
+
+        setLoading(false)
+
+        return publicProfile
+    }
+
     useEffect(() => {
+        setLoading(true)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userDbDoc = doc(db, 'users', user.uid)
@@ -95,7 +161,7 @@ const StoreContext = ({ children }) => {
                         dob,
                         email,
                         handle,
-                        link,
+                        website,
                         name: { first, last },
                     } = userData
 
@@ -104,7 +170,7 @@ const StoreContext = ({ children }) => {
                         dob,
                         email,
                         handle,
-                        link,
+                        website,
                         name: `${first} ${last}`,
                     })
                 } else {
@@ -116,14 +182,16 @@ const StoreContext = ({ children }) => {
             } else {
                 setCurrentUser(user)
             }
-            setLoading(false)
         })
+        setLoading(false)
     }, [])
 
     // store is passed to context provider
     const store = {
         loading,
         setLoading,
+        toasts,
+        setToasts,
         modalState,
         setModalState,
         modalContent,
@@ -132,11 +200,13 @@ const StoreContext = ({ children }) => {
         isSignUp,
         setIsSignUp,
         currentUser,
+        handleCheck,
         signup,
         signin,
         signout,
         resetPassword,
         updatePassword,
+        getPublicProfile,
     }
 
     return <Context.Provider value={{ store }}>{children}</Context.Provider>
