@@ -6,14 +6,13 @@ import Emoji from '../../components/emoji'
 
 const NotFound = () => {
     return (
-        <Container className="d-flex w-100 align-content-center justify-content-center">
+        <Container className="d-flex w-100 mt-5 align-content-center justify-content-center">
             <Card as="article" className="card-max-550">
                 <PreviousPage classes="mt-1" />
                 <Card.Body>
                     <h1>
-                        The sadness <Emoji emoji="😞" />
+                        The 404 sadness <Emoji emoji="😞" />
                     </h1>
-                    <h2>404</h2>
                     <p>
                         It looks like your trying to access a page that doesn&apos;t exist
                         anymore... or maybe it was never there to begin with?
@@ -28,6 +27,10 @@ const NotFound = () => {
                         </li>
                         <li>
                             Or head <Link to="/">back to the main page</Link> and go from there
+                        </li>
+                        <li>
+                            If you are certain the link is correct and you still can&apos;t access
+                            it, please contact website administrator
                         </li>
                     </ul>
                 </Card.Body>
