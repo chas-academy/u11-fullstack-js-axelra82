@@ -8,12 +8,20 @@ import StoreContext from '../../context/StoreContext'
 
 const SignInComponent = () => {
     const {
-        store: { loading, setLoading, signin, modalState, toggleModal },
+        store: {
+            loading,
+            setLoading,
+            currentUser,
+            signin,
+            modalState,
+            toggleModal,
+            setToasts,
+            signout,
+        },
     } = useContext(StoreContext)
 
     const emailRef = useRef()
     const passwordRef = useRef()
-    // const [submitError, setsubmitError] = useState('')
     const history = useHistory()
 
     const handleSubmit = async (e) => {
@@ -29,16 +37,22 @@ const SignInComponent = () => {
                 history.push('/')
             }
         } catch (catchError) {
-            console.log(catchError)
-            // setsubmitError('Failed to login')
+            const catchErrorMessage = catchError.message.replace(/.*\/((.*)\))/gi, '$2')
+            setToasts((toasts) => [
+                ...toasts,
+                {
+                    header: 'Error',
+                    body: catchErrorMessage.replace(/-/gi, ' '),
+                    variant: 'danger',
+                    id: `signup-${catchErrorMessage}`,
+                },
+            ])
         }
 
         return setLoading(false)
     }
 
-    // {submitError && <Alert variant="danger">{submitError}</Alert>}
-
-    return (
+    return !currentUser ? (
         <>
             <Form onSubmit={handleSubmit}>
                 <Form.Group id="email" className="mt-1">
@@ -69,6 +83,11 @@ const SignInComponent = () => {
             <FormOptions
                 options={{ action: 'Sign Up', route: 'signup', message: 'Need an account?' }}
             />
+        </>
+    ) : (
+        <>
+            <p>You are already signed in.</p>
+            <Button onClick={signout}>Sign out</Button>
         </>
     )
 }
