@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import BottomMenuComponent from './menu'
 import PostIcon from '../../components/icons/post'
 import './style.scss'
@@ -7,9 +8,9 @@ import './style.scss'
 const BottomComponent = () => {
     return (
         <aside id="bottom-panel">
-            <a href="#" className="post-button bottom-post-button">
+            <Button className="position-absolute py-2 px-2 rounded-circle">
                 <PostIcon />
-            </a>
+            </Button>
             <BottomMenuComponent />
         </aside>
     )

@@ -1,9 +1,11 @@
+@import 'colors';
 @import 'media';
 @import 'reset';
-@import 'colors';
 @import 'mixins';
 @import 'typography';
-@import 'margin-padding';
-@import 'list';
 @import 'layout';
-@import 'buttons';
+// import bootstrap last to make sure
+// theme custom variables are set
+@import '~bootstrap/scss/bootstrap';
+// known issue with default react bootstrap during build
+// https://github.com/react-bootstrap/react-bootstrap/issues/6039

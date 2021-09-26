@@ -1,10 +1,19 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 import PreviousPage from '../../components/previous-page'
+import AssignmentNote from '../../components/assignment-note'
 
 const IntegrityPolicyPage = () => {
     return (
-        <section className="container">
+        <Container>
             <PreviousPage />
+
+            <AssignmentNote
+                page="policy"
+                link="twitter.com/privacy"
+                url="https://twitter.com//privacy"
+            />
+
             <h1>Twitter Clone Privacy Policy</h1>
             <h2>
                 We believe you should always know what data we collect from you and how we use it,
@@ -40,13 +49,7 @@ const IntegrityPolicyPage = () => {
                 data, or anything else related to our privacy practices, we want to hear from you.
                 You can contact us at any time.
             </p>
-            <h3>NOTE!</h3>
-            <p>
-                This is a “policy placeholder” page for a school assignment and has no legal
-                standing. The content of this page is an excerpt from{' '}
-                <a href="https://twitter.com/en/privacy">twitter.com/en/privacy</a>
-            </p>
-        </section>
+        </Container>
     )
 }
 

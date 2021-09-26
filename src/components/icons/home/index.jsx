@@ -1,7 +1,9 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import BaseIconComponent from '../base'
 
-const HomeIconComponent = () => {
+// eslint-disable-next-line react/prop-types
+const HomeIconComponent = ({ size = '', classes = '' }) => {
     const location = useLocation()
     const { pathname } = location
 
@@ -15,11 +17,7 @@ const HomeIconComponent = () => {
             </>
         )
 
-    return (
-        <svg className="custom-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            {graphic}
-        </svg>
-    )
+    return <BaseIconComponent graphic={graphic} color="black" size={size} classes={classes} />
 }
 
 export default HomeIconComponent

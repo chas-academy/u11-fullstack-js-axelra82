@@ -1,12 +1,9 @@
-@import '../../style/mixins';
+@import '../../../style/mixins';
 
 .user-avatar {
     grid-area: user-avatar;
-    width: 38px;
-    height: 38px;
     object-fit: fill;
     object-position: center;
-    @include border-radius($standard: 100, $unit: '%');
 
     &.full-width {
         width: 100%;

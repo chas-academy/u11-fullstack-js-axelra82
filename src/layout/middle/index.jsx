@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-console */
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 import { HomeView, MessagesView, ProfileView, SearchView } from '../../views'
 import RightComponent from '../right'
 import ConversationComponent from '../conversation'
 import './style.scss'
 
 const MiddleComponent = () => {
-    // get current location
     const location = useLocation()
+    const { handle } = useParams()
     const { pathname } = location
     const isMessageView = pathname === '/messages'
 
@@ -18,7 +19,7 @@ const MiddleComponent = () => {
             case '/messages':
                 return <MessagesView />
 
-            case '/profile':
+            case `/${handle}`:
                 return <ProfileView />
 
             case '/search':
@@ -38,15 +39,33 @@ const MiddleComponent = () => {
                 return <RightComponent />
         }
     }
-
+    // sm={2} md={3}
     return (
         <>
-            <section id="middle-panel" className={`${isMessageView ? 'message-view' : ''}`}>
+            <Col
+                sm={isMessageView ? 3 : 7}
+                md={isMessageView ? 3 : 6}
+                as="section"
+                id="middle-panel"
+                className="p-0"
+            >
                 <MiddlePanelContent />
-            </section>
-            <aside id="right-panel" className={`${isMessageView ? 'message-view' : ''}`}>
-                <RightPanelContent />
-            </aside>
+            </Col>
+            <Col
+                sm={isMessageView ? 7 : 3}
+                md={isMessageView ? 6 : 3}
+                as="aside"
+                id="right-panel"
+                className="d-none d-md-block p-0"
+            >
+                <section
+                    className={`min-vh-100 border-start ${
+                        isMessageView ? 'border-end' : 'sticky-top'
+                    }`}
+                >
+                    <RightPanelContent />
+                </section>
+            </Col>
         </>
     )
 }

@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import StoreContext from './context/StoreContext'
+import React from 'react'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import {
     SignUpPage,
     SignInPage,
@@ -12,47 +11,24 @@ import {
     CookiePolicyPage,
 } from './pages'
 import AppComponent from './layout/app'
+import PrivateRoute from './components/private-route'
 
 const PageRoutes = () => {
-    const {
-        store: {
-            user: { isAuthed },
-        },
-    } = useContext(StoreContext)
-
-    // Protected routes for pages not accessible to guests
-    const ProtectedRoute = ({ component: Page, path, ...rest }) => {
-        return (
-            <Route
-                path={path}
-                {...rest}
-                render={(props) => {
-                    return isAuthed ? (
-                        <Page {...props} page={path} />
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: '/signup',
-                            }}
-                        />
-                    )
-                }}
-            />
-        )
-    }
+    const location = useLocation()
+    const { state } = location
 
     return (
         <Switch>
-            <ProtectedRoute exact path="/profile" component={AppComponent} />
-            <ProtectedRoute exact path="/messages" component={AppComponent} />
+            {/* <PrivateRoute exact path="/profile" component={AppComponent} /> */}
+            <PrivateRoute exact path="/messages" component={AppComponent} />
             <Route exact path="/search" component={AppComponent} />
             <Route exact path="/signup" component={SignUpPage} />
             <Route exact path="/signin" component={SignInPage} />
             <Route exact path="/terms" component={TermsOfServicePage} />
             <Route exact path="/integrity-policy" component={IntegrityPloicyPage} />
             <Route exact path="/cookie-policy" component={CookiePolicyPage} />
-            <Route exact path="/" component={AppComponent} />
-            <Route component={NotFound} />
+            <Route exact path="/:handle" component={AppComponent} />
+            <Route component={state === '404' ? NotFound : AppComponent} />
         </Switch>
     )
 }

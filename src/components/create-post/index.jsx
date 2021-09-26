@@ -1,5 +1,5 @@
 import React from 'react'
-import UserAvatar from '../user-avatar'
+import UserAvatar from '../user/avatar'
 import './style.scss'
 
 const CreatPostComponent = () => {

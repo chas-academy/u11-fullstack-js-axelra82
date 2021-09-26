@@ -1,8 +1,10 @@
 # U11 Twitter Clone | 2021
 
+Live @ [u11-twitter-2021.web.app](https://u11-twitter-2021.web.app)
+
 ## Project description
 
-...
+A simplified version of twitter.
 
 ## Stack
 
