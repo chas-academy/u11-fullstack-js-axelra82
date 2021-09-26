@@ -50,9 +50,16 @@ const LeftMenuComponent = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/profile" activeClassName="left-nav-selected">
+                            <NavLink
+                                to={`/${currentUser.handle}`}
+                                activeClassName="left-nav-selected"
+                            >
                                 <span className="left-panel-menu-button">
-                                    <ProfileIcon size="large" classes="me-3" />
+                                    <ProfileIcon
+                                        size="large"
+                                        path={`/${currentUser.handle}`}
+                                        classes="me-3"
+                                    />
                                     Profile
                                 </span>
                             </NavLink>
