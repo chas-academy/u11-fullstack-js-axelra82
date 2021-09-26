@@ -13,7 +13,7 @@ const ModalComponent = () => {
 
     return (
         <>
-            <Modal show={modalState} onHide={toggleModal} centered>
+            <Modal show={modalState} onHide={toggleModal} centered fullscreen="md-down">
                 {showHeader && (
                     <Modal.Header closeButton>
                         {title && <Modal.Title>{title}</Modal.Title>}
