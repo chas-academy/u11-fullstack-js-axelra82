@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-console */
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import { HomeView, MessagesView, ProfileView, SearchView } from '../../views'
 import RightComponent from '../right'
@@ -10,6 +10,7 @@ import './style.scss'
 
 const MiddleComponent = () => {
     const location = useLocation()
+    const { handle } = useParams()
     const { pathname } = location
     const isMessageView = pathname === '/messages'
 
@@ -18,7 +19,7 @@ const MiddleComponent = () => {
             case '/messages':
                 return <MessagesView />
 
-            case '/profile':
+            case `/${handle}`:
                 return <ProfileView />
 
             case '/search':
