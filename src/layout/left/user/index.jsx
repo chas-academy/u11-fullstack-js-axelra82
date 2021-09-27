@@ -68,7 +68,7 @@ const LeftUserComponent = () => {
             >
                 <section
                     className={`mt-auto mb-3 p-2 pe-4 rounded-pill ${
-                        isActive ? '' : 'bg-extra-light-gray-hover curser-pointer'
+                        isActive ? '' : 'bg-extra-light-gray-hover cursor-pointer'
                     }`}
                 >
                     <UserDisplayComponent />
