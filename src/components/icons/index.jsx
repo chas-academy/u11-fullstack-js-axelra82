@@ -6,6 +6,7 @@ import ProfileIcon from './profile'
 import SearchIcon from './search'
 import CheckmarkIcon from './checkmark'
 import HorizontalDotsIcon from './horizontal-dots'
+import CameraIcon from './camera'
 
 export {
     ArrowExternalIcon,
@@ -16,4 +17,5 @@ export {
     SearchIcon,
     CheckmarkIcon,
     HorizontalDotsIcon,
+    CameraIcon,
 }
