@@ -1,62 +1,10 @@
-@import './media';
-$bottom-height: 78px;
-
 html,
 body {
     height: 100%;
+    min-height: 100vh;
     margin: 0;
-}
-
-#app-container {
-    // account for bottom height in mobile size
-    min-height: calc(100vh - $bottom-height);
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
 }
 
 .card-max-550 {
     max-width: 550px;
-}
-
-.full-viewport-width {
-    min-width: 100vw;
-}
-
-.full-container-width {
-    min-width: 100%;
-}
-
-.full-viewport-height {
-    height: 100vh;
-}
-
-.full-container-height {
-    height: 100%;
-}
-
-.float-left {
-    float: left;
-}
-
-.float-right {
-    float: right;
-}
-
-@include media-md {
-    #app-container {
-        height: 100vh !important;
-    }
-}
-
-@include media-lg {
-    .container {
-        max-width: 992px;
-    }
-}
-
-@include media-xl {
-    .container {
-        max-width: 1200px;
-    }
 }
