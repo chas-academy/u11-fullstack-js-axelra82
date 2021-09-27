@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useContext } from 'react'
 import { Row, Col, Popover, OverlayTrigger, Button } from 'react-bootstrap'
-import UserAvatar from '../../../components/user/avatar'
+import UserProfilePicture from '../../../components/user/profile-picture'
 import { CheckmarkIcon, HorizontalDotsIcon } from '../../../components/icons'
 import StoreContext from '../../../context/StoreContext'
 
@@ -10,7 +10,7 @@ const LeftUserComponent = () => {
         store: { currentUser, signout },
     } = useContext(StoreContext)
     const curreUserName = currentUser.name
-    const curreUserHandle = currentUser.handle
+    const curreUserUsername = currentUser.username
     const [isActive, setIsActive] = useState(false)
 
     const popoverActive = () => {
@@ -21,13 +21,13 @@ const LeftUserComponent = () => {
         return (
             <Row className="gx-3">
                 <Col xs={3}>
-                    <UserAvatar />
+                    <UserProfilePicture />
                 </Col>
                 <Col xs={8} className="d-flex flex-column">
                     <small>
-                        <strong className="user-name">{curreUserName}</strong>
+                        <strong>{curreUserName}</strong>
                     </small>
-                    <small className="user-handle text-muted lh-1">@{curreUserHandle}</small>
+                    <small className="text-muted lh-1">@{curreUserUsername}</small>
                 </Col>
                 {popover ? (
                     <Col xs={1} className="d-flex justify-content-center align-items-center p-0">
@@ -53,7 +53,7 @@ const LeftUserComponent = () => {
                 className="my-2 px-3 py-2 w-100 text-start bg-extra-light-gray-hover rounded-0 text-black"
                 variant="link"
             >
-                <small>sign out @{curreUserHandle}</small>
+                <small>sign out @{curreUserUsername}</small>
             </Button>
         </Popover>
     )

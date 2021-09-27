@@ -10,7 +10,7 @@ import './style.scss'
 
 const MiddleComponent = () => {
     const location = useLocation()
-    const { handle } = useParams()
+    const { username } = useParams()
     const { pathname } = location
     const isMessageView = pathname === '/messages'
 
@@ -19,7 +19,7 @@ const MiddleComponent = () => {
             case '/messages':
                 return <MessagesView />
 
-            case `/${handle}`:
+            case `/${username}`:
                 return <ProfileView />
 
             case '/search':

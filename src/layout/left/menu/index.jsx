@@ -51,13 +51,13 @@ const LeftMenuComponent = () => {
                         </li>
                         <li>
                             <NavLink
-                                to={`/${currentUser.handle}`}
+                                to={`/${currentUser.username}`}
                                 activeClassName="left-nav-selected"
                             >
                                 <span className="left-panel-menu-button">
                                     <ProfileIcon
                                         size="large"
-                                        path={`/${currentUser.handle}`}
+                                        path={`/${currentUser.username}`}
                                         classes="me-3"
                                     />
                                     Profile

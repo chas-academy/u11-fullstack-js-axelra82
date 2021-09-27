@@ -1,11 +1,11 @@
 import React from 'react'
-import UserAvatar from '../user/avatar'
+import UserProfilePicture from '../user/profile-picture'
 import './style.scss'
 
 const CreatPostComponent = () => {
     return (
         <section className="create-post">
-            <UserAvatar fullWidth />
+            <UserProfilePicture />
             <input placeholder="What's on your mind?" className="post-content" />
             <button type="button" className="post-button create-post-button">
                 Tweet

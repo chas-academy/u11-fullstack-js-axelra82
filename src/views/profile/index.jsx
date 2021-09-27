@@ -21,7 +21,7 @@ const ProfileView = () => {
         },
     } = useContext(StoreContext)
     const history = useHistory()
-    const { handle } = useParams()
+    const { username } = useParams()
     const [publicData, setPublicData] = useState()
 
     const PublicProfileComponent = () => {
@@ -34,7 +34,7 @@ const ProfileView = () => {
                 <h1 className="m-0 p-0" size={3}>
                     {firstName} {lastName}
                 </h1>
-                <small className="text-muted">@{publicData.handle}</small>
+                <small className="text-muted">@{publicData.username}</small>
                 <p>{publicData.bio}</p>
             </>
         )
@@ -64,7 +64,7 @@ const ProfileView = () => {
 
     useEffect(() => {
         const getUserData = async () => {
-            const getPublicProfileData = await getPublicProfile(handle)
+            const getPublicProfileData = await getPublicProfile(username)
 
             if (getPublicProfileData) {
                 setPublicData(getPublicProfileData)

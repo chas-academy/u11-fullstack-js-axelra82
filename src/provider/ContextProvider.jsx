@@ -64,42 +64,44 @@ const StoreContext = ({ children }) => {
     const auth = getAuth()
     const db = getFirestore(app)
 
-    const handleLookUp = (table, userHandle) => {
-        // look for users where handle matches
+    const usernameLookUp = (table, username) => {
+        // look for users where username matches
         const getTable = collection(db, table)
-        const handleMatch = query(getTable, where('handle', '==', userHandle))
-        return getDocs(handleMatch)
+        const usernameMatch = query(getTable, where('username', '==', username))
+        return getDocs(usernameMatch)
     }
 
-    // always make sure handle is unique
-    const handleCheck = async (string) => {
+    // always make sure username is unique
+    const usernameCheck = async (string) => {
         // make sure string only contains lower, uppercase letters and numbers
-        let safeHandle = string.replace(/([a-zA-Z0-9]+)[^a-zA-Z0-9@]*(@.*)?/gi, '$1').toLowerCase()
+        let safeUsername = string
+            .replace(/([a-zA-Z0-9]+)[^a-zA-Z0-9@]*(@.*)?/gi, '$1')
+            .toLowerCase()
 
-        const querySnapshot = await handleLookUp('users', safeHandle)
+        const querySnapshot = await usernameLookUp('users', safeUsername)
 
         if (querySnapshot.docs.length > 0) {
             querySnapshot.forEach((docMatch) => {
                 const docMatchData = docMatch.data()
-                const docMatchHandle = docMatchData.handle
+                const docMatchUsername = docMatchData.username
 
-                // look for trailing numbers in existing handle
-                const numberedHandle = docMatchHandle.match(/\d+$/gi)
-                if (numberedHandle) {
-                    // handle has trailing number increment by 1
-                    const handleNumber = parseInt(numberedHandle[0], 10) + 1
-                    safeHandle = safeHandle.replace(/([a-z])\d+$/gi, `$1${handleNumber}`)
+                // look for trailing numbers in existing username
+                const numberedUsername = docMatchUsername.match(/\d+$/gi)
+                if (numberedUsername) {
+                    // username has trailing number increment by 1
+                    const usernameNumber = parseInt(numberedUsername[0], 10) + 1
+                    safeUsername = safeUsername.replace(/([a-z])\d+$/gi, `$1${usernameNumber}`)
                 } else {
-                    // handle does not have trailing number initialize trailing handle number with 1
-                    safeHandle = `${safeHandle}1`
+                    // username does not have trailing number initialize trailing username number with 1
+                    safeUsername = `${safeUsername}1`
                 }
             })
         }
 
-        return safeHandle
+        return safeUsername
     }
 
-    const signup = async (nameFirst, nameLast, dob, email, handle, password) => {
+    const signup = async (dob, email, nameFirst, nameLast, password, profilePicture, username) => {
         await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
         await setDoc(doc(db, 'users', auth.currentUser.uid), {
@@ -108,7 +110,8 @@ const StoreContext = ({ children }) => {
             email,
             website: '',
             name: { first: nameFirst, last: nameLast },
-            handle,
+            profilePicture,
+            username,
             user_type: doc(db, 'user_types', 'registered'),
         })
     }
@@ -130,11 +133,15 @@ const StoreContext = ({ children }) => {
         return currentUser.updatePassword(password)
     }
 
-    const getPublicProfile = async (publicProfileHandle) => {
+    const updateProfilePicture = (image) => {
+        return 'ok'
+    }
+
+    const getPublicProfile = async (publicProfileUsername) => {
         setLoading(true)
 
         let publicProfile = null
-        const querySnapshot = await handleLookUp('users', publicProfileHandle)
+        const querySnapshot = await usernameLookUp('users', publicProfileUsername)
 
         if (querySnapshot.docs.length > 0) {
             querySnapshot.forEach((docMatch) => {
@@ -160,24 +167,30 @@ const StoreContext = ({ children }) => {
                         bio,
                         dob,
                         email,
-                        handle,
-                        website,
                         name: { first, last },
+                        profilePicture,
+                        username,
+                        website,
                     } = userData
 
                     setCurrentUser({
                         bio,
                         dob,
                         email,
-                        handle,
-                        website,
                         name: `${first} ${last}`,
+                        profilePicture,
+                        username,
+                        website,
                     })
                 } else {
-                    // eslint-disable-next-line no-alert, no-undef
-                    alert(
-                        'Could not find user in database. Please reload page. If the problem persists please contact site administrator'
-                    )
+                    setToasts([
+                        ...toasts,
+                        {
+                            header: 'Error',
+                            body: 'Could not find user in database. Please reload page. If the problem persists please contact site administrator',
+                            variant: 'danger',
+                        },
+                    ])
                 }
             } else {
                 setCurrentUser(user)
@@ -200,7 +213,7 @@ const StoreContext = ({ children }) => {
         isSignUp,
         setIsSignUp,
         currentUser,
-        handleCheck,
+        usernameCheck,
         signup,
         signin,
         signout,

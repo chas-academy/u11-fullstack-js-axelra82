@@ -9,7 +9,7 @@ import StoreContext from '../../context/StoreContext'
 
 const SignUpComponent = () => {
     const {
-        store: { loading, setLoading, setIsSignUp, signup, handleCheck, toasts, setToasts },
+        store: { loading, setLoading, setIsSignUp, signup, usernameCheck, toasts, setToasts },
     } = useContext(StoreContext)
 
     const nameFirstRef = useRef()
@@ -37,17 +37,18 @@ const SignUpComponent = () => {
         try {
             setLoading(true)
             const email = emailRef.current.value
-            const handle = await handleCheck(email)
+            const username = await usernameCheck(email)
             await signup(
-                nameFirstRef.current.value,
-                nameLastRef.current.value,
                 dobRef.current.value,
                 email,
-                handle,
-                passwordRef.current.value
+                nameFirstRef.current.value,
+                nameLastRef.current.value,
+                passwordRef.current.value,
+                '',
+                username
             )
             setIsSignUp(true)
-            history.push(`/${handle}`)
+            history.push(`/${username}`)
         } catch (catchError) {
             const catchErrorMessage = catchError.message
                 .replace(/.*\/((.*)\))/gi, '$2')
