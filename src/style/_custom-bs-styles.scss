@@ -1,0 +1,27 @@
+// a couple of complementary bootstrap style
+.bg-extra-light-gray,
+.bg-extra-light-gray-hover,
+.bg-extra-extra-light-gray,
+.bg-extra-extra-light-gray-hover {
+    @include transition();
+}
+
+.bg-extra-light-gray {
+    background: $extra-light-gray;
+}
+
+.bg-extra-light-gray-hover:hover {
+    background: $extra-light-gray;
+}
+
+.bg-extra-extra-light-gray {
+    background: $extra-extra-light-gray;
+}
+
+.bg-extra-extra-light-gray:hover {
+    background: $extra-extra-light-gray;
+}
+
+.curser-pointer {
+    cursor: pointer;
+}

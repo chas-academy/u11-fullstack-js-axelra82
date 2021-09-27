@@ -4,6 +4,7 @@
 @import 'mixins';
 @import 'typography';
 @import 'layout';
+@import 'custom-bs-styles';
 // import bootstrap last to make sure
 // theme custom variables are set
 @import '~bootstrap/scss/bootstrap';
