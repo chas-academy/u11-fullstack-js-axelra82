@@ -15,8 +15,8 @@ const SignInComponent = () => {
             signin,
             modalState,
             toggleModal,
-            setToasts,
             signout,
+            frebaseCatchError,
         },
     } = useContext(StoreContext)
 
@@ -26,10 +26,9 @@ const SignInComponent = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         try {
-            // setsubmitError('')
-            setLoading(true)
             await signin(emailRef.current.value, passwordRef.current.value)
             if (modalState) {
                 toggleModal()
@@ -37,16 +36,7 @@ const SignInComponent = () => {
                 history.push('/')
             }
         } catch (catchError) {
-            const catchErrorMessage = catchError.message.replace(/.*\/((.*)\))/gi, '$2')
-            setToasts((toasts) => [
-                ...toasts,
-                {
-                    header: 'Error',
-                    body: catchErrorMessage.replace(/-/gi, ' '),
-                    variant: 'danger',
-                    id: `signup-${catchErrorMessage}`,
-                },
-            ])
+            frebaseCatchError(catchError)
         }
 
         return setLoading(false)
