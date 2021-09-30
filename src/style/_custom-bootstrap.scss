@@ -25,3 +25,15 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.btn {
+    &.icon-white-hover {
+        svg {
+            fill: $white !important;
+        }
+
+        &:hover {
+            background: hsla(0, 0, 100, 0.1);
+        }
+    }
+}
