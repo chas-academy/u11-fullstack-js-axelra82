@@ -9,8 +9,13 @@ const LeftUserComponent = () => {
     const {
         store: { currentUser, signout },
     } = useContext(StoreContext)
-    const curreUserName = currentUser.name
-    const curreUserUsername = currentUser.username
+    const {
+        name: { first: firstName, last: lastName },
+        username,
+    } = currentUser
+
+    const currentUserName = `${firstName} ${lastName}`
+    const curreUserUsername = username
     const [isActive, setIsActive] = useState(false)
 
     const popoverActive = () => {
@@ -21,21 +26,21 @@ const LeftUserComponent = () => {
         return (
             <Row className="gx-3">
                 <Col xs={3}>
-                    <UserProfilePicture />
+                    <UserProfilePicture classes="w-100 h-auto" />
                 </Col>
                 <Col xs={8} className="d-flex flex-column">
                     <small>
-                        <strong>{curreUserName}</strong>
+                        <strong>{currentUserName}</strong>
                     </small>
                     <small className="text-muted lh-1">@{curreUserUsername}</small>
                 </Col>
                 {popover ? (
                     <Col xs={1} className="d-flex justify-content-center align-items-center p-0">
-                        <CheckmarkIcon />
+                        <CheckmarkIcon color="primary" size="fit-w" />
                     </Col>
                 ) : (
                     <Col xs={1} className="d-flex justify-content-center align-items-center p-0">
-                        <HorizontalDotsIcon />
+                        <HorizontalDotsIcon size="fit-w" />
                     </Col>
                 )}
             </Row>
