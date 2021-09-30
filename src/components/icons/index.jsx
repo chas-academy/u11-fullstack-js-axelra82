@@ -7,6 +7,9 @@ import SearchIcon from './search'
 import CheckmarkIcon from './checkmark'
 import HorizontalDotsIcon from './horizontal-dots'
 import CameraIcon from './camera'
+import CalendarIcon from './calendar'
+import BallonIcon from './balloon'
+import LinkIcon from './link'
 
 export {
     ArrowExternalIcon,
@@ -18,4 +21,7 @@ export {
     CheckmarkIcon,
     HorizontalDotsIcon,
     CameraIcon,
+    CalendarIcon,
+    BallonIcon,
+    LinkIcon,
 }
