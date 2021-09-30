@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import ArrowLeftIconComponent from '../icons/arrow-left'
+import ArrowLeftIcon from '../icons/arrow-left'
 import './style.scss'
 
 const PreviousPageComponent = () => {
@@ -30,7 +30,7 @@ const PreviousPageComponent = () => {
                 className="rounded-circle py-2 px-2 bg-light"
                 onClick={previousPage}
             >
-                <ArrowLeftIconComponent />
+                <ArrowLeftIcon classes="m-1" />
             </Button>
         </section>
     )
