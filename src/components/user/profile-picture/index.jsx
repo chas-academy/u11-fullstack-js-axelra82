@@ -1,22 +1,44 @@
+/* eslint-disable react/prop-types */
 import React, { useContext } from 'react'
-
+import Placeholder from './placeholder'
 import StoreContext from '../../../context/StoreContext'
 
-const UserProfilePictureComponent = () => {
+const UserProfilePictureComponent = ({
+    style = {},
+    classes = '',
+    isPreview = false,
+    previewSource = '',
+}) => {
     const {
         store: {
             currentUser: { username, profilePicture },
         },
     } = useContext(StoreContext)
 
-    return profilePicture ? (
-        <img className="rounded-circle w-100" src={profilePicture} alt={`${username}`} />
-    ) : (
-        <div
-            className="rounded-circle bg-extra-extra-light-gray border"
-            style={{ width: 40, height: 40 }}
-        />
-    )
+    const themeMatch = profilePicture.match(/theme.?[0-9]/gi)
+    const isTheme = themeMatch && themeMatch.length > 0
+    const theme = themeMatch && themeMatch[0]
+
+    const display = (source) => {
+        if (isTheme && !isPreview) {
+            return <Placeholder style={style} classes={`${theme} ${classes}`} username={username} />
+        }
+
+        return (
+            <img
+                className={`rounded-circle ${classes}`}
+                src={source}
+                alt={`${username}`}
+                style={style}
+            />
+        )
+    }
+
+    if (isPreview) {
+        return display(previewSource)
+    }
+
+    return display(profilePicture)
 }
 
 export default UserProfilePictureComponent

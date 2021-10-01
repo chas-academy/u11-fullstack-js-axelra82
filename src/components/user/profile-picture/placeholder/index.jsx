@@ -6,7 +6,7 @@ const ProfilePicturePlaceholderComponent = ({ style = {}, classes = '', username
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 40 40"
-            className={`profile-picture placeholder rounded-circle ${classes}`}
+            className={`profile-picture-placeholder rounded-circle ${classes}`}
             style={style}
         >
             <title>{username} placeholder profile picture</title>
