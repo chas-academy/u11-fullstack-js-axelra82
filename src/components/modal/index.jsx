@@ -1,5 +1,7 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useContext } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
+import { SaveButton, CancelButton } from './footer-buttons'
 import StoreContext from '../../context/StoreContext'
 
 const ModalComponent = () => {
@@ -26,17 +28,26 @@ const ModalComponent = () => {
                         <Modal.Footer>
                             {buttons.length &&
                                 buttons.map((button, index) => {
-                                    const { variant, text, action = null } = button
-                                    return (
-                                        <Button
-                                            // eslint-disable-next-line react/no-array-index-key
-                                            key={`modal-footer-button-${index}`}
-                                            variant={variant}
-                                            onClick={action}
-                                        >
-                                            {text}
-                                        </Button>
-                                    )
+                                    const { type, text } = button
+
+                                    switch (type) {
+                                        case 'save':
+                                            return (
+                                                <SaveButton
+                                                    key={`modal-footer-button-${index}`}
+                                                    text={text}
+                                                />
+                                            )
+                                        case 'cancel':
+                                            return (
+                                                <CancelButton
+                                                    key={`modal-footer-button-${index}`}
+                                                />
+                                            )
+
+                                        default:
+                                            return <></>
+                                    }
                                 })}
                         </Modal.Footer>
                     )}
