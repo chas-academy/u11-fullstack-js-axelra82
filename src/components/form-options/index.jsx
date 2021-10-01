@@ -23,7 +23,11 @@ const FormOptionsComponent = ({ options }) => {
             <small className="d-block w-100 text-center mt-1">
                 {message}{' '}
                 {modalState ? (
-                    <Button variant="link" onClick={() => closeModalRedirect(`/${route}`)}>
+                    <Button
+                        className="align-baseline"
+                        variant="link"
+                        onClick={() => closeModalRedirect(`/${route}`)}
+                    >
                         <small>{action}</small>
                     </Button>
                 ) : (
@@ -34,7 +38,11 @@ const FormOptionsComponent = ({ options }) => {
             <small className="d-block w-100 text-center mt-1">
                 Continue without an account?{' '}
                 {modalState ? (
-                    <Button variant="link" onClick={() => closeModalRedirect('/')}>
+                    <Button
+                        className="align-baseline"
+                        variant="link"
+                        onClick={() => closeModalRedirect('/')}
+                    >
                         <small>Browse</small>
                     </Button>
                 ) : (
