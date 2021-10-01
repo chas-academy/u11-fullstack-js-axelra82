@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useRef, useState, useContext } from 'react'
@@ -9,7 +10,7 @@ import StoreContext from '../../context/StoreContext'
 
 const SignUpComponent = () => {
     const {
-        store: { loading, setLoading, setIsSignUp, signup, usernameCheck, toasts, setToasts },
+        store: { loading, setLoading, signup, toastCatchError, usernameCheck },
     } = useContext(StoreContext)
 
     const nameFirstRef = useRef()
@@ -19,51 +20,37 @@ const SignUpComponent = () => {
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
     const history = useHistory()
+    const [dobTouch, setDobTouch] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
+        // make sure choosen password matches
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            setToasts([
-                ...toasts,
-                {
-                    header: 'Error',
-                    body: 'Passwords do not match',
-                    variant: 'danger',
-                },
-            ])
+            toastCatchError('Passwords do not match')
+        } else {
+            try {
+                const email = emailRef.current.value
+                // auto generate safe username from email
+                const username = await usernameCheck(email)
+                // create user
+                const response = await signup(
+                    dobRef.current.value,
+                    email,
+                    username,
+                    nameFirstRef.current.value,
+                    nameLastRef.current.value,
+                    passwordRef.current.value
+                )
+                // reroute to user page with state isNew true to identify new sign up
+                history.push({ pathname: `/${username}`, state: { isNew: response.isNewUser } })
+            } catch (catchError) {
+                toastCatchError(catchError)
+            }
         }
 
-        try {
-            setLoading(true)
-            const email = emailRef.current.value
-            const username = await usernameCheck(email)
-            await signup(
-                dobRef.current.value,
-                email,
-                nameFirstRef.current.value,
-                nameLastRef.current.value,
-                passwordRef.current.value,
-                '',
-                username
-            )
-            setIsSignUp(true)
-            history.push(`/${username}`)
-        } catch (catchError) {
-            const catchErrorMessage = catchError.message
-                .replace(/.*\/((.*)\))/gi, '$2')
-                .replace(/-/gi, ' ')
-            setToasts([
-                ...toasts,
-                {
-                    header: 'Error',
-                    body: catchErrorMessage,
-                    variant: 'danger',
-                },
-            ])
-        }
-
-        return setLoading(false)
+        setLoading(false)
     }
 
     return (
@@ -94,7 +81,26 @@ const SignUpComponent = () => {
 
                 <Form.Group id="dob" className="mt-1">
                     <Form.Label className="text-muted">Date of birth</Form.Label>
-                    <Form.Control type="date" required ref={dobRef} />
+                    <Form.Control
+                        type="text"
+                        placeholder="year-month-day"
+                        required
+                        ref={dobRef}
+                        onKeyPress={() => setDobTouch(true)}
+                        onFocus={(e) => {
+                            const { target } = e
+                            target.type = 'date'
+                            target.defaultValue = '1980-01-01'
+                        }}
+                        onBlur={(e) => {
+                            const { target } = e
+                            if (!dobTouch) {
+                                target.type = 'text'
+                                target.defaultValue = ''
+                                target.placeholder = 'year-month-day'
+                            }
+                        }}
+                    />
                 </Form.Group>
 
                 <Form.Group id="email" className="mt-1">
