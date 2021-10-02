@@ -37,3 +37,8 @@
         }
     }
 }
+
+// ios viewport height fix
+.vh-100 {
+    min-height: -webkit-fill-available !important;
+}
