@@ -5,14 +5,17 @@ import { Button } from 'react-bootstrap'
 import UserProfilePicture from '../../profile-picture'
 import { CameraIcon } from '../../../icons'
 import { imageFunctions } from '../../../../helper-functions'
+import { updateProfilePicture } from '../../../../helper-functions/firebase'
 import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateProfilePictureComponent = ({
     props: { fileInputRef, hasChange, setHasChange, setUploadSource },
 }) => {
     const {
-        store: { toastCatchError },
+        store: { auth, db, storage, currentUser, toastCatchError },
     } = useContext(StoreContext)
+
+    const { username } = currentUser
     const { imageResize } = imageFunctions
 
     const [isPreviewImage, setIsPreviewImage] = useState(false)
@@ -60,7 +63,7 @@ const ProfileUpdateProfilePictureComponent = ({
                 setPreviewSource(await blobToBase64())
                 setUploadSource(resizedImage)
 
-                // updateProfilePicture(username, resizedImage, fileType)
+                updateProfilePicture(auth, db, storage, username, resizedImage, fileType)
             }
         } else {
             toastCatchError('There are no files')
@@ -71,10 +74,9 @@ const ProfileUpdateProfilePictureComponent = ({
         <section className="position-relative d-inline-block bg-black rounded-circle">
             <UserProfilePicture
                 style={{
-                    width: 128,
-                    height: 128,
                     opacity: 0.75,
                 }}
+                classes="w-100"
                 isPreview={isPreviewImage}
                 previewSource={previewSource}
             />

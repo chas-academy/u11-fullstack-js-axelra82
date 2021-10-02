@@ -1,18 +1,39 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Row, Form, Button } from 'react-bootstrap'
+import { displayFunctions, firebaseFunctions } from '../../../../helper-functions'
 import StoreContext from '../../../../context/StoreContext'
 
 const DeleteAccountComponent = ({
     props: { showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef },
 }) => {
     const {
-        store: { deleteProfile },
+        store: { auth, db, storage, modalState, setModalState, setModalContent, toasts, setToasts },
     } = useContext(StoreContext)
 
-    const handleDeleteAccount = async () => {
-        if (showDeletePrompt && deleteConfirmPasswordRef.current.value) {
-            deleteProfile(deleteConfirmPasswordRef.current.value)
+    const history = useHistory()
+
+    const { toggleModal, toastCatchError } = displayFunctions
+    const { deleteProfile } = firebaseFunctions
+
+    const handleDeleteAccount = () => {
+        const passwordConfirm = deleteConfirmPasswordRef.current.value
+        if (showDeletePrompt && passwordConfirm) {
+            deleteProfile(
+                auth,
+                db,
+                storage,
+                passwordConfirm,
+                history,
+                toggleModal,
+                modalState,
+                setModalState,
+                setModalContent,
+                toasts,
+                setToasts,
+                toastCatchError
+            )
         }
     }
 

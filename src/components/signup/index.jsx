@@ -1,17 +1,19 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useRef, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Form, Button, Card, Alert, Row, Col } from 'react-bootstrap'
-import PreviousPage from '../previous-page'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormOptions from '../form-options'
+import { displayFunctions, firebaseFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
 const SignUpComponent = () => {
     const {
-        store: { loading, setLoading, signup, toastCatchError, usernameCheck },
+        store: { auth, db, loading, setLoading, toasts, setToasts },
     } = useContext(StoreContext)
+
+    const { toastCatchError } = displayFunctions
+    const { signup, usernameCheck } = firebaseFunctions
 
     const nameFirstRef = useRef()
     const nameLastRef = useRef()
@@ -28,14 +30,18 @@ const SignUpComponent = () => {
 
         // make sure choosen password matches
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            toastCatchError('Passwords do not match')
+            toastCatchError(toasts, setToasts, 'Passwords do not match')
         } else {
             try {
                 const email = emailRef.current.value
+
                 // auto generate safe username from email
-                const username = await usernameCheck(email)
+                const username = await usernameCheck(db, email)
+
                 // create user
                 const response = await signup(
+                    db,
+                    auth,
                     dobRef.current.value,
                     email,
                     username,
@@ -45,8 +51,8 @@ const SignUpComponent = () => {
                 )
                 // reroute to user page with state isNew true to identify new sign up
                 history.push({ pathname: `/${username}`, state: { isNew: response.isNewUser } })
-            } catch (catchError) {
-                toastCatchError(catchError)
+            } catch (errorMessage) {
+                toastCatchError(toasts, setToasts, errorMessage)
             }
         }
 

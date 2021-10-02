@@ -1,18 +1,24 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Row, Col, Popover, OverlayTrigger, Button } from 'react-bootstrap'
 import UserProfilePicture from '../../../components/user/profile-picture'
 import { CheckmarkIcon, HorizontalDotsIcon } from '../../../components/icons'
+import { firebaseFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
 const LeftUserComponent = () => {
     const {
-        store: { currentUser, signout },
+        store: { auth, currentUser },
     } = useContext(StoreContext)
+
     const {
         name: { first: firstName, last: lastName },
         username,
     } = currentUser
+
+    const history = useHistory()
+    const { signout } = firebaseFunctions
 
     const currentUserName = `${firstName} ${lastName}`
     const curreUserUsername = username
@@ -54,7 +60,7 @@ const LeftUserComponent = () => {
             </Popover.Body>
             <div className="border-bottom" />
             <Button
-                onClick={() => signout()}
+                onClick={() => signout(auth, history)}
                 className="my-2 px-3 py-2 w-100 text-start bg-extra-light-gray-hover rounded-0 text-black"
                 variant="link"
             >

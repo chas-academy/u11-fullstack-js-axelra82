@@ -1,24 +1,27 @@
-/* eslint-disable no-console */
 import React, { useRef, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-
+import { displayFunctions, firebaseFunctions } from '../../helper-functions'
 import FormOptions from '../form-options'
 import StoreContext from '../../context/StoreContext'
 
 const SignInComponent = () => {
     const {
         store: {
+            auth,
             loading,
             setLoading,
             currentUser,
-            signin,
             modalState,
-            toggleModal,
-            signout,
-            frebaseCatchError,
+            setModalState,
+            setModalContent,
+            toasts,
+            setToasts,
         },
     } = useContext(StoreContext)
+
+    const { toggleModal, toastCatchError } = displayFunctions
+    const { signin, signout } = firebaseFunctions
 
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -29,14 +32,14 @@ const SignInComponent = () => {
         setLoading(true)
 
         try {
-            await signin(emailRef.current.value, passwordRef.current.value)
+            await signin(auth, emailRef.current.value, passwordRef.current.value)
             if (modalState) {
-                toggleModal()
+                toggleModal(modalState, setModalState, setModalContent)
             } else {
                 history.push('/')
             }
-        } catch (catchError) {
-            frebaseCatchError(catchError)
+        } catch (errorMessage) {
+            toastCatchError(toasts, setToasts, errorMessage)
         }
 
         return setLoading(false)

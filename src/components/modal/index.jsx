@@ -2,20 +2,27 @@
 import React, { useContext } from 'react'
 import { Modal } from 'react-bootstrap'
 import { SaveButton, CancelButton } from './footer-buttons'
+import { displayFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
 const ModalComponent = () => {
     const {
-        store: { modalState, toggleModal, modalContent },
+        store: { modalState, setModalState, modalContent, setModalContent },
     } = useContext(StoreContext)
 
+    const { toggleModal } = displayFunctions
     const { classes, header, body, footer } = modalContent
     const { show: showHeader, title, content: headerContent } = header
     const { show: showFooter, buttons } = footer
 
     return (
         <>
-            <Modal show={modalState} onHide={toggleModal} centered fullscreen="md-down">
+            <Modal
+                show={modalState}
+                onHide={() => toggleModal(modalState, setModalState, setModalContent)}
+                centered
+                fullscreen="md-down"
+            >
                 <span className={classes}>
                     {showHeader && (
                         <Modal.Header closeButton>

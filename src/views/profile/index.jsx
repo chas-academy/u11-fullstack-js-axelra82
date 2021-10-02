@@ -1,36 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect, useRef } from 'react'
-import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { Row, Col, Button, Card, CloseButton } from 'react-bootstrap'
 import { CalendarIcon, BallonIcon, LinkIcon } from '../../components/icons'
+import UserProfilePicture from '../../components/user/profile-picture'
 import UpdateUserProfile from '../../components/user/update'
 import LoadingComponent from '../../components/loading'
+import {
+    firebaseFunctions,
+    dateFunctions,
+    displayFunctions,
+    regexFunctions,
+} from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
 const ProfileView = () => {
     const {
         store: {
+            db,
+            locationState,
             loading,
             setLoading,
-            formatDateString,
             currentUser,
-            toggleModal,
             modalContent,
+            modalState,
+            setModalState,
             setModalContent,
-            getProfileData,
-            urlReplace,
         },
     } = useContext(StoreContext)
 
+    const { toggleModal } = displayFunctions
+    const { formatDateString } = dateFunctions
+    const { getProfileData } = firebaseFunctions
+    const { urlReplace } = regexFunctions
+
     const history = useHistory()
     const { username } = useParams()
-    const location = useLocation()
-    const { state: locationState } = location
 
     const [publicData, setPublicData] = useState()
     const [isNew, setIsNew] = useState(false)
     const [showWelcome, setShowWelcome] = useState(false)
+    const [profileUpdateAction, setProfileUpdateAction] = useState()
 
     const welcomeRef = useRef()
 
@@ -50,6 +60,8 @@ const ProfileView = () => {
                             <Card className="position-relative bg-light mb-3" ref={welcomeRef}>
                                 <Card.Body>
                                     <CloseButton
+                                        className="position-absolute top-0 end-0 m-2"
+                                        style={{ zIndex: 9999 }}
                                         onClick={() => {
                                             setShowWelcome(false)
                                             welcomeRef.current.remove()
@@ -66,7 +78,7 @@ const ProfileView = () => {
                                 </Card.Body>
                             </Card>
                         )}
-                        <UpdateUserProfile profileData={publicData} />
+                        <UpdateUserProfile setProfileUpdateAction={setProfileUpdateAction} />
                     </>
                 ),
                 footer: {
@@ -74,12 +86,16 @@ const ProfileView = () => {
                     show: true,
                     buttons: [
                         {
+                            type: 'cancel',
+                        },
+                        {
+                            type: 'save',
                             text: 'update',
                         },
                     ],
                 },
             })
-            toggleModal()
+            toggleModal(modalState, setModalState, setModalContent)
         }
     }
 
@@ -100,7 +116,7 @@ const ProfileView = () => {
         }
 
         const getUserData = async () => {
-            const publicProfileData = await getProfileData(username)
+            const publicProfileData = await getProfileData(db, username)
             if (publicProfileData) {
                 setPublicData(publicProfileData)
             } else {
@@ -112,6 +128,10 @@ const ProfileView = () => {
         setLoading(false)
     }, [isNew])
 
+    useEffect(() => {
+        console.log(profileUpdateAction)
+    }, [profileUpdateAction])
+
     return (
         <>
             {loading ? (
@@ -119,6 +139,7 @@ const ProfileView = () => {
             ) : (
                 publicData && (
                     <article className="p-3">
+                        <UserProfilePicture classes="mb-3" />
                         <Row>
                             <Col>
                                 <p className="fs-5 lh-1 mb-0">

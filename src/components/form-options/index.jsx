@@ -2,19 +2,22 @@
 import React, { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import { displayFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
 const FormOptionsComponent = ({ options }) => {
     const {
-        store: { modalState, toggleModal },
+        store: { modalState, setModalState, setModalContent },
     } = useContext(StoreContext)
+
+    const { toggleModal } = displayFunctions
 
     const history = useHistory()
 
     const { action = '', route = '', message = '' } = options
 
     const closeModalRedirect = (reroute) => {
-        toggleModal()
+        toggleModal(modalState, setModalState, setModalContent)
         history.push(reroute)
     }
 
