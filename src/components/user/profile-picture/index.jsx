@@ -21,7 +21,13 @@ const UserProfilePictureComponent = ({
 
     const display = (source) => {
         if (isTheme && !isPreview) {
-            return <Placeholder style={style} classes={`${theme} ${classes}`} username={username} />
+            return (
+                <Placeholder
+                    style={{ ...style, maxWidth: 128, maxHeight: 128 }}
+                    classes={`${theme} ${classes}`}
+                    username={username}
+                />
+            )
         }
 
         return (
