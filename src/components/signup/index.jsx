@@ -49,8 +49,10 @@ const SignUpComponent = () => {
                     nameLastRef.current.value,
                     passwordRef.current.value
                 )
+
+                const { isNewUser } = response
                 // reroute to user page with state isNew true to identify new sign up
-                history.push({ pathname: `/${username}`, state: { isNew: response.isNewUser } })
+                history.push({ pathname: `/${username}`, state: { isNew: isNewUser } })
             } catch (errorMessage) {
                 toastCatchError(toasts, setToasts, errorMessage)
             }
