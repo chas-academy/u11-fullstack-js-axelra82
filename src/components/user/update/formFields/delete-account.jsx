@@ -38,7 +38,7 @@ const DeleteAccountComponent = ({
     }
 
     return (
-        <Row className="border-top mt-3">
+        <Row className="border-top border-bottom my-3 pb-3">
             <Button
                 className="text-danger mt-3"
                 variant="link"

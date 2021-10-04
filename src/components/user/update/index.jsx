@@ -290,6 +290,10 @@ const UpdateUserProfileComponent = () => {
             <DeleteAccountFieldComponent
                 props={{ showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
             />
+
+            <small className="d-block text-muted text-center">
+                <strong>NOTE!</strong> Reload page after update to see changes
+            </small>
         </>
     )
 }
