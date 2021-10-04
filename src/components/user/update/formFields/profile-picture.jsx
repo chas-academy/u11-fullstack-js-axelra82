@@ -5,17 +5,15 @@ import { Button } from 'react-bootstrap'
 import UserProfilePicture from '../../profile-picture'
 import { CameraIcon } from '../../../icons'
 import { imageFunctions } from '../../../../helper-functions'
-import { updateProfilePicture } from '../../../../helper-functions/firebase'
 import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateProfilePictureComponent = ({
     props: { fileInputRef, hasChange, setHasChange, setUploadSource },
 }) => {
     const {
-        store: { auth, db, storage, currentUser, toastCatchError },
+        store: { toastCatchError },
     } = useContext(StoreContext)
 
-    const { username } = currentUser
     const { imageResize } = imageFunctions
 
     const [isPreviewImage, setIsPreviewImage] = useState(false)
@@ -25,10 +23,10 @@ const ProfileUpdateProfilePictureComponent = ({
         fileInputRef.current.click()
     }
 
-    const handleFileChange = async (input) => {
+    const handleFileChange = async () => {
         const {
             current: { files },
-        } = input
+        } = fileInputRef
 
         // make sure files exist
         if (files && files.length) {
@@ -48,9 +46,6 @@ const ProfileUpdateProfilePictureComponent = ({
             } else if (!allowedTypes.includes(fileType)) {
                 toastCatchError('Accepted file types are: jpg and png')
             } else {
-                if (!hasChange) {
-                    setHasChange(true)
-                }
                 const resizedImage = await imageResize(imageFile)
                 const blobToBase64 = () => {
                     return new Promise((resolve) => {
@@ -59,11 +54,14 @@ const ProfileUpdateProfilePictureComponent = ({
                         reader.readAsDataURL(resizedImage)
                     })
                 }
+
                 setIsPreviewImage(true)
                 setPreviewSource(await blobToBase64())
-                setUploadSource(resizedImage)
+                setUploadSource({ source: resizedImage, type: fileType })
 
-                updateProfilePicture(auth, db, storage, username, resizedImage, fileType)
+                if (!hasChange) {
+                    setHasChange(true)
+                }
             }
         } else {
             toastCatchError('There are no files')
@@ -93,7 +91,7 @@ const ProfileUpdateProfilePictureComponent = ({
                 type="file"
                 className="d-none"
                 accept="image/*"
-                onChange={() => handleFileChange(fileInputRef)}
+                onChange={() => handleFileChange()}
             />
         </section>
     )
