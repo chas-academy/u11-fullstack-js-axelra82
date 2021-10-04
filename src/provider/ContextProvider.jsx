@@ -16,7 +16,7 @@ const StoreContext = ({ children }) => {
     const { defaultModalContent, toastCatchError } = displayFunctions
     const { getCurrentUserDbEntry } = firebaseFunctions
     const location = useLocation()
-    const { state: locationState } = location
+    const { pathname } = location
 
     // global states
     const [currentUser, setCurrentUser] = useState()
@@ -43,23 +43,17 @@ const StoreContext = ({ children }) => {
 
     useEffect(() => {
         setLoading(true)
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                getCurrentUserDbEntry(
-                    db,
-                    user,
-                    setCurrentUser,
-                    locationState,
-                    toastCatchError,
-                    toasts,
-                    setToasts
-                )
+        onAuthStateChanged(auth, (user) => {
+            // signup signs in user
+            // so we have to exclude that path
+            if (user && pathname !== '/signup') {
+                getCurrentUserDbEntry(db, user, setCurrentUser, toastCatchError, toasts, setToasts)
             } else {
                 setCurrentUser(user)
             }
+            setLoading(false)
         })
-        setLoading(false)
-    }, [])
+    }, [currentUser])
 
     // store is passed to context provider
     const store = {
@@ -67,6 +61,7 @@ const StoreContext = ({ children }) => {
         db,
         storage,
         currentUser,
+        setCurrentUser,
         loading,
         setLoading,
         toasts,
