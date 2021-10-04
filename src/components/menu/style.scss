@@ -1,0 +1,24 @@
+@import '../../style/colors';
+@import '../../style/mixins';
+
+#menu {
+    ul {
+        li {
+            a {
+                &.nav-selected span {
+                    font-weight: 700;
+                }
+
+                .menu-button {
+                    @include transition();
+                }
+
+                &:hover {
+                    .menu-button {
+                        background: $extra-light-gray;
+                    }
+                }
+            }
+        }
+    }
+}
