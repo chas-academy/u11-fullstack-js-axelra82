@@ -2,6 +2,7 @@ import React, { useRef, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { displayFunctions, firebaseFunctions } from '../../helper-functions'
+import ResetPassword from '../reset-password'
 import FormOptions from '../form-options'
 import StoreContext from '../../context/StoreContext'
 
@@ -68,6 +69,7 @@ const SignInComponent = () => {
                         aria-placeholder="minimum 6 character"
                     />
                 </Form.Group>
+                <ResetPassword />
                 <Button disabled={loading} className="w-100 mt-3" type="submit">
                     Sign In
                 </Button>
