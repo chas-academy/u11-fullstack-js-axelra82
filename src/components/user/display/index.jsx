@@ -38,7 +38,6 @@ const ProfileDisplayComponent = ({ userData }) => {
         if (currentUser) {
             setModalContent({
                 ...modalContent,
-                classes: 'max-h-600 overflow-y-scroll',
                 header: {
                     ...modalContent.header,
                     show: true,
