@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container, Row } from 'react-bootstrap'
-import LeftComponent from '../left'
+import HeaderComponent from '../header'
 import MiddleComponent from '../middle'
 import BottomComponent from '../bottom'
 
 const AppComponent = () => {
     return (
-        <Container as="main" fluid="xl">
+        <Container fluid="xl">
             <Row as="section">
-                <LeftComponent />
+                <HeaderComponent />
                 <MiddleComponent />
             </Row>
             <Row as="section">
