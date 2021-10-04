@@ -4,13 +4,16 @@ import { NavLink } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { HomeIcon, MessagesIcon, ProfileIcon } from '../../../components/icons'
 import SignInComponent from '../../../components/signin'
+import { displayFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 import './style.scss'
 
 const LeftMenuComponent = () => {
     const {
-        store: { currentUser, toggleModal, modalContent, setModalContent },
+        store: { currentUser, modalState, setModalState, modalContent, setModalContent },
     } = useContext(StoreContext)
+
+    const { toggleModal } = displayFunctions
 
     const showSignIn = () => {
         setModalContent({
@@ -25,7 +28,7 @@ const LeftMenuComponent = () => {
                 ...modalContent.footer,
             },
         })
-        toggleModal()
+        toggleModal(modalState, setModalState, setModalContent)
     }
 
     return (
@@ -51,13 +54,13 @@ const LeftMenuComponent = () => {
                         </li>
                         <li>
                             <NavLink
-                                to={`/${currentUser.handle}`}
+                                to={`/${currentUser.username}`}
                                 activeClassName="left-nav-selected"
                             >
                                 <span className="left-panel-menu-button">
                                     <ProfileIcon
                                         size="large"
-                                        path={`/${currentUser.handle}`}
+                                        path={`/${currentUser.username}`}
                                         classes="me-3"
                                     />
                                     Profile
@@ -71,9 +74,6 @@ const LeftMenuComponent = () => {
                 ) : (
                     <>
                         <li className="d-grid">
-                            {/* <Link to="/signin">
-                                <span className="left-panel-menu-button">Sign in</span>
-                            </Link> */}
                             <Button className="rounded-pill py-2 m-2" onClick={showSignIn}>
                                 Sign In
                             </Button>

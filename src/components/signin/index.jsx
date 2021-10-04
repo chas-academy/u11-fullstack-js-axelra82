@@ -1,24 +1,28 @@
-/* eslint-disable no-console */
 import React, { useRef, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-
+import { displayFunctions, firebaseFunctions } from '../../helper-functions'
+import ResetPassword from '../reset-password'
 import FormOptions from '../form-options'
 import StoreContext from '../../context/StoreContext'
 
 const SignInComponent = () => {
     const {
         store: {
+            auth,
             loading,
             setLoading,
             currentUser,
-            signin,
             modalState,
-            toggleModal,
+            setModalState,
+            setModalContent,
+            toasts,
             setToasts,
-            signout,
         },
     } = useContext(StoreContext)
+
+    const { toggleModal, toastCatchError } = displayFunctions
+    const { signin, signout } = firebaseFunctions
 
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -26,27 +30,17 @@ const SignInComponent = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         try {
-            // setsubmitError('')
-            setLoading(true)
-            await signin(emailRef.current.value, passwordRef.current.value)
+            await signin(auth, emailRef.current.value, passwordRef.current.value)
             if (modalState) {
-                toggleModal()
+                toggleModal(modalState, setModalState, setModalContent)
             } else {
                 history.push('/')
             }
-        } catch (catchError) {
-            const catchErrorMessage = catchError.message.replace(/.*\/((.*)\))/gi, '$2')
-            setToasts((toasts) => [
-                ...toasts,
-                {
-                    header: 'Error',
-                    body: catchErrorMessage.replace(/-/gi, ' '),
-                    variant: 'danger',
-                    id: `signup-${catchErrorMessage}`,
-                },
-            ])
+        } catch (errorMessage) {
+            toastCatchError(toasts, setToasts, errorMessage)
         }
 
         return setLoading(false)
@@ -75,6 +69,7 @@ const SignInComponent = () => {
                         aria-placeholder="minimum 6 character"
                     />
                 </Form.Group>
+                <ResetPassword />
                 <Button disabled={loading} className="w-100 mt-3" type="submit">
                     Sign In
                 </Button>

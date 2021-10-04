@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import BaseIconComponent from '../base'
 
-// eslint-disable-next-line react/prop-types
-const HomeIconComponent = ({ size = '', classes = '' }) => {
+const HomeIconComponent = ({ color = '', classes = '', size = '' }) => {
     const location = useLocation()
     const { pathname } = location
 
@@ -17,7 +17,7 @@ const HomeIconComponent = ({ size = '', classes = '' }) => {
             </>
         )
 
-    return <BaseIconComponent graphic={graphic} color="black" size={size} classes={classes} />
+    return <BaseIconComponent graphic={graphic} color={color} classes={classes} size={size} />
 }
 
 export default HomeIconComponent

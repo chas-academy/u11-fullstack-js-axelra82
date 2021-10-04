@@ -1,57 +1,33 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // hook based store
 // pass detached states
 
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { initializeApp } from 'firebase/app'
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    updateProfile,
-} from 'firebase/auth'
-import {
-    getFirestore,
-    query,
-    where,
-    collection,
-    doc,
-    getDocs,
-    getDoc,
-    setDoc,
-    Timestamp,
-} from 'firebase/firestore'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
+import { displayFunctions, firebaseFunctions } from '../helper-functions'
 import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
-    const defaultModalContent = {
-        header: { show: false, title: '', content: '' },
-        body: '',
-        footer: { show: false, buttons: [] },
-    }
+    const { defaultModalContent, toastCatchError } = displayFunctions
+    const { getCurrentUserDbEntry } = firebaseFunctions
+    const location = useLocation()
+    const { pathname } = location
 
-    const history = useHistory()
+    // global states
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
     const [toasts, setToasts] = useState([])
     const [modalState, setModalState] = useState(false)
-    const [isSignUp, setIsSignUp] = useState(false)
     const [modalContent, setModalContent] = useState(defaultModalContent)
+    const [isSaveButtonDisabled, setISaveButtonDisabled] = useState(true)
+    const [saveButtonAction, setSaveButtonAction] = useState(() => {})
 
-    const toggleModal = () => {
-        setModalState(!modalState)
-        // use timeout to make content transition more pleasing
-        setTimeout(() => {
-            // we need to reset the modal content for future use
-            // eslint-disable-next-line no-unused-expressions
-            modalState && setModalContent(defaultModalContent)
-        }, 350)
-    }
-
+    // initialize firebase app
     const app = initializeApp({
         apiKey: process.env.REACT_APP_API_KEY,
         authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -60,134 +36,32 @@ const StoreContext = ({ children }) => {
         messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
         appId: process.env.REACT_APP_APP_ID,
     })
-
+    // create global auth and db variables
     const auth = getAuth()
     const db = getFirestore(app)
-
-    const handleLookUp = (table, userHandle) => {
-        // look for users where handle matches
-        const getTable = collection(db, table)
-        const handleMatch = query(getTable, where('handle', '==', userHandle))
-        return getDocs(handleMatch)
-    }
-
-    // always make sure handle is unique
-    const handleCheck = async (string) => {
-        // make sure string only contains lower, uppercase letters and numbers
-        let safeHandle = string.replace(/([a-zA-Z0-9]+)[^a-zA-Z0-9@]*(@.*)?/gi, '$1').toLowerCase()
-
-        const querySnapshot = await handleLookUp('users', safeHandle)
-
-        if (querySnapshot.docs.length > 0) {
-            querySnapshot.forEach((docMatch) => {
-                const docMatchData = docMatch.data()
-                const docMatchHandle = docMatchData.handle
-
-                // look for trailing numbers in existing handle
-                const numberedHandle = docMatchHandle.match(/\d+$/gi)
-                if (numberedHandle) {
-                    // handle has trailing number increment by 1
-                    const handleNumber = parseInt(numberedHandle[0], 10) + 1
-                    safeHandle = safeHandle.replace(/([a-z])\d+$/gi, `$1${handleNumber}`)
-                } else {
-                    // handle does not have trailing number initialize trailing handle number with 1
-                    safeHandle = `${safeHandle}1`
-                }
-            })
-        }
-
-        return safeHandle
-    }
-
-    const signup = async (nameFirst, nameLast, dob, email, handle, password) => {
-        await createUserWithEmailAndPassword(auth, email, password)
-        await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
-        await setDoc(doc(db, 'users', auth.currentUser.uid), {
-            bio: '',
-            dob: Timestamp.fromDate(new Date(dob)),
-            email,
-            website: '',
-            name: { first: nameFirst, last: nameLast },
-            handle,
-            user_type: doc(db, 'user_types', 'registered'),
-        })
-    }
-
-    const signin = (email, password) => {
-        return signInWithEmailAndPassword(auth, email, password)
-    }
-
-    const signout = () => {
-        auth.signOut()
-        history.push('/signin')
-    }
-
-    const resetPassword = (email) => {
-        return auth.sendPasswordResetEmail(email)
-    }
-
-    const updatePassword = (password) => {
-        return currentUser.updatePassword(password)
-    }
-
-    const getPublicProfile = async (publicProfileHandle) => {
-        setLoading(true)
-
-        let publicProfile = null
-        const querySnapshot = await handleLookUp('users', publicProfileHandle)
-
-        if (querySnapshot.docs.length > 0) {
-            querySnapshot.forEach((docMatch) => {
-                publicProfile = docMatch.data()
-            })
-        }
-
-        setLoading(false)
-
-        return publicProfile
-    }
+    const storage = getStorage()
 
     useEffect(() => {
         setLoading(true)
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userDbDoc = doc(db, 'users', user.uid)
-                const userDoc = await getDoc(userDbDoc)
-
-                if (userDoc.exists()) {
-                    const userData = userDoc.data()
-                    const {
-                        bio,
-                        dob,
-                        email,
-                        handle,
-                        website,
-                        name: { first, last },
-                    } = userData
-
-                    setCurrentUser({
-                        bio,
-                        dob,
-                        email,
-                        handle,
-                        website,
-                        name: `${first} ${last}`,
-                    })
-                } else {
-                    // eslint-disable-next-line no-alert, no-undef
-                    alert(
-                        'Could not find user in database. Please reload page. If the problem persists please contact site administrator'
-                    )
-                }
+        onAuthStateChanged(auth, (user) => {
+            // signup signs in user
+            // so we have to exclude that path
+            if (user && pathname !== '/signup') {
+                getCurrentUserDbEntry(db, user, setCurrentUser, toastCatchError, toasts, setToasts)
             } else {
                 setCurrentUser(user)
             }
+            setLoading(false)
         })
-        setLoading(false)
     }, [])
 
     // store is passed to context provider
     const store = {
+        auth,
+        db,
+        storage,
+        currentUser,
+        setCurrentUser,
         loading,
         setLoading,
         toasts,
@@ -196,17 +70,10 @@ const StoreContext = ({ children }) => {
         setModalState,
         modalContent,
         setModalContent,
-        toggleModal,
-        isSignUp,
-        setIsSignUp,
-        currentUser,
-        handleCheck,
-        signup,
-        signin,
-        signout,
-        resetPassword,
-        updatePassword,
-        getPublicProfile,
+        isSaveButtonDisabled,
+        setISaveButtonDisabled,
+        saveButtonAction,
+        setSaveButtonAction,
     }
 
     return <Context.Provider value={{ store }}>{children}</Context.Provider>

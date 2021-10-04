@@ -1,0 +1,48 @@
+svg {
+    // custom icon default size
+    &.custom-icon {
+        width: 1rem;
+        height: 1rem;
+
+        &.icon-fit-w {
+            width: 100%;
+            height: auto;
+        }
+
+        &.icon-fit-h {
+            width: auto;
+            height: 100%;
+        }
+
+        &.icon-medium {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        &.icon-large {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        &.icon-extra-large {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        // icon colors
+        &.fill-primary {
+            fill: $primary !important;
+        }
+
+        &.fill-white {
+            fill: $white !important;
+        }
+
+        &.fill-black {
+            fill: $black !important;
+        }
+        &.fill-muted {
+            fill: $muted !important;
+        }
+    }
+}

@@ -7,7 +7,7 @@ import Emoji from '../../components/emoji'
 const NotFound = () => {
     return (
         <Container className="d-flex w-100 mt-5 align-content-center justify-content-center">
-            <Card as="article" className="card-max-550">
+            <Card as="article" className="max-w-550">
                 <PreviousPage classes="mt-1" />
                 <Card.Body>
                     <h1>

@@ -27,7 +27,7 @@ const PageRoutes = () => {
             <Route exact path="/terms" component={TermsOfServicePage} />
             <Route exact path="/integrity-policy" component={IntegrityPloicyPage} />
             <Route exact path="/cookie-policy" component={CookiePolicyPage} />
-            <Route exact path="/:handle" component={AppComponent} />
+            <Route exact path="/:username" component={AppComponent} />
             <Route component={state === '404' ? NotFound : AppComponent} />
         </Switch>
     )

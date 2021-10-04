@@ -9,7 +9,7 @@ const BottomComponent = () => {
     return (
         <aside id="bottom-panel">
             <Button className="position-absolute py-2 px-2 rounded-circle">
-                <PostIcon />
+                <PostIcon color="white" size="extra-large" classes="m-2" />
             </Button>
             <BottomMenuComponent />
         </aside>

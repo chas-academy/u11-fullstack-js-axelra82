@@ -2,19 +2,22 @@
 import React, { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import { displayFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
 const FormOptionsComponent = ({ options }) => {
     const {
-        store: { modalState, toggleModal },
+        store: { modalState, setModalState, setModalContent },
     } = useContext(StoreContext)
+
+    const { toggleModal } = displayFunctions
 
     const history = useHistory()
 
     const { action = '', route = '', message = '' } = options
 
     const closeModalRedirect = (reroute) => {
-        toggleModal()
+        toggleModal(modalState, setModalState, setModalContent)
         history.push(reroute)
     }
 
@@ -23,7 +26,11 @@ const FormOptionsComponent = ({ options }) => {
             <small className="d-block w-100 text-center mt-1">
                 {message}{' '}
                 {modalState ? (
-                    <Button variant="link" onClick={() => closeModalRedirect(`/${route}`)}>
+                    <Button
+                        className="align-baseline"
+                        variant="link"
+                        onClick={() => closeModalRedirect(`/${route}`)}
+                    >
                         <small>{action}</small>
                     </Button>
                 ) : (
@@ -34,7 +41,11 @@ const FormOptionsComponent = ({ options }) => {
             <small className="d-block w-100 text-center mt-1">
                 Continue without an account?{' '}
                 {modalState ? (
-                    <Button variant="link" onClick={() => closeModalRedirect('/')}>
+                    <Button
+                        className="align-baseline"
+                        variant="link"
+                        onClick={() => closeModalRedirect('/')}
+                    >
                         <small>Browse</small>
                     </Button>
                 ) : (

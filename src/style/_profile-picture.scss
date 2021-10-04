@@ -1,0 +1,77 @@
+// themes for profile picture placeholder vector graphic
+.profile-picture-placeholder {
+    &.theme1 {
+        .fill1 {
+            fill: hsl(180, 81%, 12%);
+        }
+        .fill2 {
+            fill: hsl(180, 86%, 5%);
+        }
+        .fill3 {
+            fill: hsl(180, 53%, 26%);
+        }
+        .fill4 {
+            fill: hsl(180, 80%, 52%);
+        }
+    }
+
+    &.theme2 {
+        .fill1 {
+            fill: hsl(50, 81%, 12%);
+        }
+        .fill2 {
+            fill: hsl(50, 86%, 5%);
+        }
+        .fill3 {
+            fill: hsl(50, 53%, 26%);
+        }
+        .fill4 {
+            fill: hsl(50, 80%, 52%);
+        }
+    }
+
+    &.theme3 {
+        .fill1 {
+            fill: hsl(120, 81%, 12%);
+        }
+        .fill2 {
+            fill: hsl(120, 86%, 5%);
+        }
+        .fill3 {
+            fill: hsl(120, 53%, 26%);
+        }
+        .fill4 {
+            fill: hsl(120, 80%, 52%);
+        }
+    }
+
+    &.theme4 {
+        .fill1 {
+            fill: hsl(300, 81%, 12%);
+        }
+        .fill2 {
+            fill: hsl(300, 86%, 5%);
+        }
+        .fill3 {
+            fill: hsl(300, 53%, 26%);
+        }
+        .fill4 {
+            fill: hsl(300, 80%, 52%);
+        }
+    }
+
+    &.theme5 {
+        .fill1 {
+            fill: hsl(355, 81%, 12%);
+        }
+        .fill2 {
+            fill: hsl(355, 86%, 5%);
+        }
+        .fill3 {
+            fill: hsl(355, 53%, 26%);
+        }
+        .fill4 {
+            fill: hsl(355, 80%, 52%);
+        }
+    }
+}
