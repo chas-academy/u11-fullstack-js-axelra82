@@ -44,11 +44,10 @@ const MiddleComponent = () => {
 
     return (
         <>
-            <Col sm={isMessageView ? 3 : 7} md={isMessageView ? 3 : 6} as="section" className="p-0">
+            <Col md={isMessageView ? 3 : 6} as="section" className="p-0">
                 <MiddlePanelContent />
             </Col>
             <Col
-                sm={isMessageView ? 7 : 3}
                 md={isMessageView ? 6 : 3}
                 as="footer"
                 className={`d-none d-md-block p-0 min-vh-100 border-start ${
