@@ -20,40 +20,47 @@ const deleteProfile = async (
 ) => {
     try {
         // get fresh user credentials
-        const credentials = await signin(auth, auth.currentUser.email, password)
-        const { user } = credentials
+        await signin(auth, auth.currentUser.email, password)
+        const user = auth.currentUser
         const userUid = user.uid
 
-        // move to home view and reset modal
+        // move to home view since user can't be in profile when data is empty
         history.push('/')
+
+        // reset modal
         toggleModal(modalState, setModalState, setModalContent)
 
         // delete user db entries
         await deleteDoc(doc(db, 'users', userUid))
 
-        // delete user from auth
-        await deleteUser(user)
-
-        // delete users storage files
+        // delete users storage file
         const deleteFile = async (refPath) => {
             const objectRef = ref(storage, refPath)
             await deleteObject(objectRef)
         }
 
-        const deleteFolderRecursive = async (deletePath) => {
+        // recursive storage delete function
+        // folders can't exist without files
+        const deleteRecursive = async (deletePath) => {
             const deleteRef = ref(storage, deletePath)
             const deleteList = await listAll(deleteRef)
 
+            // items are files
             deleteList.items.forEach(async (fileRef) => {
                 await deleteFile(fileRef)
             })
 
+            // prefixex are folders
             deleteList.prefixes.forEach(async (folderRef) => {
-                await deleteFolderRecursive(folderRef)
+                await deleteRecursive(folderRef)
             })
         }
 
-        await deleteFolderRecursive(`users/${userUid}`)
+        // start storage recursive delete
+        await deleteRecursive(`users/${userUid}`)
+
+        // delete user from auth
+        await deleteUser(user)
     } catch (errorMessage) {
         toastCatchError(toasts, setToasts, errorMessage)
     }
