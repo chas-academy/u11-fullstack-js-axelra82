@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import LoadingComponent from '../../components/loading'
@@ -32,7 +31,8 @@ const ProfileView = () => {
             }
             getUserData()
         }
-    }, [currentUser])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return !userData ? <LoadingComponent /> : <ProfileDisplay userData={userData} />
 }
