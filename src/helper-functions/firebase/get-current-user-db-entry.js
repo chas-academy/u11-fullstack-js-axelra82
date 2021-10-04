@@ -4,36 +4,21 @@ const getCurrentUserDbEntry = async (
     db,
     user,
     setCurrentUser,
-    locationState,
     toastCatchError,
     toasts,
     setToasts
 ) => {
     const userDbDoc = doc(db, 'users', user.uid)
     const userDoc = await getDoc(userDbDoc)
+    const userData = userDoc.data()
 
-    if (userDoc.exists()) {
-        const userData = userDoc.data()
+    if (userData) {
         setCurrentUser(userData)
-    } else if (
-        typeof locationState !== 'undefined' &&
-        typeof locationState.isNew !== 'undefined' &&
-        locationState.isNew
-    ) {
-        getCurrentUserDbEntry(
-            db,
-            user,
-            setCurrentUser,
-            locationState,
-            toastCatchError,
-            toasts,
-            setToasts
-        )
     } else {
         toastCatchError(
             toasts,
             setToasts,
-            'Could not find user in database. Please reload page. If the problem persists please contact site administrator'
+            'Could not find user in database. Please reload page. If the problem persists contact an administrator'
         )
     }
 }
