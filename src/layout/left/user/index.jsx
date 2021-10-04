@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Row, Col, Popover, OverlayTrigger, Button } from 'react-bootstrap'
-import UserProfilePicture from '../../../components/user/profile-picture'
-import { CheckmarkIcon, HorizontalDotsIcon } from '../../../components/icons'
+import { Popover, OverlayTrigger, Button } from 'react-bootstrap'
+import UserDisplayComponent from './display'
 import { firebaseFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
@@ -28,35 +27,14 @@ const LeftUserComponent = () => {
         setIsActive(!isActive)
     }
 
-    const UserDisplayComponent = ({ popover = false }) => {
-        return (
-            <Row className="gx-3">
-                <Col xs={3}>
-                    <UserProfilePicture classes="w-100 h-auto" />
-                </Col>
-                <Col xs={8} className="d-flex flex-column">
-                    <small>
-                        <strong>{currentUserName}</strong>
-                    </small>
-                    <small className="text-muted lh-1">@{curreUserUsername}</small>
-                </Col>
-                {popover ? (
-                    <Col xs={1} className="d-flex justify-content-center align-items-center p-0">
-                        <CheckmarkIcon color="primary" size="fit-w" />
-                    </Col>
-                ) : (
-                    <Col xs={1} className="d-flex justify-content-center align-items-center p-0">
-                        <HorizontalDotsIcon size="fit-w" />
-                    </Col>
-                )}
-            </Row>
-        )
-    }
-
     const popover = (
         <Popover id="user-popover">
             <Popover.Body className="px-3 pe-4">
-                <UserDisplayComponent popover />
+                <UserDisplayComponent
+                    popover
+                    currentUserName={currentUserName}
+                    curreUserUsername={curreUserUsername}
+                />
             </Popover.Body>
             <div className="border-bottom" />
             <Button
@@ -82,7 +60,10 @@ const LeftUserComponent = () => {
                         isActive ? '' : 'bg-extra-light-gray-hover cursor-pointer'
                     }`}
                 >
-                    <UserDisplayComponent />
+                    <UserDisplayComponent
+                        currentUserName={currentUserName}
+                        curreUserUsername={curreUserUsername}
+                    />
                 </section>
             </OverlayTrigger>
         </>
