@@ -9,7 +9,7 @@ const ToastComponent = () => {
     const {
         store: { toasts, setToasts },
     } = useContext(StoreContext)
-    const toastDelay = 4000
+    const toastDelay = 7000
 
     const closeToast = (index = 0) => {
         if (toasts.length === 1) {
