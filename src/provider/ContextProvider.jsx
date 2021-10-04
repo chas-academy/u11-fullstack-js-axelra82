@@ -53,7 +53,7 @@ const StoreContext = ({ children }) => {
             }
             setLoading(false)
         })
-    }, [currentUser])
+    }, [])
 
     // store is passed to context provider
     const store = {
