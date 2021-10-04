@@ -60,7 +60,7 @@ const MenuComponent = () => {
                                         path={`/${currentUser.username}`}
                                         classes="me-md-3"
                                     />
-                                    <span className="d-none d-md-block text-black">Profile</span>
+                                    <span className="text-black">Profile</span>
                                 </span>
                             </NavLink>
                         </li>
@@ -80,21 +80,17 @@ const MenuComponent = () => {
                 )}
                 <>
                     <li className="d-md-none">
-                        <NavLink
-                            to="/search"
-                            activeClassName="nav-selected"
-                            className="menu-button d-flex p-3 m-2 rounded-pill"
-                        >
-                            <SearchIcon size="large" />
+                        <NavLink to="/search" activeClassName="nav-selected">
+                            <span className="menu-button d-flex p-3 m-2 rounded-pill">
+                                <SearchIcon size="large" />
+                            </span>
                         </NavLink>
                     </li>
                     <li className="d-md-none">
-                        <NavLink
-                            to="/more-about"
-                            activeClassName="nav-selected"
-                            className="menu-button d-flex p-3 m-2 rounded-pill"
-                        >
-                            <HorizontalDotsCircleIcon size="large" />
+                        <NavLink to="/more-about" activeClassName="nav-selected">
+                            <span className="menu-button d-flex p-3 m-2 rounded-pill">
+                                <HorizontalDotsCircleIcon size="large" />
+                            </span>
                         </NavLink>
                     </li>
                 </>
