@@ -4,7 +4,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import * as formFields from './formFields'
-import { displayFunctions, firebaseFunctions } from '../../../helper-functions'
+import { dateFunctions, displayFunctions, firebaseFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
 const UpdateUserProfileComponent = () => {
@@ -23,49 +23,51 @@ const UpdateUserProfileComponent = () => {
     const {
         store: {
             auth,
+            db,
+            storage,
             currentUser,
-            toasts,
-            setToasts,
+            setCurrentUser,
             setISaveButtonDisabled,
             setSaveButtonAction,
+            modalState,
+            setModalState,
+            setModalContent,
         },
     } = useContext(StoreContext)
 
-    const { email } = currentUser
+    const {
+        bio,
+        dob,
+        email,
+        name: { first: firstName, last: lastName },
+        username,
+        website,
+    } = currentUser
 
-    const { toastCatchError } = displayFunctions
-    const { signin } = firebaseFunctions
+    const { isoDateString, formatDateString } = dateFunctions
+    const { toggleModal } = displayFunctions
+    const { updateUserProfile } = firebaseFunctions
 
     const [hasChange, setHasChange] = useState(false)
     const [showDeletePrompt, setShowDeletePrompt] = useState(false)
     const [changeDob, setChangeDob] = useState(false)
-    const [changePassword, setChangePassword] = useState(false)
-    const [canChangePassword, setCanChangePassword] = useState(false)
     const [inputValues, setInputValues] = useState(currentUser)
     const [showBioCharCounter, setShowBioCharCounter] = useState(false)
     const [showNameCharCounter, setShowNameCharCounter] = useState(false)
     const [showEmailCharCounter, setShowEmailCharCounter] = useState(false)
     const [showUsernameCharCounter, setShowUsernameCharCounter] = useState(false)
     const [showWebsiteCharCounter, setShowWebsiteCharCounter] = useState(false)
-    const [uploadSource, setUploadSource] = useState()
+    const [uploadSource, setUploadSource] = useState(false)
 
-    const nameFirstRef = useRef()
-    const nameLastRef = useRef()
+    const firstNameRef = useRef()
+    const lastNameRef = useRef()
     const usernameRef = useRef()
     const bioRef = useRef()
     const dobRef = useRef()
     const emailRef = useRef()
     const websiteRef = useRef()
-    const currentPasswordRef = useRef()
-    const newPasswordRef = useRef()
-    const newPasswordConfirmRef = useRef()
     const deleteConfirmPasswordRef = useRef()
     const fileInputRef = useRef()
-
-    const handleSubmit = () => {
-        // setLoading(false)
-        // return <></>
-    }
 
     // display input max length counter
     const inputCharCounter = (inputField, double = false) => {
@@ -91,16 +93,17 @@ const UpdateUserProfileComponent = () => {
 
     const inputEmptyWarning = (inputField) => {
         const { current } = inputField
-        return current && current.value.length < 1
+        if (current) {
+            const { value } = current
+            if (value.length < 1) {
+                return true
+            }
+        }
+        return false
     }
 
     // multi input state handling
     const onInputchange = (inputField) => {
-        // enable update option
-        if (!hasChange) {
-            setHasChange(true)
-        }
-
         // deconstruct event object
         const { current } = inputField
 
@@ -113,7 +116,7 @@ const UpdateUserProfileComponent = () => {
             // update state
             if (!isNameField) {
                 setInputValues({ ...inputValues, [name]: value })
-                inputCharCounter(nameFirstRef, nameLastRef)
+                inputCharCounter(firstNameRef, lastNameRef)
             } else {
                 setInputValues({
                     ...inputValues,
@@ -121,20 +124,23 @@ const UpdateUserProfileComponent = () => {
                 })
                 inputCharCounter(inputField)
             }
+
+            // enable save button for regular fields
+            if (!hasChange && value !== '') {
+                setHasChange(!hasChange)
+            }
         }
-    }
 
-    const validateCurrentUser = async () => {
-        // make sure user knows password
-        try {
-            const validateUser = await signin(auth, email, currentPasswordRef.current.value)
-
-            // match login with current user for extra measure
-            setCanChangePassword(validateUser.user.email === email)
-            // make sure new password field is empty
-            newPasswordRef.current.value = ''
-        } catch (errorMessage) {
-            toastCatchError(toasts, setToasts, errorMessage)
+        // date field
+        if (
+            typeof inputField.target !== 'undefined' &&
+            typeof inputField.target.valueAsNumber !== 'undefined'
+        ) {
+            const newDateValue = inputField.target.valueAsNumber
+            if (typeof newDateValue === 'number') {
+                setHasChange(!hasChange)
+                setInputValues({ ...inputValues, dob: isoDateString(newDateValue) })
+            }
         }
     }
 
@@ -142,109 +148,144 @@ const UpdateUserProfileComponent = () => {
         return <Form.Control.Feedback type="invalid">{message}</Form.Control.Feedback>
     }
 
-    const handleUpdate = () => {
-        console.log('save action')
+    const handleUpdate = async () => {
+        // double check change if for whatever
+        // reason button isn't diabled without change
+        if (hasChange) {
+            const fieldChange = (ref, origin, isName = false, isDate = false) => {
+                const { current } = ref
+                if (current) {
+                    const { value } = current
+
+                    if (isName) {
+                        return value === origin ? origin : value
+                    }
+
+                    if (isDate) {
+                        const dateRef = formatDateString(new Date(value))
+                        const dateOrigin = formatDateString(new Date(origin))
+                        return dateRef === dateOrigin ? false : dateRef
+                    }
+
+                    return value === origin ? false : value
+                }
+                return false
+            }
+
+            // build update data object
+            const updateData = {
+                bio: fieldChange(bioRef, bio),
+                dob: fieldChange(dobRef, dob, null, true),
+                email: fieldChange(emailRef, email),
+                name: {
+                    first: fieldChange(firstNameRef, firstName, true),
+                    last: fieldChange(lastNameRef, lastName, true),
+                },
+                profilePicture: uploadSource,
+                username: fieldChange(usernameRef, username),
+                website: fieldChange(websiteRef, website),
+            }
+
+            const repsponse = await updateUserProfile(
+                auth,
+                db,
+                storage,
+                currentUser.username,
+                updateData
+            )
+            if (repsponse) {
+                toggleModal(modalState, setModalState, setModalContent)
+                setCurrentUser(currentUser)
+            }
+        }
     }
 
     useEffect(() => {
+        // look for changes in form
         if (hasChange) {
             setISaveButtonDisabled(false)
+            // action for modal update button
+            setSaveButtonAction(() => handleUpdate)
         }
-    }, [hasChange])
-
-    useEffect(() => {
-        setSaveButtonAction(() => handleUpdate)
-    }, [])
+    }, [hasChange, uploadSource])
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
-                <ProfilePictureComponent
-                    props={{
-                        fileInputRef,
-                        hasChange,
-                        setHasChange,
-                        setUploadSource,
-                    }}
-                />
-                <NameFieldComponent
-                    props={{
-                        nameFirstRef,
-                        nameLastRef,
-                        onInputchange,
-                        inputCharCounter,
-                        showNameCharCounter,
-                        setShowNameCharCounter,
-                        InvalidHelperComponent,
-                        inputEmptyWarning,
-                    }}
-                />
+            <ProfilePictureComponent
+                props={{
+                    fileInputRef,
+                    hasChange,
+                    setHasChange,
+                    setUploadSource,
+                }}
+            />
+            <NameFieldComponent
+                props={{
+                    firstNameRef,
+                    lastNameRef,
+                    onInputchange,
+                    inputCharCounter,
+                    showNameCharCounter,
+                    setShowNameCharCounter,
+                    InvalidHelperComponent,
+                    inputEmptyWarning,
+                }}
+            />
 
-                <UsernameFieldComponent
-                    props={{
-                        usernameRef,
-                        onInputchange,
-                        inputCharCounter,
-                        showUsernameCharCounter,
-                        setShowUsernameCharCounter,
-                        InvalidHelperComponent,
-                        inputEmptyWarning,
-                    }}
-                />
+            <UsernameFieldComponent
+                props={{
+                    usernameRef,
+                    onInputchange,
+                    inputCharCounter,
+                    showUsernameCharCounter,
+                    setShowUsernameCharCounter,
+                    InvalidHelperComponent,
+                    inputEmptyWarning,
+                }}
+            />
 
-                <EmailFieldComponent
-                    props={{
-                        emailRef,
-                        onInputchange,
-                        inputCharCounter,
-                        showEmailCharCounter,
-                        setShowEmailCharCounter,
-                        InvalidHelperComponent,
-                        inputEmptyWarning,
-                    }}
-                />
+            <EmailFieldComponent
+                props={{
+                    emailRef,
+                    onInputchange,
+                    inputCharCounter,
+                    showEmailCharCounter,
+                    setShowEmailCharCounter,
+                    InvalidHelperComponent,
+                    inputEmptyWarning,
+                }}
+            />
 
-                <BioFieldComponent
-                    props={{
-                        bioRef,
-                        onInputchange,
-                        inputCharCounter,
-                        showBioCharCounter,
-                        setShowBioCharCounter,
-                    }}
-                />
+            <BioFieldComponent
+                props={{
+                    bioRef,
+                    onInputchange,
+                    inputCharCounter,
+                    showBioCharCounter,
+                    setShowBioCharCounter,
+                }}
+            />
 
-                <WebsiteFieldComponent
-                    props={{
-                        websiteRef,
-                        onInputchange,
-                        inputCharCounter,
-                        showWebsiteCharCounter,
-                        setShowWebsiteCharCounter,
-                    }}
-                />
+            <WebsiteFieldComponent
+                props={{
+                    websiteRef,
+                    onInputchange,
+                    inputCharCounter,
+                    showWebsiteCharCounter,
+                    setShowWebsiteCharCounter,
+                }}
+            />
 
-                <DobFieldComponent
-                    props={{
-                        dobRef,
-                        onInputchange,
-                        changeDob,
-                        setChangeDob,
-                    }}
-                />
+            <DobFieldComponent
+                props={{
+                    dobRef,
+                    onInputchange,
+                    changeDob,
+                    setChangeDob,
+                }}
+            />
 
-                <PasswordFieldComponent
-                    props={{
-                        currentPasswordRef,
-                        validateCurrentUser,
-                        newPasswordRef,
-                        newPasswordConfirmRef,
-                        canChangePassword,
-                        changePassword,
-                        setChangePassword,
-                    }}
-                />
-            </Form>
+            <PasswordFieldComponent />
 
             <DeleteAccountFieldComponent
                 props={{ showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
