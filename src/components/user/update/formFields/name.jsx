@@ -5,8 +5,8 @@ import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateNameComponent = ({
     props: {
-        nameFirstRef,
-        nameLastRef,
+        firstNameRef,
+        lastNameRef,
         onInputchange,
         inputCharCounter,
         showNameCharCounter,
@@ -31,7 +31,7 @@ const ProfileUpdateNameComponent = ({
                 Name
                 {showNameCharCounter && (
                     <small className="ms-auto">
-                        <span>{inputCharCounter(nameFirstRef, nameLastRef)}</span> / {nameMaxLength}
+                        <span>{inputCharCounter(firstNameRef, lastNameRef)}</span> / {nameMaxLength}
                     </small>
                 )}
             </Form.Label>
@@ -48,17 +48,17 @@ const ProfileUpdateNameComponent = ({
                         id="first-name-inline"
                         name="name-first"
                         type="text"
-                        ref={nameFirstRef}
+                        ref={firstNameRef}
                         placeholder="first name"
                         aria-placeholder="first name"
-                        onChange={() => onInputchange(nameFirstRef)}
+                        onChange={() => onInputchange(firstNameRef)}
                         onFocus={() => setShowNameCharCounter(!showNameCharCounter)}
                         onBlur={() => setShowNameCharCounter(!showNameCharCounter)}
                         defaultValue={firstName}
-                        isInvalid={inputEmptyWarning(nameFirstRef)}
+                        isInvalid={inputEmptyWarning(firstNameRef)}
                         required
                     />
-                    {inputEmptyWarning(nameFirstRef) && (
+                    {inputEmptyWarning(firstNameRef) && (
                         <InvalidHelperComponent message="name can't be empty" />
                     )}
                 </InputGroup>
@@ -76,17 +76,17 @@ const ProfileUpdateNameComponent = ({
                         id="last-name-inline"
                         name="name-last"
                         type="text"
-                        ref={nameLastRef}
+                        ref={lastNameRef}
                         placeholder="last name"
                         aria-placeholder="last name"
-                        onChange={() => onInputchange(nameLastRef)}
+                        onChange={() => onInputchange(lastNameRef)}
                         onFocus={() => setShowNameCharCounter(!showNameCharCounter)}
                         onBlur={() => setShowNameCharCounter(!showNameCharCounter)}
                         defaultValue={lastName}
-                        isInvalid={inputEmptyWarning(nameLastRef)}
+                        isInvalid={inputEmptyWarning(lastNameRef)}
                         required
                     />
-                    {inputEmptyWarning(nameLastRef) && (
+                    {inputEmptyWarning(lastNameRef) && (
                         <InvalidHelperComponent message="name can't be empty" />
                     )}
                 </InputGroup>
