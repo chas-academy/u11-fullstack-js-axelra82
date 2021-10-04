@@ -6,6 +6,7 @@ import ProfileIcon from './profile'
 import SearchIcon from './search'
 import CheckmarkIcon from './checkmark'
 import HorizontalDotsIcon from './horizontal-dots'
+import HorizontalDotsCircleIcon from './horizontal-dots-circle'
 import CameraIcon from './camera'
 import CalendarIcon from './calendar'
 import BallonIcon from './balloon'
@@ -20,6 +21,7 @@ export {
     SearchIcon,
     CheckmarkIcon,
     HorizontalDotsIcon,
+    HorizontalDotsCircleIcon,
     CameraIcon,
     CalendarIcon,
     BallonIcon,
