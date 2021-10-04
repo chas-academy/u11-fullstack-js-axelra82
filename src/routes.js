@@ -21,6 +21,7 @@ const PageRoutes = () => {
         <Switch>
             {/* <PrivateRoute exact path="/profile" component={AppComponent} /> */}
             <PrivateRoute exact path="/messages" component={AppComponent} />
+            <Route exact path="/more-about" component={AppComponent} />
             <Route exact path="/search" component={AppComponent} />
             <Route exact path="/signup" component={SignUpPage} />
             <Route exact path="/signin" component={SignInPage} />

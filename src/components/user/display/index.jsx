@@ -1,17 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React, { useContext, useState, useRef, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { Row, Col, Button, Card, CloseButton } from 'react-bootstrap'
 import { CalendarIcon, BallonIcon, LinkIcon } from '../../icons'
 import UserProfilePicture from '../profile-picture'
 import UpdateUserProfile from '../update'
-import { dateFunctions, displayFunctions, regexFunctions } from '../../../helper-functions'
+import {
+    dateFunctions,
+    displayFunctions,
+    regexFunctions,
+    firebaseFunctions,
+} from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
 const ProfileDisplayComponent = ({ userData }) => {
     const {
-        store: { currentUser, modalContent, modalState, setModalState, setModalContent },
+        store: { auth, currentUser, modalContent, modalState, setModalState, setModalContent },
     } = useContext(StoreContext)
 
     const {
@@ -23,12 +28,14 @@ const ProfileDisplayComponent = ({ userData }) => {
         website,
     } = userData
 
+    const history = useHistory()
     const location = useLocation()
     const { state: locationState } = location
 
     const { toggleModal } = displayFunctions
     const { formatDateString } = dateFunctions
     const { urlReplace, urlCheck } = regexFunctions
+    const { signout } = firebaseFunctions
 
     const [showWelcome, setShowWelcome] = useState(false)
 
@@ -38,7 +45,6 @@ const ProfileDisplayComponent = ({ userData }) => {
         if (currentUser) {
             setModalContent({
                 ...modalContent,
-                classes: 'max-h-600 overflow-y-scroll',
                 header: {
                     ...modalContent.header,
                     show: true,
@@ -119,6 +125,13 @@ const ProfileDisplayComponent = ({ userData }) => {
                 <Col>
                     {currentUser && (
                         <>
+                            <Button
+                                onClick={() => signout(auth, history)}
+                                className="rounded-pill float-end ms-2 d-md-none"
+                                variant="secondary"
+                            >
+                                Sign out
+                            </Button>
                             <Button
                                 onClick={() => showEditProfile()}
                                 className="rounded-pill float-end"

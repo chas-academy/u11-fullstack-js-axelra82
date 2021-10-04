@@ -1,8 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import BaseIconComponent from '../icons/base'
 
-// eslint-disable-next-line react/prop-types
-const LogotypeComponent = ({ color = 'primary' }) => {
+const LogotypeComponent = ({ size = '', color = 'primary', classes = '', style = {} }) => {
     const graphic = (
         <path
             d="M512,97.1c-18.8,8.4-39,14-60.4,16.6c21.6-13,38.4-33.6,46.2-58.2c-20.2,12-42.8,20.8-66.8,25.4c-19-20.2-46.2-33-76.6-33
@@ -17,8 +17,9 @@ const LogotypeComponent = ({ color = 'primary' }) => {
         <BaseIconComponent
             graphic={graphic}
             color={color}
-            size="extra-large"
-            classes="ms-2 my-3"
+            size={size}
+            classes={classes}
+            style={style}
             box="0 0 512 512"
         />
     )
