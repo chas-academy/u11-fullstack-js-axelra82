@@ -1,9 +1,9 @@
 import { query, where, collection, getDocs } from 'firebase/firestore'
 
-const usernameLookUp = (db, table, username) => {
+const usernameLookUp = (db, collectionName, username) => {
     // look for users where username matches
-    const getTable = collection(db, table)
-    const usernameMatch = query(getTable, where('username', '==', username))
+    const getCollection = collection(db, collectionName)
+    const usernameMatch = query(getCollection, where('username', '==', username))
     return getDocs(usernameMatch)
 }
 
