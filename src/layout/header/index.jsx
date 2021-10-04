@@ -13,7 +13,7 @@ const HeaderComponent = () => {
     return (
         <Col sm={2} md={3} as="header" className="d-none d-md-block p-0 border-end">
             <section className="sticky-top min-vh-100 pe-xl-5 d-flex flex-column">
-                <Logotype />
+                <Logotype size="extra-large" classes="ms-4 my-3" />
                 <MenuComponent />
                 {currentUser && <LeftUserComponent />}
             </section>
