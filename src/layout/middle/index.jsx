@@ -3,10 +3,9 @@
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
-import { HomeView, MessagesView, ProfileView, SearchView } from '../../views'
-import RightComponent from '../right'
+import { HomeView, MoreAboutView, MessagesView, ProfileView, SearchView } from '../../views'
+import MoreAbout from '../../components/more-about'
 import ConversationComponent from '../conversation'
-import './style.scss'
 
 const MiddleComponent = () => {
     const location = useLocation()
@@ -16,6 +15,9 @@ const MiddleComponent = () => {
 
     const MiddlePanelContent = () => {
         switch (pathname) {
+            case '/more-about':
+                return <MoreAboutView />
+
             case '/messages':
                 return <MessagesView />
 
@@ -36,35 +38,24 @@ const MiddleComponent = () => {
                 return <ConversationComponent />
 
             default:
-                return <RightComponent />
+                return <MoreAbout />
         }
     }
-    // sm={2} md={3}
+
     return (
         <>
-            <Col
-                sm={isMessageView ? 3 : 7}
-                md={isMessageView ? 3 : 6}
-                as="section"
-                id="middle-panel"
-                className="p-0"
-            >
+            <Col sm={isMessageView ? 3 : 7} md={isMessageView ? 3 : 6} as="section" className="p-0">
                 <MiddlePanelContent />
             </Col>
             <Col
                 sm={isMessageView ? 7 : 3}
                 md={isMessageView ? 6 : 3}
-                as="aside"
-                id="right-panel"
-                className="d-none d-md-block p-0"
+                as="footer"
+                className={`d-none d-md-block p-0 min-vh-100 border-start ${
+                    isMessageView ? 'border-end' : 'sticky-top'
+                }`}
             >
-                <section
-                    className={`min-vh-100 border-start ${
-                        isMessageView ? 'border-end' : 'sticky-top'
-                    }`}
-                >
-                    <RightPanelContent />
-                </section>
+                <RightPanelContent />
             </Col>
         </>
     )

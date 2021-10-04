@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const RightComponent = () => {
+const MoreAboutComponent = () => {
     return (
         <small>
-            <ul className="right-panel-legal text-muted list-unstyled px-2 py-3 m-0">
+            <ul className="text-muted list-unstyled px-2 py-3 m-0">
                 <li>
                     <Link to="/terms">Terms of service</Link>
                 </li>
@@ -23,4 +23,4 @@ const RightComponent = () => {
     )
 }
 
-export default RightComponent
+export default MoreAboutComponent
