@@ -1,11 +1,11 @@
 import usernameLookUp from './username-lookup'
 
 const getProfileData = async (db, profileUsername) => {
-    let publicProfile = null
-    const querySnapshot = await usernameLookUp(db, 'users', profileUsername)
+    let publicProfile
+    const query = await usernameLookUp(db, 'users', profileUsername)
 
-    if (querySnapshot.docs.length > 0) {
-        querySnapshot.forEach((docMatch) => {
+    if (query.docs.length > 0) {
+        query.forEach((docMatch) => {
             publicProfile = docMatch.data()
         })
     }
