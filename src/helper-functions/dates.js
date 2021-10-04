@@ -1,5 +1,5 @@
-const isoDateString = (dob) => {
-    return new Date(new Date(dob) - new Date().getTimezoneOffset() * 60000)
+const isoDateString = (date) => {
+    return new Date(new Date(date) - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .slice(0, 10)
 }
