@@ -7,7 +7,6 @@ import PostIcon from '../../components/icons/post'
 const BottomComponent = () => {
     return (
         <footer
-            id="bottom-panel"
             className="d-md-none position-fixed vw-100 border-top bg-white fixed-bottom"
             style={{ zIndex: 98 }}
         >
