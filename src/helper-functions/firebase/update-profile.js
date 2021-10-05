@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { updateProfile } from 'firebase/auth'
+import { updateProfile, updateEmail } from 'firebase/auth'
 import { doc, updateDoc } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 // username, fileBlob, fileType
 const updateUserProfile = async (auth, db, storage, username, data) => {
-    const userUid = auth.currentUser.uid
+    const user = auth.currentUser
+    const userUid = user.uid
 
     const filterEmpty = (filterData) => {
         return Object.fromEntries(
@@ -20,6 +21,11 @@ const updateUserProfile = async (auth, db, storage, username, data) => {
 
     // filter out empty values
     const filterFields = filterEmpty(data)
+
+    // handle email change
+    if (typeof filterFields.email !== 'undefined') {
+        await updateEmail(user, filterFields.email)
+    }
 
     // handle image update
     if (typeof filterFields.profilePicture !== 'undefined') {
@@ -36,7 +42,7 @@ const updateUserProfile = async (auth, db, storage, username, data) => {
         const publicFile = await getDownloadURL(storageRef.metadata.ref)
 
         // update auth user meta data
-        await updateProfile(auth.currentUser, { photoURL: publicFile })
+        await updateProfile(user, { photoURL: publicFile })
         filterFields.profilePicture = publicFile
     }
 
