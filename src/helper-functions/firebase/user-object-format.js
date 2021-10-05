@@ -6,7 +6,7 @@ const userObjectFormat = async (data) => {
     const roleDoc = await getDoc(userDate.role)
     userDate.role = roleDoc.id
     userDate.dob = formatDateString(userDate.dob.toDate())
-    userDate.joined = formatDateString(userDate.joined.toDate())
+    userDate.joined = formatDateString(userDate.joined.toDate(), 'short')
     return userDate
 }
 
