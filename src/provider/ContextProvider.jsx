@@ -10,6 +10,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import { displayFunctions, firebaseFunctions } from '../helper-functions'
+import LoadingComponent from '../components/loading'
 import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
@@ -43,15 +44,23 @@ const StoreContext = ({ children }) => {
 
     useEffect(() => {
         setLoading(true)
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             // signup signs in user
             // so we have to exclude that path
             if (user && pathname !== '/signup') {
-                getCurrentUserDbEntry(db, user, setCurrentUser, toastCatchError, toasts, setToasts)
+                await getCurrentUserDbEntry(
+                    db,
+                    user,
+                    setCurrentUser,
+                    toastCatchError,
+                    toasts,
+                    setToasts
+                )
             } else {
                 setCurrentUser(user)
             }
             setLoading(false)
+            console.log(currentUser)
         })
     }, [])
 
@@ -76,7 +85,11 @@ const StoreContext = ({ children }) => {
         setSaveButtonAction,
     }
 
-    return <Context.Provider value={{ store }}>{children}</Context.Provider>
+    return (
+        <Context.Provider value={{ store }}>
+            {loading ? <LoadingComponent /> : children}
+        </Context.Provider>
+    )
 }
 
 export default StoreContext
