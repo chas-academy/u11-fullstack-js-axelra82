@@ -18,7 +18,7 @@ const signup = async (db, auth, dob, email, username, nameFirst, nameLast, passw
     const joined = formatDateString(new Date())
 
     // set initial user type to registered
-    const userType = doc(db, 'user_types', 'registered')
+    const role = doc(db, 'roles', 'registered')
 
     // create document reference
     const docRef = doc(db, 'users', auth.currentUser.uid)
@@ -32,7 +32,7 @@ const signup = async (db, auth, dob, email, username, nameFirst, nameLast, passw
         name: { first: nameFirst, last: nameLast },
         profilePicture,
         username,
-        userType,
+        role,
         website: '',
     })
 
