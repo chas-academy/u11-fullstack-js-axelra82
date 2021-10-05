@@ -11,7 +11,7 @@ const UserDisplayComponent = ({ currentUserName, curreUserUsername, popover = fa
                 <UserProfilePicture classes="w-100 h-auto" />
             </Col>
             <Col xs={8} className="d-flex flex-column">
-                <small>
+                <small className="text-nowrap">
                     <strong>{currentUserName}</strong>
                 </small>
                 <small className="text-muted lh-1">@{curreUserUsername}</small>
