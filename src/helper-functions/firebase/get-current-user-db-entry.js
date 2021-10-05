@@ -1,4 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore'
+import userObjectFormat from './user-object-format'
 
 const getCurrentUserDbEntry = async (
     db,
@@ -13,12 +14,9 @@ const getCurrentUserDbEntry = async (
     const userData = userDoc.data()
 
     if (userData) {
-        // name user role
-        const roleDoc = await getDoc(userData.role)
-        userData.role = roleDoc.id
-
-        // set user with named role
-        setCurrentUser(userData)
+        const data = await userObjectFormat(userData)
+        // set user
+        setCurrentUser(data)
     } else {
         toastCatchError(
             toasts,
