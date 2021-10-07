@@ -1,7 +1,7 @@
 import changePassword from './change-password'
 import deleteProfile from './delete-profile'
-import getCurrentUserDbEntry from './get-current-user-db-entry'
-import getProfileData from './get-profile-data'
+import getCurrentUserDoc from './get-current-user-doc'
+import getPublicData from './get-public-data'
 import resetPassword from './reset-password'
 import signin from './signin'
 import signout from './signout'
@@ -13,8 +13,8 @@ import usernameLookUp from './username-lookup'
 export {
     changePassword,
     deleteProfile,
-    getCurrentUserDbEntry,
-    getProfileData,
+    getCurrentUserDoc,
+    getPublicData,
     resetPassword,
     signin,
     signout,
