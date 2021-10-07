@@ -1,10 +1,11 @@
 import { doc, getDoc } from 'firebase/firestore'
 import userObjectFormat from './user-object-format'
 
-const getCurrentUserDbEntry = async (
+const getCurrentUserDoc = async (
     db,
     user,
     setCurrentUser,
+    setIsAdmin,
     toastCatchError,
     toasts,
     setToasts
@@ -12,18 +13,17 @@ const getCurrentUserDbEntry = async (
     const userDbDoc = doc(db, 'users', user.uid)
     const userDoc = await getDoc(userDbDoc)
     const userData = userDoc.data()
+    userData.uid = userDoc.id
 
     if (userData) {
-        const data = await userObjectFormat(userData)
-        // set user
-        setCurrentUser(data)
+        await userObjectFormat(userData, setCurrentUser, setIsAdmin)
     } else {
         toastCatchError(
             toasts,
             setToasts,
-            'Could not find user in database. Please reload page. If the problem persists contact an administrator'
+            'Could not find user. Please reload page. If the problem persists contact an administrator'
         )
     }
 }
 
-export default getCurrentUserDbEntry
+export default getCurrentUserDoc
