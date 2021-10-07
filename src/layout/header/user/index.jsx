@@ -20,12 +20,8 @@ const LeftUserComponent = () => {
     const { signout } = firebaseFunctions
 
     const currentUserName = `${firstName} ${lastName}`
-    const curreUserUsername = username
+    const currentUserUsername = username
     const [isActive, setIsActive] = useState(false)
-
-    const popoverActive = () => {
-        setIsActive(!isActive)
-    }
 
     const popover = (
         <Popover id="user-popover">
@@ -33,7 +29,7 @@ const LeftUserComponent = () => {
                 <UserDisplayComponent
                     popover
                     currentUserName={currentUserName}
-                    curreUserUsername={curreUserUsername}
+                    currentUserUsername={currentUserUsername}
                 />
             </Popover.Body>
             <div className="border-bottom" />
@@ -42,7 +38,7 @@ const LeftUserComponent = () => {
                 className="my-2 px-3 py-2 w-100 text-start bg-extra-light-gray-hover rounded-0 text-black"
                 variant="link"
             >
-                <small>sign out @{curreUserUsername}</small>
+                <small>sign out @{currentUserUsername}</small>
             </Button>
         </Popover>
     )
@@ -50,7 +46,7 @@ const LeftUserComponent = () => {
     return (
         <>
             <OverlayTrigger
-                onToggle={popoverActive}
+                onToggle={() => setIsActive(!isActive)}
                 trigger="click"
                 placement="top-start"
                 overlay={popover}
@@ -62,7 +58,7 @@ const LeftUserComponent = () => {
                 >
                     <UserDisplayComponent
                         currentUserName={currentUserName}
-                        curreUserUsername={curreUserUsername}
+                        currentUserUsername={currentUserUsername}
                     />
                 </section>
             </OverlayTrigger>
