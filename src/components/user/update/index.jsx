@@ -7,7 +7,7 @@ import * as formFields from './formFields'
 import { dateFunctions, displayFunctions, firebaseFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
-const UpdateUserProfileComponent = () => {
+const UpdateUserProfileComponent = ({ userData }) => {
     const {
         ProfilePictureComponent,
         NameFieldComponent,
@@ -25,8 +25,7 @@ const UpdateUserProfileComponent = () => {
             auth,
             db,
             storage,
-            currentUser,
-            setCurrentUser,
+            setuserData,
             setISaveButtonDisabled,
             setSaveButtonAction,
             modalState,
@@ -40,9 +39,10 @@ const UpdateUserProfileComponent = () => {
         dob,
         email,
         name: { first: firstName, last: lastName },
+        profilePicture: imageSource,
         username,
         website,
-    } = currentUser
+    } = userData
 
     const { isoDateString, formatDateString } = dateFunctions
     const { toggleModal } = displayFunctions
@@ -51,7 +51,7 @@ const UpdateUserProfileComponent = () => {
     const [hasChange, setHasChange] = useState(false)
     const [showDeletePrompt, setShowDeletePrompt] = useState(false)
     const [changeDob, setChangeDob] = useState(false)
-    const [inputValues, setInputValues] = useState(currentUser)
+    const [inputValues, setInputValues] = useState(userData)
     const [showBioCharCounter, setShowBioCharCounter] = useState(false)
     const [showNameCharCounter, setShowNameCharCounter] = useState(false)
     const [showEmailCharCounter, setShowEmailCharCounter] = useState(false)
@@ -149,8 +149,7 @@ const UpdateUserProfileComponent = () => {
     }
 
     const handleUpdate = async () => {
-        // double check change if for whatever
-        // reason button isn't diabled without change
+        // make sure button isn't disabled without change
         if (hasChange) {
             const fieldChange = (ref, origin, isName = false, isDate = false) => {
                 const { current } = ref
@@ -190,12 +189,12 @@ const UpdateUserProfileComponent = () => {
                 auth,
                 db,
                 storage,
-                currentUser.username,
+                userData.username,
                 updateData
             )
             if (repsponse) {
                 toggleModal(modalState, setModalState, setModalContent)
-                setCurrentUser(currentUser)
+                setuserData(userData)
             }
         }
     }
@@ -207,12 +206,14 @@ const UpdateUserProfileComponent = () => {
             // action for modal update button
             setSaveButtonAction(() => handleUpdate)
         }
-    }, [hasChange, uploadSource])
+        console.log('useeffect in UpdateUserProfileComponent')
+    }, [hasChange])
 
     return (
         <>
             <ProfilePictureComponent
                 props={{
+                    imageSource,
                     fileInputRef,
                     hasChange,
                     setHasChange,
@@ -221,6 +222,8 @@ const UpdateUserProfileComponent = () => {
             />
             <NameFieldComponent
                 props={{
+                    firstName,
+                    lastName,
                     firstNameRef,
                     lastNameRef,
                     onInputchange,
@@ -234,6 +237,7 @@ const UpdateUserProfileComponent = () => {
 
             <UsernameFieldComponent
                 props={{
+                    username,
                     usernameRef,
                     onInputchange,
                     inputCharCounter,
@@ -246,6 +250,7 @@ const UpdateUserProfileComponent = () => {
 
             <EmailFieldComponent
                 props={{
+                    email,
                     emailRef,
                     onInputchange,
                     inputCharCounter,
@@ -258,6 +263,7 @@ const UpdateUserProfileComponent = () => {
 
             <BioFieldComponent
                 props={{
+                    bio,
                     bioRef,
                     onInputchange,
                     inputCharCounter,
@@ -268,6 +274,7 @@ const UpdateUserProfileComponent = () => {
 
             <WebsiteFieldComponent
                 props={{
+                    website,
                     websiteRef,
                     onInputchange,
                     inputCharCounter,
@@ -278,6 +285,7 @@ const UpdateUserProfileComponent = () => {
 
             <DobFieldComponent
                 props={{
+                    dob,
                     dobRef,
                     onInputchange,
                     changeDob,

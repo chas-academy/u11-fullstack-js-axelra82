@@ -1,20 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-alert */
 /* eslint-disable no-undef */
-import React, { useContext } from 'react'
+import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { isoDateString } from '../../../../helper-functions/dates'
-import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateDobComponent = ({
-    props: { dobRef, onInputchange, changeDob, setChangeDob },
+    props: { dob, dobRef, onInputchange, changeDob, setChangeDob },
 }) => {
-    const {
-        store: {
-            currentUser: { dob },
-        },
-    } = useContext(StoreContext)
-
     return (
         <Form.Group>
             <Form.Label className="text-muted m-0 mt-3">Date of birth</Form.Label>

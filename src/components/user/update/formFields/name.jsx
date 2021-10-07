@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react'
+import React from 'react'
 import { Row, Col, Form, InputGroup } from 'react-bootstrap'
-import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateNameComponent = ({
     props: {
+        firstName,
+        lastName,
         firstNameRef,
         lastNameRef,
         onInputchange,
@@ -15,14 +16,6 @@ const ProfileUpdateNameComponent = ({
         inputEmptyWarning,
     },
 }) => {
-    const {
-        store: {
-            currentUser: {
-                name: { first: firstName, last: lastName },
-            },
-        },
-    } = useContext(StoreContext)
-
     const nameMaxLength = 50
 
     return (

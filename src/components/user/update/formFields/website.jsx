@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react'
+import React from 'react'
 import { Form } from 'react-bootstrap'
-import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateWebsiteComponent = ({
     props: {
+        website,
         websiteRef,
         onInputchange,
         inputCharCounter,
@@ -12,12 +12,6 @@ const ProfileUpdateWebsiteComponent = ({
         setShowWebsiteCharCounter,
     },
 }) => {
-    const {
-        store: {
-            currentUser: { website },
-        },
-    } = useContext(StoreContext)
-
     const websiteMaxLength = 100
 
     return (

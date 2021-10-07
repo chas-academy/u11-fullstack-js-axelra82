@@ -8,7 +8,7 @@ import { imageFunctions } from '../../../../helper-functions'
 import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateProfilePictureComponent = ({
-    props: { fileInputRef, hasChange, setHasChange, setUploadSource },
+    props: { imageSource, fileInputRef, hasChange, setHasChange, setUploadSource },
 }) => {
     const {
         store: { toastCatchError },
@@ -77,6 +77,7 @@ const ProfileUpdateProfilePictureComponent = ({
                 classes="w-100"
                 isPreview={isPreviewImage}
                 previewSource={previewSource}
+                source={imageSource}
             />
             <Button
                 onClick={showOpenFileDialog}
