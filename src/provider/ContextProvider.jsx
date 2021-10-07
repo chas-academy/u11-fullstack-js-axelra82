@@ -4,7 +4,6 @@
 // pass detached states
 
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
@@ -15,13 +14,14 @@ import Context from '../context/StoreContext'
 
 const StoreContext = ({ children }) => {
     const { defaultModalContent, toastCatchError } = displayFunctions
-    const { getCurrentUserDbEntry } = firebaseFunctions
-    const location = useLocation()
-    const { pathname } = location
+    const { getCurrentUserDoc } = firebaseFunctions
 
     // global states
     const [currentUser, setCurrentUser] = useState()
+    const [isAdmin, setIsAdmin] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [posts, setPosts] = useState([])
+    const [postActiontoggle, setPostActiontoggle] = useState([])
     const [toasts, setToasts] = useState([])
     const [modalState, setModalState] = useState(false)
     const [modalContent, setModalContent] = useState(defaultModalContent)
@@ -45,23 +45,23 @@ const StoreContext = ({ children }) => {
     useEffect(() => {
         setLoading(true)
         onAuthStateChanged(auth, async (user) => {
-            // signup signs in user
-            // so we have to exclude that path
-            if (user && pathname !== '/signup') {
-                await getCurrentUserDbEntry(
+            if (user) {
+                await getCurrentUserDoc(
                     db,
                     user,
                     setCurrentUser,
+                    setIsAdmin,
                     toastCatchError,
                     toasts,
                     setToasts
                 )
             } else {
                 setCurrentUser(user)
+                setIsAdmin(false)
             }
             setLoading(false)
-            console.log(currentUser)
         })
+        console.log('useeffect in StoreContext')
     }, [])
 
     // store is passed to context provider
@@ -71,8 +71,13 @@ const StoreContext = ({ children }) => {
         storage,
         currentUser,
         setCurrentUser,
+        isAdmin,
         loading,
         setLoading,
+        posts,
+        setPosts,
+        postActiontoggle,
+        setPostActiontoggle,
         toasts,
         setToasts,
         modalState,
