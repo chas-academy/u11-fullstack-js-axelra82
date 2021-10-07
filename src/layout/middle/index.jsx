@@ -4,6 +4,7 @@ import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import { HomeView, MoreAboutView, MessagesView, ProfileView, SearchView } from '../../views'
+import SearchComponent from '../../components/search'
 import MoreAbout from '../../components/more-about'
 import ConversationComponent from '../conversation'
 
@@ -38,7 +39,12 @@ const MiddleComponent = () => {
                 return <ConversationComponent />
 
             default:
-                return <MoreAbout />
+                return (
+                    <>
+                        <SearchComponent />
+                        <MoreAbout />
+                    </>
+                )
         }
     }
 
