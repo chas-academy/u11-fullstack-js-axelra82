@@ -25,7 +25,6 @@ const UpdateUserProfileComponent = ({ userData }) => {
             auth,
             db,
             storage,
-            setuserData,
             setISaveButtonDisabled,
             setSaveButtonAction,
             modalState,
@@ -194,7 +193,6 @@ const UpdateUserProfileComponent = ({ userData }) => {
             )
             if (repsponse) {
                 toggleModal(modalState, setModalState, setModalContent)
-                setuserData(userData)
             }
         }
     }
