@@ -27,7 +27,7 @@ const ResetPasswordComponent = () => {
     }
 
     useEffect(() => {
-        const sendReset = async () => {
+        ;(async () => {
             if (userEmail) {
                 const response = await resetPassword(
                     auth,
@@ -41,8 +41,8 @@ const ResetPasswordComponent = () => {
                     setResetSent(true)
                 }
             }
-        }
-        sendReset()
+        })()
+        console.log('useeffect in ResetPasswordComponent')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userEmail])
 
