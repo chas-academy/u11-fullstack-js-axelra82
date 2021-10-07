@@ -6,6 +6,7 @@ import * as cors from 'cors'
 
 // env and project token
 const project = process.env.GCLOUD_PROJECT
+// token not needed for
 // const token = functions.config().ci.token
 
 // initialize firebase inorder to access its services
@@ -181,21 +182,41 @@ app.delete('/user/delete/:id', async (req, res) => {
     try {
         // handle request body
         const id = req.params.id
-        const userPath = `/${userCollection}/${id}`
+
         // delete user from auth
         auth.deleteUser(id)
-        // delete users firebase documents
+
+        // delete users posts
+        const userDocRef = db.collection(userCollection).doc(id)
+        const userDoc: admin.firestore.DocumentData = await userDocRef.get()
+        const userData: UserDoc = userDoc.data()
+        const username = userData.username
+        const posts = await db
+            .collection(postCollection)
+            .where('user.username', '==', username)
+            .get()
+        const deletePosts: Promise<any>[] = []
+        posts.forEach((postDoc) => {
+            const deleteDoc = db.collection(postCollection).doc(postDoc.id).delete()
+            deletePosts.push(deleteDoc)
+        })
+        // wait for all posts to delete
+        await Promise.all(deletePosts)
+
+        // recursive delete of user doc
+        const userPath = `/${userCollection}/${id}`
         await firebase_tools.firestore.delete(userPath, {
             project,
             recursive: true,
             yes: true,
         })
-
+        // clear user bucket
         const [files] = await bucket.getFiles({
-            prefix: id,
+            prefix: `users/${id}`,
         })
-        const deletePromises = files.map((file) => file.delete())
-        Promise.all(deletePromises)
+        const deleteFiles = files.map((file) => file.delete())
+        // wait for all files to delete
+        await Promise.all(deleteFiles)
 
         // return response with message
         res.status(200).send(`User ${id} deleted`)
