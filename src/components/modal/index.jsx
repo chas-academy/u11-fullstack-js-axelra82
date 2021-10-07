@@ -11,7 +11,7 @@ const ModalComponent = () => {
     } = useContext(StoreContext)
 
     const { toggleModal } = displayFunctions
-    const { classes, header, body, footer } = modalContent
+    const { fullscreen, classes, header, body, footer } = modalContent
     const { show: showHeader, title, content: headerContent } = header
     const { show: showFooter, buttons } = footer
 
@@ -21,7 +21,7 @@ const ModalComponent = () => {
                 show={modalState}
                 onHide={() => toggleModal(modalState, setModalState, setModalContent)}
                 centered
-                fullscreen="md-down"
+                fullscreen={fullscreen}
             >
                 <span className={classes}>
                     {showHeader && (
