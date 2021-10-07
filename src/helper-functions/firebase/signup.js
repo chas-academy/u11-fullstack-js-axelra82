@@ -1,44 +1,44 @@
-/* eslint-disable no-unused-vars */
-import { createUserWithEmailAndPassword, updateProfile, getAdditionalUserInfo } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
-import { formatDateString } from '../dates'
+/* eslint-disable no-undef */
+import signin from './signin'
 
-const signup = async (db, auth, dob, email, username, nameFirst, nameLast, password) => {
-    // create user
-    const newUser = await createUserWithEmailAndPassword(auth, email, password)
-
-    // // update user display name
-    await updateProfile(auth.currentUser, { displayName: `${nameFirst} ${nameLast}` })
-
-    // create initial random profile picture theme
-    const randomNumber = Math.floor(Math.random() * 5 + 1)
-    const profilePicture = `theme${randomNumber}`
-
-    // set now as joined date
-    const joined = formatDateString(new Date())
-
-    // set initial user type to registered
-    const role = doc(db, 'roles', 'registered')
-
-    // create document reference
-    const docRef = doc(db, 'users', auth.currentUser.uid)
-
-    // create user db entry
-    await setDoc(docRef, {
-        bio: '',
-        dob: formatDateString(new Date(dob)),
-        email,
-        joined,
-        name: { first: nameFirst, last: nameLast },
-        profilePicture,
-        username,
-        role,
-        website: '',
-    })
-
-    // return additional user details with isNew
-    const additionalUserInfo = getAdditionalUserInfo(newUser)
-    return additionalUserInfo
+const signup = async (
+    auth,
+    isAdmin,
+    dob,
+    email,
+    firstName,
+    lastName,
+    password,
+    toastCatchError,
+    toasts,
+    setToasts
+) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_WEB_API}/user/create`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dob,
+                firstName,
+                lastName,
+                email,
+                password,
+            }),
+        })
+        const responseData = await response.json()
+        // signin regular user after creating
+        if (responseData && !isAdmin) {
+            const { docData } = responseData
+            const { username } = docData
+            await signin(auth, email, password)
+            return username
+        }
+    } catch (errorMessage) {
+        toastCatchError(toasts, setToasts, errorMessage)
+    }
+    return false
 }
 
 export default signup
