@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import LoadingComponent from '../../components/loading'
@@ -7,10 +8,10 @@ import StoreContext from '../../context/StoreContext'
 
 const ProfileView = () => {
     const {
-        store: { db, currentUser },
+        store: { db },
     } = useContext(StoreContext)
 
-    const { getProfileData } = firebaseFunctions
+    const { getPublicData } = firebaseFunctions
 
     const history = useHistory()
     const { username } = useParams()
@@ -18,19 +19,16 @@ const ProfileView = () => {
     const [userData, setUserData] = useState()
 
     useEffect(() => {
-        if (currentUser) {
-            setUserData(currentUser)
-        } else {
-            const getUserData = async () => {
-                const publicProfileData = await getProfileData(db, username)
-                if (publicProfileData) {
-                    setUserData(publicProfileData)
-                } else {
-                    history.push('/', '404')
-                }
-            }
-            getUserData()
+        if (!userData) {
+            // if (currentUser) {
+            //     setUserData(currentUser)
+            // } else {
+            // }
+            ;(async () => {
+                await getPublicData(db, username, setUserData, history)
+            })()
         }
+        console.log('useeffect in ProfileView')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
