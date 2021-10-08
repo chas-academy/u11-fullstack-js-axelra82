@@ -8,7 +8,7 @@ import StoreContext from '../../context/StoreContext'
 
 const BottomComponent = () => {
     const {
-        store: { modalContent, modalState, setModalState, setModalContent },
+        store: { currentUser, modalContent, modalState, setModalState, setModalContent },
     } = useContext(StoreContext)
     const { toggleModal } = displayFunctions
 
@@ -26,13 +26,15 @@ const BottomComponent = () => {
             className="d-md-none position-fixed vw-100 border-top bg-white fixed-bottom"
             style={{ zIndex: 98 }}
         >
-            <Button
-                className="position-absolute py-2 px-2 rounded-circle"
-                style={{ top: '-107%', right: '3%' }}
-                onClick={showCreatePost}
-            >
-                <PostIcon color="white" size="extra-large" classes="m-2" />
-            </Button>
+            {currentUser && (
+                <Button
+                    className="position-absolute py-2 px-2 rounded-circle"
+                    style={{ top: '-107%', right: '3%' }}
+                    onClick={showCreatePost}
+                >
+                    <PostIcon color="white" size="extra-large" classes="m-2" />
+                </Button>
+            )}
             <MenuComponent />
         </footer>
     )
