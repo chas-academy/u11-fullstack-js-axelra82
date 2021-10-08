@@ -21,7 +21,6 @@ const StoreContext = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState(false)
     const [loading, setLoading] = useState(true)
     const [posts, setPosts] = useState([])
-    const [postActiontoggle, setPostActiontoggle] = useState([])
     const [toasts, setToasts] = useState([])
     const [modalState, setModalState] = useState(false)
     const [modalContent, setModalContent] = useState(defaultModalContent)
@@ -75,8 +74,6 @@ const StoreContext = ({ children }) => {
         setLoading,
         posts,
         setPosts,
-        postActiontoggle,
-        setPostActiontoggle,
         toasts,
         setToasts,
         modalState,
