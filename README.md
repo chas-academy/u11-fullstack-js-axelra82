@@ -84,6 +84,8 @@ _Admin users have CRUD access on all users, posts, mentions and messages_
 **registered**
 _Registered users have CRUD access on their own content and account_
 
+**NOTE** To assign a user admin privileges change the `role` field in that user document to `roles/administrator`.
+
 Run `npm i` from your project root folder to install all dependencies and then `npm run start` to initiate the project on localhost:3000
 
 ## API
