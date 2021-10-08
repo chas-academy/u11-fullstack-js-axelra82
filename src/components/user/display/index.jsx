@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import React, { useContext, useState, useRef } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { useLocation, useHistory, Link } from 'react-router-dom'
 import { Row, Col, Button, Card, CloseButton } from 'react-bootstrap'
 import { CalendarIcon, BallonIcon, LinkIcon } from '../../icons'
@@ -36,13 +36,14 @@ const ProfileDisplayComponent = ({ userData }) => {
 
     const history = useHistory()
     const location = useLocation()
-    const { pathname } = location
+    const { state: locationState, pathname } = location
+    const { isNew } = locationState || {}
 
     const { toggleModal } = displayFunctions
     const { urlReplace, urlCheck } = regexFunctions
     const { signout } = firebaseFunctions
 
-    const [showWelcome, setShowWelcome] = useState(false)
+    const [showWelcome, setShowWelcome] = useState(isNew)
 
     const welcomeRef = useRef()
 
@@ -97,19 +98,12 @@ const ProfileDisplayComponent = ({ userData }) => {
         })
         toggleModal(modalState, setModalState, setModalContent)
     }
-    // BUG: goes into infinite loop on signup
-    // useEffect(() => {
-    //     // check if user just signed up
-    //     if (currentUser && locationState) {
-    //         const { isNew } = locationState || {}
-    //         if (isNew && !showWelcome) {
-    //             setShowWelcome(true)
-    //             ;(() => showEditProfile())()
-    //         }
-    //     }
-    //     console.log(currentUser, locationState, showWelcome)
-    //     console.log('useeffect in ProfileDisplayComponent')
-    // }, [])
+
+    useEffect(() => {
+        if (currentUser && isNew) {
+            showEditProfile()
+        }
+    }, [currentUser, isNew])
 
     return (
         <article className="p-3">
