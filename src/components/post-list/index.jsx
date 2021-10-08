@@ -19,7 +19,6 @@ const PostListComponent = () => {
     const { formatDateString } = dateFunctions
 
     const deletePost = async (postId, index) => {
-        showPostActions(index)
         const response = await fetch(`${process.env.REACT_APP_WEB_API}/post/delete/${postId}`, {
             method: 'delete',
         })
@@ -46,7 +45,7 @@ const PostListComponent = () => {
                             <UserProfilePicture classes="w-100" source={picture} />
                         </Col>
                         <Col xs={11} className="ps-3">
-                            <section className="position-relative d-flex mb-2">
+                            <section className="position-relative d-flex flex-wrap mb-2">
                                 <strong className="fs-5 me-2 lh-1">{name}</strong>
                                 <Link to={`/${username}`}>
                                     <small className="me-2 text-muted text-decoration-underline">
@@ -57,7 +56,7 @@ const PostListComponent = () => {
                                 {userUsername === username && (
                                     <Button
                                         variant="outline-danger"
-                                        className="position-absolute top-0 end-0 mt-0 px-3 py-1"
+                                        className="ms-auto px-3 py-1"
                                         onClick={() => deletePost(id, index)}
                                     >
                                         delete
