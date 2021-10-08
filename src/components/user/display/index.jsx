@@ -32,7 +32,7 @@ const ProfileDisplayComponent = ({ userData }) => {
         profilePicture,
     } = userData
 
-    const { username: currentUsername } = currentUser
+    const { username: currentUsername } = currentUser || {}
 
     const history = useHistory()
     const location = useLocation()
