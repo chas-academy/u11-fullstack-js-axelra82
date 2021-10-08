@@ -1,22 +1,30 @@
-import usernameLookUp from './username-lookup'
-import userObjectFormat from './user-object-format'
+/* eslint-disable no-undef */
+// import usernameLookUp from './username-lookup'
+import { Timestamp } from 'firebase/firestore'
+import { formatDateString } from '../dates'
 
-const getPublicData = async (db, username, setUser, history) => {
-    const query = await usernameLookUp(db, 'users', username)
-
-    if (query.empty) {
+const getPublicData = async (username, setUser, history) => {
+    const response = await fetch(`${process.env.REACT_APP_WEB_API}/user/${username}`)
+    const data = await response.json()
+    // nothing found abort
+    if (!data) {
         history.push('/', '404')
-        return
     }
-
-    if (query.size > 1) {
-        throw new Error(`More than one user found with username: ${username}`)
+    const {
+        dob: { _seconds: dobSeconds },
+        joined: { _seconds: joinedSeconds },
+    } = data
+    const dobTimestamp = Timestamp.fromMillis(dobSeconds * 1000)
+    const joinedTimestamp = Timestamp.fromMillis(joinedSeconds * 1000)
+    const dobDate = formatDateString(dobTimestamp.toDate())
+    const joinedDate = formatDateString(joinedTimestamp.toDate())
+    const formatedData = {
+        ...data,
+        dob: dobDate,
+        joined: joinedDate,
     }
-
-    query.forEach(async (docMatch) => {
-        const docData = docMatch.data()
-        await userObjectFormat(docData, setUser)
-    })
+    setUser(formatedData)
+    return formatedData
 }
 
 export default getPublicData
