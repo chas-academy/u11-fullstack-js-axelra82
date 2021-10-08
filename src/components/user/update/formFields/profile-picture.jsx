@@ -46,7 +46,7 @@ const ProfileUpdateProfilePictureComponent = ({
             } else if (!allowedTypes.includes(fileType)) {
                 toastCatchError('Accepted file types are: jpg and png')
             } else {
-                const resizedImage = await imageResize(imageFile)
+                const resizedImage = await imageResize(imageFile, fileType)
                 const blobToBase64 = () => {
                     return new Promise((resolve) => {
                         const reader = new FileReader()
@@ -54,10 +54,10 @@ const ProfileUpdateProfilePictureComponent = ({
                         reader.readAsDataURL(resizedImage)
                     })
                 }
-
+                const base64 = await blobToBase64()
                 setIsPreviewImage(true)
-                setPreviewSource(await blobToBase64())
-                setUploadSource({ source: resizedImage, type: fileType })
+                setPreviewSource(base64)
+                setUploadSource({ source: base64, type: fileType })
 
                 if (!hasChange) {
                     setHasChange(true)

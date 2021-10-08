@@ -22,9 +22,6 @@ const UpdateUserProfileComponent = ({ userData }) => {
 
     const {
         store: {
-            auth,
-            db,
-            storage,
             setISaveButtonDisabled,
             setSaveButtonAction,
             modalState,
@@ -39,6 +36,7 @@ const UpdateUserProfileComponent = ({ userData }) => {
         email,
         name: { first: firstName, last: lastName },
         profilePicture: imageSource,
+        uid,
         username,
         website,
     } = userData
@@ -184,16 +182,8 @@ const UpdateUserProfileComponent = ({ userData }) => {
                 website: fieldChange(websiteRef, website),
             }
 
-            const repsponse = await updateUserProfile(
-                auth,
-                db,
-                storage,
-                userData.username,
-                updateData
-            )
-            if (repsponse) {
-                toggleModal(modalState, setModalState, setModalContent)
-            }
+            await updateUserProfile(uid, updateData)
+            toggleModal(modalState, setModalState, setModalContent)
         }
     }
 
@@ -204,7 +194,6 @@ const UpdateUserProfileComponent = ({ userData }) => {
             // action for modal update button
             setSaveButtonAction(() => handleUpdate)
         }
-        console.log('useeffect in UpdateUserProfileComponent')
     }, [hasChange])
 
     return (
