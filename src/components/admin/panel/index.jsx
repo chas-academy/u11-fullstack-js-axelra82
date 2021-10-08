@@ -38,7 +38,7 @@ const AdminPanelComponent = () => {
         toggleModal(modalState, setModalState, setModalContent)
     }
 
-    const editUser = async (id, formatedData) => {
+    const editUser = async (formatedData) => {
         setModalContent({
             ...modalContent,
             header: {
@@ -77,17 +77,17 @@ const AdminPanelComponent = () => {
             }
         }
     }
+    const usersList = async () => {
+        const getUsers = await fetch(`${process.env.REACT_APP_WEB_API}/users/list`)
+        if (getUsers.status === 200) {
+            const usersJson = await getUsers.json()
+            setUsers(usersJson)
+        }
+        setLoading(false)
+    }
 
     useEffect(() => {
-        ;(async () => {
-            const getUsers = await fetch(`${process.env.REACT_APP_WEB_API}/users/list`)
-            if (getUsers.status === 200) {
-                const usersJson = await getUsers.json()
-                setUsers(usersJson)
-            }
-            setLoading(false)
-        })()
-        console.log('useeffect in Adminpanel')
+        usersList()
     }, [])
 
     return (
@@ -124,6 +124,7 @@ const AdminPanelComponent = () => {
                                 ...data,
                                 dob: dobDate,
                                 joined: joinedDate,
+                                uid: id,
                             }
 
                             return (
@@ -149,7 +150,7 @@ const AdminPanelComponent = () => {
                                         <Button
                                             variant="outline-primary"
                                             className="me-2"
-                                            onClick={() => editUser(id, formatedData)}
+                                            onClick={() => editUser(formatedData)}
                                         >
                                             edit
                                         </Button>

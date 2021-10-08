@@ -11,21 +11,23 @@ const HomeView = () => {
 
     const [loading, setLoading] = useState()
 
+    const getPosts = async () => {
+        const response = await fetch(`${process.env.REACT_APP_WEB_API}/posts/list`)
+        if (response.status === 200) {
+            const postsJson = await response.json()
+            setPosts(postsJson)
+            setPostActiontoggle(
+                postsJson.map((_, index) => {
+                    return { id: index, state: false }
+                })
+            )
+        }
+        setLoading(false)
+    }
+
     useEffect(() => {
         setLoading(true)
-        ;(async () => {
-            const getPosts = await fetch(`${process.env.REACT_APP_WEB_API}/posts/list`)
-            if (getPosts.status === 200) {
-                const postsJson = await getPosts.json()
-                setPosts(postsJson)
-                setPostActiontoggle(
-                    postsJson.map((_, index) => {
-                        return { id: index, state: false }
-                    })
-                )
-            }
-            setLoading(false)
-        })()
+        getPosts()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

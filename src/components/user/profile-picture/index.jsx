@@ -27,7 +27,6 @@ const UserProfilePictureComponent = ({
             const { profilePicture } = currentUser
             setImageSource(profilePicture)
         }
-        console.log('useeffect in UserProfilePictureComponent')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

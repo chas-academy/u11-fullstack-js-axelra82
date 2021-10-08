@@ -61,7 +61,6 @@ const StoreContext = ({ children }) => {
             }
             setLoading(false)
         })
-        console.log('useeffect in StoreContext')
     }, [])
 
     // store is passed to context provider
