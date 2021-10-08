@@ -27,7 +27,9 @@ const MobileUserTopComponent = () => {
                     <ProfileIcon size="large" classes="ms-3" />
                 </Link>
             )}
-            <Logotype classes="w-100" style={{ height: 30 }} />
+            <Link to="/">
+                <Logotype classes="w-100" style={{ height: 30 }} />
+            </Link>
         </>
     )
 }

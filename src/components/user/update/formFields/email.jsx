@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react'
+import React from 'react'
 import { Form } from 'react-bootstrap'
-import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateEmailComponent = ({
     props: {
+        email,
         emailRef,
         onInputchange,
         inputCharCounter,
@@ -14,12 +14,6 @@ const ProfileUpdateEmailComponent = ({
         inputEmptyWarning,
     },
 }) => {
-    const {
-        store: {
-            currentUser: { email },
-        },
-    } = useContext(StoreContext)
-
     const emailMaxLength = 100
 
     return (

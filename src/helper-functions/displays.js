@@ -1,4 +1,5 @@
 const defaultModalContent = {
+    fullscreen: 'md-down',
     classes: null,
     actions: null,
     header: { show: false, title: null, content: null },

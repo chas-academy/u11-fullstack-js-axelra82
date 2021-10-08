@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-undef */
 
-const imageResize = async (imageFile) => {
+const imageResize = async (imageFile, fileType) => {
     // placeholder for source image data
     const imagePlaceholder = new Image()
     // create canvas for image
@@ -57,7 +57,7 @@ const imageResize = async (imageFile) => {
     // draw image on canvas
     canvasContext.drawImage(imagePlaceholder, -canvasX, -canvasY)
 
-    return new Promise((resolve) => canvas.toBlob(resolve))
+    return new Promise((resolve) => canvas.toBlob(resolve, `image/${fileType}`, 1.0))
 
     // canvas.toBlob((blob) => {
     //     const resizedUpload = blob

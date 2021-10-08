@@ -2,12 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Timestamp } from 'firebase/firestore'
 import { Form } from 'react-bootstrap'
 import * as formFields from './formFields'
 import { dateFunctions, displayFunctions, firebaseFunctions } from '../../../helper-functions'
 import StoreContext from '../../../context/StoreContext'
 
-const UpdateUserProfileComponent = () => {
+const UpdateUserProfileComponent = ({ userData }) => {
     const {
         ProfilePictureComponent,
         NameFieldComponent,
@@ -17,16 +18,11 @@ const UpdateUserProfileComponent = () => {
         WebsiteFieldComponent,
         DobFieldComponent,
         PasswordFieldComponent,
-        DeleteAccountFieldComponent,
+        DeleteProfileFieldComponent,
     } = formFields
 
     const {
         store: {
-            auth,
-            db,
-            storage,
-            currentUser,
-            setCurrentUser,
             setISaveButtonDisabled,
             setSaveButtonAction,
             modalState,
@@ -40,9 +36,11 @@ const UpdateUserProfileComponent = () => {
         dob,
         email,
         name: { first: firstName, last: lastName },
+        profilePicture: imageSource,
+        uid,
         username,
         website,
-    } = currentUser
+    } = userData
 
     const { isoDateString, formatDateString } = dateFunctions
     const { toggleModal } = displayFunctions
@@ -51,7 +49,7 @@ const UpdateUserProfileComponent = () => {
     const [hasChange, setHasChange] = useState(false)
     const [showDeletePrompt, setShowDeletePrompt] = useState(false)
     const [changeDob, setChangeDob] = useState(false)
-    const [inputValues, setInputValues] = useState(currentUser)
+    const [inputValues, setInputValues] = useState(userData)
     const [showBioCharCounter, setShowBioCharCounter] = useState(false)
     const [showNameCharCounter, setShowNameCharCounter] = useState(false)
     const [showEmailCharCounter, setShowEmailCharCounter] = useState(false)
@@ -149,8 +147,7 @@ const UpdateUserProfileComponent = () => {
     }
 
     const handleUpdate = async () => {
-        // double check change if for whatever
-        // reason button isn't diabled without change
+        // make sure button isn't disabled without change
         if (hasChange) {
             const fieldChange = (ref, origin, isName = false, isDate = false) => {
                 const { current } = ref
@@ -162,9 +159,10 @@ const UpdateUserProfileComponent = () => {
                     }
 
                     if (isDate) {
+                        // make equal date comparison by format
                         const dateRef = formatDateString(new Date(value))
                         const dateOrigin = formatDateString(new Date(origin))
-                        return dateRef === dateOrigin ? false : dateRef
+                        return dateRef === dateOrigin ? false : value
                     }
 
                     return value === origin ? false : value
@@ -186,17 +184,8 @@ const UpdateUserProfileComponent = () => {
                 website: fieldChange(websiteRef, website),
             }
 
-            const repsponse = await updateUserProfile(
-                auth,
-                db,
-                storage,
-                currentUser.username,
-                updateData
-            )
-            if (repsponse) {
-                toggleModal(modalState, setModalState, setModalContent)
-                setCurrentUser(currentUser)
-            }
+            await updateUserProfile(uid, updateData)
+            toggleModal(modalState, setModalState, setModalContent)
         }
     }
 
@@ -207,12 +196,13 @@ const UpdateUserProfileComponent = () => {
             // action for modal update button
             setSaveButtonAction(() => handleUpdate)
         }
-    }, [hasChange, uploadSource])
+    }, [hasChange])
 
     return (
         <>
             <ProfilePictureComponent
                 props={{
+                    imageSource,
                     fileInputRef,
                     hasChange,
                     setHasChange,
@@ -221,6 +211,8 @@ const UpdateUserProfileComponent = () => {
             />
             <NameFieldComponent
                 props={{
+                    firstName,
+                    lastName,
                     firstNameRef,
                     lastNameRef,
                     onInputchange,
@@ -234,6 +226,7 @@ const UpdateUserProfileComponent = () => {
 
             <UsernameFieldComponent
                 props={{
+                    username,
                     usernameRef,
                     onInputchange,
                     inputCharCounter,
@@ -246,6 +239,7 @@ const UpdateUserProfileComponent = () => {
 
             <EmailFieldComponent
                 props={{
+                    email,
                     emailRef,
                     onInputchange,
                     inputCharCounter,
@@ -258,6 +252,7 @@ const UpdateUserProfileComponent = () => {
 
             <BioFieldComponent
                 props={{
+                    bio,
                     bioRef,
                     onInputchange,
                     inputCharCounter,
@@ -268,6 +263,7 @@ const UpdateUserProfileComponent = () => {
 
             <WebsiteFieldComponent
                 props={{
+                    website,
                     websiteRef,
                     onInputchange,
                     inputCharCounter,
@@ -278,6 +274,7 @@ const UpdateUserProfileComponent = () => {
 
             <DobFieldComponent
                 props={{
+                    dob,
                     dobRef,
                     onInputchange,
                     changeDob,
@@ -287,8 +284,8 @@ const UpdateUserProfileComponent = () => {
 
             <PasswordFieldComponent />
 
-            <DeleteAccountFieldComponent
-                props={{ showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
+            <DeleteProfileFieldComponent
+                props={{ uid, showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
             />
 
             <small className="d-block text-muted text-center">

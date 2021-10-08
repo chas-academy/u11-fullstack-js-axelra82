@@ -11,7 +11,9 @@ import {
     CookiePolicyPage,
 } from './pages'
 import AppComponent from './layout/app'
+import AdminComponent from './layout/admin'
 import PrivateRoute from './components/private-route'
+import AdminRoute from './components/admin-route'
 
 const PageRoutes = () => {
     const location = useLocation()
@@ -19,8 +21,9 @@ const PageRoutes = () => {
 
     return (
         <Switch>
-            {/* <PrivateRoute exact path="/profile" component={AppComponent} /> */}
+            <AdminRoute exact path="/admin/panel" component={AdminComponent} />
             <PrivateRoute exact path="/messages" component={AppComponent} />
+            <Route exact path="/admin" component={AdminComponent} />
             <Route exact path="/more-about" component={AppComponent} />
             <Route exact path="/search" component={AppComponent} />
             <Route exact path="/signup" component={SignUpPage} />

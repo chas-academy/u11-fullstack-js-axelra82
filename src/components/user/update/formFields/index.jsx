@@ -6,7 +6,7 @@ import BioFieldComponent from './bio'
 import WebsiteFieldComponent from './website'
 import DobFieldComponent from './dob'
 import PasswordFieldComponent from './password'
-import DeleteAccountFieldComponent from './delete-account'
+import DeleteProfileFieldComponent from './delete-profile'
 
 export {
     ProfilePictureComponent,
@@ -17,5 +17,5 @@ export {
     WebsiteFieldComponent,
     DobFieldComponent,
     PasswordFieldComponent,
-    DeleteAccountFieldComponent,
+    DeleteProfileFieldComponent,
 }

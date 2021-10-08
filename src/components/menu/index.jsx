@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { HomeIcon, MessagesIcon, ProfileIcon, HorizontalDotsCircleIcon, SearchIcon } from '../icons'
 import SignInComponent from '../signin'
+import CreatPostComponent from '../create-post'
 import { displayFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 import './style.scss'
@@ -24,9 +25,14 @@ const MenuComponent = () => {
                 title: 'Sign In',
             },
             body: <SignInComponent />,
-            footer: {
-                ...modalContent.footer,
-            },
+        })
+        toggleModal(modalState, setModalState, setModalContent)
+    }
+
+    const showCreatePost = () => {
+        setModalContent({
+            ...modalContent,
+            body: <CreatPostComponent isModal />,
         })
         toggleModal(modalState, setModalState, setModalContent)
     }
@@ -66,7 +72,9 @@ const MenuComponent = () => {
                         </li>
 
                         <li className="d-none d-md-grid">
-                            <Button className="rounded-pill py-2 m-2">Tweet</Button>
+                            <Button onClick={showCreatePost} className="rounded-pill py-2 m-2">
+                                Tweet
+                            </Button>
                         </li>
                     </>
                 ) : (

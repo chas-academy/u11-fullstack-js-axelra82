@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react'
+import React from 'react'
 import { Form, FloatingLabel } from 'react-bootstrap'
-import StoreContext from '../../../../context/StoreContext'
 
 const ProfileUpdateBioComponent = ({
-    props: { bioRef, onInputchange, inputCharCounter, showBioCharCounter, setShowBioCharCounter },
+    props: {
+        bio,
+        bioRef,
+        onInputchange,
+        inputCharCounter,
+        showBioCharCounter,
+        setShowBioCharCounter,
+    },
 }) => {
-    const {
-        store: {
-            currentUser: { bio },
-        },
-    } = useContext(StoreContext)
-
     const bioMaxLength = 160
 
     return (

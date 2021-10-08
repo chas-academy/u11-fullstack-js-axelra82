@@ -1,40 +1,36 @@
-import React, { useContext, useState, useEffect } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import LoadingComponent from '../../components/loading'
 import { firebaseFunctions } from '../../helper-functions'
 import ProfileDisplay from '../../components/user/display'
-import StoreContext from '../../context/StoreContext'
 
 const ProfileView = () => {
-    const {
-        store: { db, currentUser },
-    } = useContext(StoreContext)
-
-    const { getProfileData } = firebaseFunctions
+    const { getPublicData } = firebaseFunctions
 
     const history = useHistory()
     const { username } = useParams()
 
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState(false)
+    const [loading, setLoading] = useState(true)
+
+    const getUserData = async () => {
+        await getPublicData(username, setUserData, history)
+        setLoading(false)
+    }
 
     useEffect(() => {
-        if (currentUser) {
-            setUserData(currentUser)
-        } else {
-            const getUserData = async () => {
-                const publicProfileData = await getProfileData(db, username)
-                if (publicProfileData) {
-                    setUserData(publicProfileData)
-                } else {
-                    history.push('/', '404')
-                }
-            }
+        if (!userData) {
             getUserData()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return !userData ? <LoadingComponent /> : <ProfileDisplay userData={userData} />
+    return loading ? (
+        <LoadingComponent messageBottom="Getting profile" />
+    ) : (
+        <ProfileDisplay userData={userData} />
+    )
 }
 
 export default ProfileView

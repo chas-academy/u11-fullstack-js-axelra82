@@ -26,23 +26,19 @@ const ResetPasswordComponent = () => {
         }
     }
 
-    useEffect(() => {
-        const sendReset = async () => {
-            if (userEmail) {
-                const response = await resetPassword(
-                    auth,
-                    userEmail,
-                    toastCatchError,
-                    toasts,
-                    setToasts
-                )
+    const getUserEmail = async () => {
+        const response = await resetPassword(auth, userEmail, toastCatchError, toasts, setToasts)
 
-                if (response) {
-                    setResetSent(true)
-                }
-            }
+        if (response) {
+            setResetSent(true)
         }
-        sendReset()
+    }
+
+    useEffect(() => {
+        if (userEmail) {
+            getUserEmail()
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userEmail])
 
