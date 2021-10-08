@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 import React, { useContext, useState, useEffect } from 'react'
 import CreatPostComponent from '../../components/create-post'
+import LoadingComponent from '../../components/loading'
 import PostListComponent from '../../components/post-list'
 import StoreContext from '../../context/StoreContext'
 
 const HomeView = () => {
     const {
-        store: { currentUser, setPosts, setPostActiontoggle },
+        store: { currentUser, setPosts },
     } = useContext(StoreContext)
 
     const [loading, setLoading] = useState()
@@ -16,11 +17,6 @@ const HomeView = () => {
         if (response.status === 200) {
             const postsJson = await response.json()
             setPosts(postsJson)
-            setPostActiontoggle(
-                postsJson.map((_, index) => {
-                    return { id: index, state: false }
-                })
-            )
         }
         setLoading(false)
     }
@@ -34,8 +30,7 @@ const HomeView = () => {
     return (
         <>
             {currentUser && <CreatPostComponent classes="border-bottom" />}
-
-            <PostListComponent loading={loading} />
+            {loading ? <LoadingComponent messageBottom="Getting tweets" /> : <PostListComponent />}
         </>
     )
 }

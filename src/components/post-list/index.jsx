@@ -1,31 +1,22 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Timestamp } from 'firebase/firestore'
 import { Row, Col, Button } from 'react-bootstrap'
-import { HorizontalDotsIcon } from '../icons'
 import UserProfilePicture from '../user/profile-picture'
-import LoadingComponent from '../loading'
 import { dateFunctions } from '../../helper-functions'
 import StoreContext from '../../context/StoreContext'
 
-const PostListComponent = ({ loading }) => {
+const PostListComponent = () => {
     const {
-        store: { currentUser, posts, setPosts, postActiontoggle, setPostActiontoggle },
+        store: { currentUser, posts, setPosts },
     } = useContext(StoreContext)
 
     const { username: userUsername } = currentUser || {}
 
     const { formatDateString } = dateFunctions
-
-    const showPostActions = (index) => {
-        setPostActiontoggle([
-            ...postActiontoggle,
-            (postActiontoggle[index].state = !postActiontoggle[index].state),
-        ])
-    }
 
     const deletePost = async (postId, index) => {
         showPostActions(index)
@@ -35,28 +26,10 @@ const PostListComponent = ({ loading }) => {
         if (response.status === 200) {
             const updatedPosts = posts.filter((_, postIndex) => postIndex !== index)
             setPosts(updatedPosts)
-            setPostActiontoggle(
-                updatedPosts.map((_, i) => {
-                    return { id: i, state: false }
-                })
-            )
         }
     }
 
-    useEffect(() => {
-        // update index for post actions on list update
-        if (postActiontoggle.length) {
-            setPostActiontoggle([
-                ...postActiontoggle,
-                { id: postActiontoggle.length, state: false },
-            ])
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [posts])
-
-    return loading ? (
-        <LoadingComponent messageBottom="Getting tweets" />
-    ) : posts && posts.length > 0 ? (
+    return posts && posts.length > 0 ? (
         posts.map((post, index) => {
             const { id, data } = post
             const {
@@ -82,24 +55,13 @@ const PostListComponent = ({ loading }) => {
                                 </Link>
                                 <small className="text-muted">{createdDate}</small>
                                 {userUsername === username && (
-                                    <>
-                                        <Button
-                                            variant="link"
-                                            className="ms-auto"
-                                            onClick={() => showPostActions(index)}
-                                        >
-                                            <HorizontalDotsIcon />
-                                        </Button>
-                                        {postActiontoggle[index].state && (
-                                            <Button
-                                                variant="outline-danger"
-                                                className="position-absolute top-0 end-0  mt-4 px-2 py-0"
-                                                onClick={() => deletePost(id, index)}
-                                            >
-                                                delete
-                                            </Button>
-                                        )}
-                                    </>
+                                    <Button
+                                        variant="outline-danger"
+                                        className="position-absolute top-0 end-0 mt-0 px-3 py-1"
+                                        onClick={() => deletePost(id, index)}
+                                    >
+                                        delete
+                                    </Button>
                                 )}
                             </section>
                             {content}
