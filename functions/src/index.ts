@@ -131,7 +131,7 @@ app.post('/user/create', async (req, res) => {
     }
 })
 
-// get single user
+// get (read) single user
 app.get('/user/:username', async (req, res) => {
     try {
         const username = req.params.username
@@ -150,6 +150,7 @@ app.get('/user/:username', async (req, res) => {
         // snapshot not empty and only has 1 record
         snapshot.forEach((doc) => {
             const userData = doc.data()
+            userData.uid = doc.id
             res.status(201).send(userData)
             return
         })
@@ -158,22 +159,55 @@ app.get('/user/:username', async (req, res) => {
     }
 })
 
-// get all users
-app.get('/users/list', async (_, res) => {
+// update single user
+app.post('/user/update', async (req, res) => {
     try {
-        const userQuerySnapshot: admin.firestore.QuerySnapshot = await db
-            .collection(userCollection)
-            .get()
-        const users: Record<string, unknown>[] = []
-        userQuerySnapshot.forEach((userDoc: admin.firestore.DocumentSnapshot<any>) => {
-            users.push({
-                id: userDoc.id,
-                data: userDoc.data(),
+        // handle request body
+        const body = req.body
+        const uid = body['uid']
+        const data = body['data']
+
+        // get username
+        const userDocRef = db.collection(userCollection).doc(uid)
+        const userDoc: admin.firestore.DocumentData = await userDocRef.get()
+        const userDocData: UserDoc = userDoc.data()
+        const username = userDocData.username
+
+        // update auth email for user
+        if (typeof data.email !== 'undefined') {
+            await auth.updateUser(uid, { email: data.email })
+        }
+
+        // handle image
+        if (typeof data.profilePicture !== 'undefined') {
+            const imageObject = data.profilePicture
+            const { source: base64string, type: fileType } = imageObject
+            const base64Data = base64string.replace(/^data:\w+\/\w+;base64,/, '')
+            const fileBuffer = Buffer.from(base64Data, 'base64')
+            const fileName = `${username}.${fileType}`
+            const fileLocation = `users/${uid}/profile-picture/${fileName}`
+            // creat image reference
+            const imageFile = bucket.file(fileLocation)
+            await imageFile.save(fileBuffer, {
+                metadata: {
+                    contentType: `image/${fileType}`,
+                },
+                predefinedAcl: 'publicRead',
             })
-        })
-        res.status(200).json(users)
+            const metaData = await imageFile.getMetadata()
+            const imageUrl = metaData[0].mediaLink
+            // update auth user meta data
+            await auth.updateUser(uid, { photoURL: imageUrl })
+            data.profilePicture = imageUrl
+        }
+
+        // udpate user document
+        await userDocRef.update(data)
+
+        // return response with data
+        res.status(201).send('User updated')
     } catch (error) {
-        res.status(500).send(error)
+        res.status(400).send(`Error: ${error}`)
     }
 })
 
@@ -222,6 +256,25 @@ app.delete('/user/delete/:id', async (req, res) => {
         res.status(200).send(`User ${id} deleted`)
     } catch (error) {
         res.status(400).send(error)
+    }
+})
+
+// get all users
+app.get('/users/list', async (_, res) => {
+    try {
+        const userQuerySnapshot: admin.firestore.QuerySnapshot = await db
+            .collection(userCollection)
+            .get()
+        const users: Record<string, unknown>[] = []
+        userQuerySnapshot.forEach((userDoc: admin.firestore.DocumentSnapshot<any>) => {
+            users.push({
+                id: userDoc.id,
+                data: userDoc.data(),
+            })
+        })
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).send(error)
     }
 })
 
