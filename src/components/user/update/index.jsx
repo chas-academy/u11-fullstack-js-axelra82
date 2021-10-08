@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Timestamp } from 'firebase/firestore'
 import { Form } from 'react-bootstrap'
 import * as formFields from './formFields'
 import { dateFunctions, displayFunctions, firebaseFunctions } from '../../../helper-functions'
@@ -158,9 +159,10 @@ const UpdateUserProfileComponent = ({ userData }) => {
                     }
 
                     if (isDate) {
+                        // make equal date comparison by format
                         const dateRef = formatDateString(new Date(value))
                         const dateOrigin = formatDateString(new Date(origin))
-                        return dateRef === dateOrigin ? false : dateRef
+                        return dateRef === dateOrigin ? false : value
                     }
 
                     return value === origin ? false : value

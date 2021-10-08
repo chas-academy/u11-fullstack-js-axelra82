@@ -178,6 +178,11 @@ app.post('/user/update', async (req, res) => {
             await auth.updateUser(uid, { email: data.email })
         }
 
+        // format date
+        if (typeof data.dob !== 'undefined') {
+            data.dob = timestampDate(data.dob)
+        }
+
         // handle image
         if (typeof data.profilePicture !== 'undefined') {
             const imageObject = data.profilePicture
