@@ -24,8 +24,6 @@ const AdminPanelComponent = () => {
     const { toggleModal } = displayFunctions
 
     const createUser = async () => {
-        console.log('create new user')
-
         setModalContent({
             ...modalContent,
             header: {
