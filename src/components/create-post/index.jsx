@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
 import React, { useContext, useState, useRef } from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 import UserProfilePicture from '../user/profile-picture'
@@ -7,16 +8,7 @@ import StoreContext from '../../context/StoreContext'
 
 const CreatPostComponent = ({ classes = '', isModal = false }) => {
     const {
-        store: {
-            currentUser,
-            modalState,
-            setModalState,
-            setModalContent,
-            posts,
-            setPosts,
-            postActiontoggle,
-            setPostActiontoggle,
-        },
+        store: { currentUser, modalState, setModalState, setModalContent, posts, setPosts },
     } = useContext(StoreContext)
 
     const { toggleModal } = displayFunctions
@@ -49,7 +41,6 @@ const CreatPostComponent = ({ classes = '', isModal = false }) => {
     const createPost = async () => {
         const input = checkInput(true)
         if (input) {
-            // eslint-disable-next-line no-undef
             const response = await fetch(`${process.env.REACT_APP_WEB_API}/post/create`, {
                 method: 'post',
                 headers: {
@@ -64,10 +55,6 @@ const CreatPostComponent = ({ classes = '', isModal = false }) => {
             const responseData = await response.json()
             if (response.status === 201) {
                 setPosts([responseData, ...posts])
-                setPostActiontoggle([
-                    ...postActiontoggle,
-                    { id: postActiontoggle.length + 1, state: false },
-                ])
             }
 
             // reset fake input text

@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Timestamp } from 'firebase/firestore'
 import { Row, Col, Button } from 'react-bootstrap'
@@ -42,6 +42,17 @@ const PostListComponent = ({ loading }) => {
             )
         }
     }
+
+    useEffect(() => {
+        // update index for post actions on list update
+        if (postActiontoggle.length) {
+            setPostActiontoggle([
+                ...postActiontoggle,
+                { id: postActiontoggle.length, state: false },
+            ])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [posts])
 
     return loading ? (
         <LoadingComponent messageBottom="Getting tweets" />
