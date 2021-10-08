@@ -320,6 +320,29 @@ app.post('/post/create', async (req, res) => {
     }
 })
 
+// delete post with id
+app.delete('/post/delete/:id', async (req, res) => {
+    try {
+        // handle request body
+        const id = req.params.id
+        const postRef: admin.firestore.DocumentReference = db.collection(postCollection).doc(id)
+        const postDoc: admin.firestore.DocumentSnapshot<any> = await postRef.get()
+        const postData: PostDoc = postDoc.data()
+        const userRef: admin.firestore.DocumentReference = postData.userRef
+        const userPostRef: admin.firestore.DocumentReference = userRef.collection('posts').doc(id)
+
+        // delete post
+        postRef.delete()
+        // delete post reference in user
+        userPostRef.delete()
+
+        // return response with message
+        res.status(200).send(`Post ${id} deleted and removed from reference in user ${userRef.id}`)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
 // get all posts
 app.get('/posts/list', async (_, res) => {
     try {
@@ -343,28 +366,5 @@ app.get('/posts/list', async (_, res) => {
         res.status(200).json(posts)
     } catch (error) {
         res.status(500).send(error)
-    }
-})
-
-// delete post with id
-app.delete('/post/delete/:id', async (req, res) => {
-    try {
-        // handle request body
-        const id = req.params.id
-        const postRef: admin.firestore.DocumentReference = db.collection(postCollection).doc(id)
-        const postDoc: admin.firestore.DocumentSnapshot<any> = await postRef.get()
-        const postData: PostDoc = postDoc.data()
-        const userRef: admin.firestore.DocumentReference = postData.userRef
-        const userPostRef: admin.firestore.DocumentReference = userRef.collection('posts').doc(id)
-
-        // delete post
-        postRef.delete()
-        // delete post reference in user
-        userPostRef.delete()
-
-        // return response with message
-        res.status(200).send(`Post ${id} deleted and removed from reference in user ${userRef.id}`)
-    } catch (error) {
-        res.status(400).send(error)
     }
 })
