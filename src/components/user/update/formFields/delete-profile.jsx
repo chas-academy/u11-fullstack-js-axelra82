@@ -6,10 +6,10 @@ import { displayFunctions, firebaseFunctions } from '../../../../helper-function
 import StoreContext from '../../../../context/StoreContext'
 
 const DeleteAccountComponent = ({
-    props: { showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef },
+    props: { uid, showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef },
 }) => {
     const {
-        store: { auth, db, storage, modalState, setModalState, setModalContent, toasts, setToasts },
+        store: { auth, modalState, setModalState, setModalContent, toasts, setToasts },
     } = useContext(StoreContext)
 
     const history = useHistory()
@@ -22,9 +22,7 @@ const DeleteAccountComponent = ({
         if (showDeletePrompt && passwordConfirm) {
             deleteProfile(
                 auth,
-                db,
-                storage,
-                passwordConfirm,
+                uid,
                 history,
                 toggleModal,
                 modalState,

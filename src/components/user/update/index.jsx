@@ -18,7 +18,7 @@ const UpdateUserProfileComponent = ({ userData }) => {
         WebsiteFieldComponent,
         DobFieldComponent,
         PasswordFieldComponent,
-        DeleteAccountFieldComponent,
+        DeleteProfileFieldComponent,
     } = formFields
 
     const {
@@ -284,8 +284,8 @@ const UpdateUserProfileComponent = ({ userData }) => {
 
             <PasswordFieldComponent />
 
-            <DeleteAccountFieldComponent
-                props={{ showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
+            <DeleteProfileFieldComponent
+                props={{ uid, showDeletePrompt, setShowDeletePrompt, deleteConfirmPasswordRef }}
             />
 
             <small className="d-block text-muted text-center">
