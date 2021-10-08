@@ -91,7 +91,14 @@ const StoreContext = ({ children }) => {
 
     return (
         <Context.Provider value={{ store }}>
-            {loading ? <LoadingComponent /> : children}
+            {loading ? (
+                <LoadingComponent
+                    messageTop="Please hold on"
+                    messageBottom="We are contacting NASA"
+                />
+            ) : (
+                children
+            )}
         </Context.Provider>
     )
 }

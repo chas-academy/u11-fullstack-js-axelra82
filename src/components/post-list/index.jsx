@@ -44,7 +44,7 @@ const PostListComponent = ({ loading }) => {
     }
 
     return loading ? (
-        <LoadingComponent />
+        <LoadingComponent messageBottom="Getting tweets" />
     ) : posts && posts.length > 0 ? (
         posts.map((post, index) => {
             const { id, data } = post

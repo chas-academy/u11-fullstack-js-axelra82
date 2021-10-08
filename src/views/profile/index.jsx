@@ -26,7 +26,11 @@ const ProfileView = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return loading ? <LoadingComponent /> : <ProfileDisplay userData={userData} />
+    return loading ? (
+        <LoadingComponent messageBottom="Getting profile" />
+    ) : (
+        <ProfileDisplay userData={userData} />
+    )
 }
 
 export default ProfileView
