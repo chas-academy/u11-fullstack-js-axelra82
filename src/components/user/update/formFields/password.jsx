@@ -14,7 +14,7 @@ const ProfileUpdatePasswordComponent = () => {
     // min password length
     const minLength = 6
 
-    const { email } = currentUser
+    const { email } = currentUser || {}
     const { toastCatchError } = displayFunctions
     const { signin, changePassword } = firebaseFunctions
 
