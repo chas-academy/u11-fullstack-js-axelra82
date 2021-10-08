@@ -11,10 +11,6 @@ const userObjectFormat = async (data, setUser, setIsAdmin = false) => {
     if (setIsAdmin && userData.role === 'administrator') {
         setIsAdmin(true)
     }
-    // if user is authenticated add uid
-    if (typeof data.uid !== 'undefined') {
-        userData.uid = data.uid
-    }
     setUser(userData)
 }
 
