@@ -25,7 +25,7 @@ A very simplified version of twitter.
     -   Functions: cloud based functions, a.k.a. serverless
     -   Authentication: User management, a.k.a IAM
 
-### Prerequisites
+## Prerequisites
 
 -   npm
     ```
@@ -36,9 +36,11 @@ A very simplified version of twitter.
     npm i -g firebase-tools
     ```
 
-### Installation
+## Getting started
 
-After cloning the project (using [SSH](git@github.com:chas-academy/u11-fullstack-js-axelra82.git), [HTTPS](https://github.com/chas-academy/u11-fullstack-js-axelra82.git) or with GitHub CLI: `gh repo clone chas-academy/u11-fullstack-js-axelra82`) you will have to set up a firebase project online:
+After cloning the project (using [SSH](git@github.com:chas-academy/u11-fullstack-js-axelra82.git), [HTTPS](https://github.com/chas-academy/u11-fullstack-js-axelra82.git) or with GitHub CLI: `gh repo clone chas-academy/u11-fullstack-js-axelra82`) you will have to set up a firebase project and algolia search index online:
+
+### firebase
 
 -   Go to [firebase console](https://console.firebase.google.com/)
 -   Start a new project and name it what you want
@@ -55,9 +57,11 @@ REACT_APP_STORAGE_BUCKET=[YOUR-VALUE]
 REACT_APP_MESSAGING_SENDER_ID=[YOUR-VALUE]
 REACT_APP_APP_ID=[YOUR-VALUE]
 REACT_APP_WEB_API=https://us-central1-[REACT_APP_PROJECT_ID].cloudfunctions.net/[CLOUD_FUNCTION_NAME]
+REACT_APP_ALGOLIA_APP_ID=[YOUR-ALGOLIA-APP-ID]
+REACT_APP_ALGOLIA_API_KEY=[YOUR-ALGOLIA-API-SEARCH-KEY]
 ```
 
-**NOTE** `CLOUD_FUNCTION_NAME` will be the name you choose durring firebase cloud function initialization in the following steps.
+**NOTE** `CLOUD_FUNCTION_NAME` will be the name you choose durring firebase cloud function initialization in the following steps. The Algolia key will be covered later on.
 
 You will now need to initialize **"Firestore Database"** (which can also be done in the web console) and cloud functions (refered to as **Functions**).
 
@@ -86,7 +90,27 @@ _Registered users have CRUD access on their own content and account_
 
 **NOTE** To assign a user admin privileges change the `role` field in that user document to `roles/administrator`.
 
+### Algolia
+
+You will now need to set up a free account on [algolia.com](https://www.algolia.com) (If you want to know more about the pricing you can find that [here](https://www.algolia.com/pricing/)). This will act as your firebase search index and allow an instant search of the indexed collections from firebase. For this project we are only using the `users` collection as index.
+
+**NOTE** _While the Algolia service is free, you are limited to 10k search requests/month. Keep in mind that the current way the "username search" works in the app is reactive, i.e. everytime you press a key in the searchbox it will query that index on algolia. Så 10k searches can go by quickly if you do a lot of search-testing. In a real world environment, a "search" button would be more appropriate (or something else), to make sure that a index search is only performed on user request._
+
+Once you're account is created you will need to set upp your index (indices). Name your index `instant_search`. Now you'll need to get the app ID and API keys. They can be found in the left menu in `API Keys`.
+
+Update your two (2) `REACT_APP_ALGOLIA_` values `[YOUR-ALGOLIA-APP-ID]` with the `Application ID`, and `[YOUR-ALGOLIA-API-SEARCH-KEY]` with the `Search-Only API Key`.
+
+Finally you will have to add the `Admin API Key` to your firebase functions config file using the firebase CLI. This adds them as environment variables in your firebase functions, which are used to sync adding, updating and deleting documents in firebase with your algolia indices. Replace placeholders with your own values.
+
+Run `firebase functions:config:set algolia.appid="YOUR-ALGOLIA-APP-ID" algolia.apikey="YOUR-ALGOLIA-API-ADMIN-KEY"`
+
+## Installation
+
+Run `firebase deploy --only functions` to deploy your firebase cloud functions.
+
 Run `npm i` from your project root folder to install all dependencies and then `npm run start` to initiate the project on localhost:3000
+
+If everything looks good on the local environment you can do a build of the project and then run `firebase deploy --only hosting` to see it online from your firebase hosting.
 
 ## API
 
