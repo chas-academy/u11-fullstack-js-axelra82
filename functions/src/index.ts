@@ -2,15 +2,19 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import * as express from 'express'
+import algoliasearch from 'algoliasearch'
 import * as cors from 'cors'
 
 // env and project token
+const env = functions.config()
 const project = process.env.GCLOUD_PROJECT
+const client = algoliasearch(env.algolia.appid, env.algolia.apikey)
+const index = client.initIndex('instant_search')
 // token not needed for
 // const token = functions.config().ci.token
 
 // initialize firebase inorder to access its services
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp(env.firebase)
 
 // firebase tools is missing TS support
 const firebase_tools = require('firebase-tools')
@@ -42,6 +46,28 @@ const { usernameCheck } = helperFunctions
 // define google cloud function name
 export const webApi = functions.https.onRequest(app)
 
+// reindex algolia with new data on
+// create or delete for users and posts
+exports.indexUser = functions.firestore
+    .document(`${userCollection}/{userId}`)
+    .onCreate((snap, _) => {
+        const data = snap.data()
+        const objectID = snap.id
+        return index.saveObject({ objectID, ...data })
+    })
+exports.updateIndexUser = functions.firestore
+    .document(`${userCollection}/{userId}`)
+    .onUpdate((change) => {
+        const data = change.after.data
+        const objectID = change.after.id
+        return index.saveObject({ ...data, objectID })
+    })
+exports.unindexUser = functions.firestore
+    .document(`${userCollection}/{userId}`)
+    .onDelete((snap, _) => {
+        const objectID = snap.id
+        return index.deleteObject(objectID)
+    })
 interface UserAuth {
     email: string
     password: string
