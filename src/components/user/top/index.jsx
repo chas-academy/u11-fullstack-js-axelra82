@@ -10,27 +10,21 @@ const MobileUserTopComponent = () => {
         store: { currentUser },
     } = useContext(StoreContext)
 
-    const topLeftCircleStyle = { left: 10, top: 7, zIndex: 98 }
-
     return (
-        <>
+        <div className="d-flex justify-content-center w-100">
             {currentUser ? (
-                <Link
-                    to={`${currentUser.username}`}
-                    className="position-absolute"
-                    style={topLeftCircleStyle}
-                >
+                <Link to={`${currentUser.username}`} className="ms-3 flex-grow-1">
                     <UserProfilePicture style={{ width: 53 }} />
                 </Link>
             ) : (
-                <Link to="/signin" classes="position-absolute">
-                    <ProfileIcon size="large" classes="ms-3" />
+                <Link to="/signin" className="ms-3 flex-grow-1">
+                    <ProfileIcon size="large" />
                 </Link>
             )}
-            <Link to="/">
-                <Logotype classes="w-100" style={{ height: 30 }} />
+            <Link to="/" className="flex-grow-1">
+                <Logotype style={{ width: 50, height: 30 }} />
             </Link>
-        </>
+        </div>
     )
 }
 

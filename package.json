@@ -5,6 +5,7 @@
     "description": "Chas Academy Full Stack Web Developer Assignment u11 - 2021",
     "author": "Axel Roussille Åberg <axel.roussilleaberg@chasacademy.se>",
     "dependencies": {
+        "algoliasearch": "^4.10.5",
         "bootstrap": "^5.1.2",
         "firebase": "^9.1.1",
         "react": "^17.0.2",

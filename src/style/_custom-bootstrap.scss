@@ -42,3 +42,10 @@
 .vh-100 {
     min-height: -webkit-fill-available !important;
 }
+
+// modal cutof bugg
+.modal-fullscreen-md-down {
+    .modal-content {
+        height: auto !important;
+    }
+}
