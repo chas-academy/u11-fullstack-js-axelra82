@@ -6,8 +6,9 @@ Live @ [u11-twitter-2021.web.app](https://u11-twitter-2021.web.app)
 
 A very simplified version of twitter.
 
-## Design & Stories
+## Sitemap, Design & Stories
 
+-   [Sitemap](https://drive.google.com/file/d/1IPuAMveEa9KuBOo8_B4H1b5nQT4R_z_t/view?usp=sharing) made in Lucidchart and exportet to PDF
 -   Protoypes were made using figma and can be found [here](https://www.figma.com/file/vPz3qkh6oKAx41HkTn0p6S/u11-twitter-clone-wireframes?node-id=11%3A520)
 -   Epics, stories and personas are available [here](https://drive.google.com/drive/folders/1wDMPzdWQu0eEedrXgMfpdVIEGkwGCsuL?usp=sharing)
 
