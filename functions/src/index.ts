@@ -58,7 +58,7 @@ exports.indexUser = functions.firestore
 exports.updateIndexUser = functions.firestore
     .document(`${userCollection}/{userId}`)
     .onUpdate((change) => {
-        const data = change.after.data
+        const data = change.after.data()
         const objectID = change.after.id
         return index.saveObject({ ...data, objectID })
     })
