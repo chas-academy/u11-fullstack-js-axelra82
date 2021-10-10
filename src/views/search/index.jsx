@@ -1,7 +1,12 @@
 import React from 'react'
+import SearchComponent from '../../components/search'
 
 const SearchView = () => {
-    return <>SEARCH VIEW</>
+    return (
+        <div className="me-2">
+            <SearchComponent />
+        </div>
+    )
 }
 
 export default SearchView
