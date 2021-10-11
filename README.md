@@ -95,7 +95,7 @@ _Registered users have CRUD access on their own content and account_
 
 You will now need to set up a free account on [algolia.com](https://www.algolia.com) (If you want to know more about the pricing you can find that [here](https://www.algolia.com/pricing/)). This will act as your firebase search index and allow an instant search of the indexed collections from firebase. For this project we are only using the `users` collection as index.
 
-**NOTE** _While the Algolia service is free, you are limited to 10k search requests/month. Keep in mind that the current way the "username search" works in the app is reactive, i.e. everytime you press a key in the searchbox it will query that index on algolia. Så 10k searches can go by quickly if you do a lot of search-testing. In a real world environment, a "search" button would be more appropriate (or something else), to make sure that a index search is only performed on user request._
+**NOTE** _While the Algolia service is free, you are limited to 10k search requests/month. There is a debouncer in the current search function. But 10k searches can go by quickly if you do a lot of search-testing. In a real world environment, a "search" button might be more appropriate (or something similar), to make sure that a index search is only performed on user request._
 
 Once you're account is created you will need to set upp your index (indices). Name your index `instant_search`. Now you'll need to get the app ID and API keys. They can be found in the left menu in `API Keys`.
 
